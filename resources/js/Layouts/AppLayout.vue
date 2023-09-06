@@ -9,8 +9,15 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 
 defineProps({
-    title: String,
+    title: String
 });
+//const serverData = JSON.parse(@json($request->all()));
+
+// Atribua o valor de color_background de $request->get('company')['config'] a requestColor
+//const requestColor = ref(serverData.company.config.color_background);
+//const requestColor = ref('#FF5733');
+const defaultColor = 'rgb(243 244 246)';
+//const backgroundColor = computed(() => requestColor.value || defaultColor);
 
 const showingNavigationDropdown = ref(false);
 
@@ -33,7 +40,7 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

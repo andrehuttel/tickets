@@ -31,10 +31,10 @@ class DatabaseSeeder extends Seeder
        ]);
 
         Company::create([
-            'host' => 'andre.tickets.test',
+            'host' => 'tickets.test',
         ]);
 
-        $company = Company::where('host', 'andre.tickets.test')->first();
+        $company = Company::where('host', 'tickets.test')->first();
         if ($company) {
             CompanyConfig::create([
                 'company_id' => $company->id,
@@ -42,6 +42,22 @@ class DatabaseSeeder extends Seeder
                 'address' => '123 Main St',
                 'fone' => '555-123-4567',
                 'color_menu' => 'blue',
+                'color_background' => 'white',
+            ]);
+        }
+
+        Company::create([
+            'host' => 'andre.tickets.test',
+        ]);
+
+        $company = Company::where('host', 'andre.tickets.test')->first();
+        if ($company) {
+            CompanyConfig::create([
+                'company_id' => $company->id,
+                'logo' => 'example1.png',
+                'address' => '123 Main St',
+                'fone' => '555-123-9876',
+                'color_menu' => 'green',
                 'color_background' => 'white',
             ]);
         }
@@ -57,7 +73,7 @@ class DatabaseSeeder extends Seeder
                 'logo' => 'example2.png',
                 'address' => '456 Client St',
                 'fone' => '555-987-6543',
-                'color_menu' => 'green',
+                'color_menu' => 'yellow',
                 'color_background' => 'white',
             ]);
         }
