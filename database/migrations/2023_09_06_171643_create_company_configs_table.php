@@ -15,11 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('company');
-            $table->string('logo');
-            $table->string('color_menu');
-            $table->string('color_background');
-            $table->string('address');
-            $table->string('fone');
+            $table->string('key');
+            $table->string('value');
             $table->timestamps();
         });
     }

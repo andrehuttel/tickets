@@ -21,8 +21,7 @@ Route::middleware([
 ])->group(function () {
     Route::get('/', function (Request $request) {
         $company = $request->get('company');
-        return $company;
-        return Inertia::render('Welcome', [
+        return Inertia::render('Home', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
