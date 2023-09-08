@@ -25,12 +25,12 @@ class CompanyMiddleware
         $company = Company::where('host', $host)->orWhere('host_generated', $host)->first();
 
         if ($company) {
-            $companyData = [
+            $data = [
                 'company' => $company,
                 'config' => $company->configs->first(),
+                'events' => $company->events,
             ];
-
-            $request->attributes->set('company', $companyData);
+            $request->attributes->set('data', $data);
 
             return true;
         }

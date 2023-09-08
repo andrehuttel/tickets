@@ -10,8 +10,14 @@ class Company extends Model
     
     use HasFactory;
     protected $table = 'company';
+
     public function configs()
     {
         return $this->hasMany(CompanyConfig::class);
+    }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
     }
 }

@@ -20,13 +20,13 @@ Route::middleware([
     CompanyMiddleware::class,
 ])->group(function () {
     Route::get('/', function (Request $request) {
-        $company = $request->get('company');
+        $data = $request->get('data');
         return Inertia::render('Home', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
-            'company' => $company
+            'data' => $data
         ]);
     });
 });
