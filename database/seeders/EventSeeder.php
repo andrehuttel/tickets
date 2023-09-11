@@ -19,7 +19,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento de Amostra do company '. $company->host,
-                'place' => 'Local de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-10',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -34,7 +34,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 2 de Amostra do company '. $company->host,
-                'place' => 'Local 2 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-11',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -49,7 +49,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 3 de Amostra do company '. $company->host,
-                'place' => 'Local 3 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-12',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -64,7 +64,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 4 de Amostra do company '. $company->host,
-                'place' => 'Local 4 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-13',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -79,7 +79,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 5 de Amostra do company '. $company->host,
-                'place' => 'Local 5 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-14',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -94,7 +94,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 6 de Amostra do company '. $company->host,
-                'place' => 'Local 6 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-15',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -113,7 +113,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento de Amostra do company '. $company->host,
-                'place' => 'Local de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-10',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -128,7 +128,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 2 de Amostra do company '. $company->host,
-                'place' => 'Local 2 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-11',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -143,7 +143,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 3 de Amostra do company '. $company->host,
-                'place' => 'Local 3 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-12',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -158,7 +158,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 4 de Amostra do company '. $company->host,
-                'place' => 'Local 4 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-13',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -173,7 +173,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 5 de Amostra do company '. $company->host,
-                'place' => 'Local 5 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-14',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -188,7 +188,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 6 de Amostra do company '. $company->host,
-                'place' => 'Local 6 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-15',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -207,7 +207,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento de Amostra do company '. $company->host,
-                'place' => 'Local de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-10',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -222,7 +222,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 2 de Amostra do company '. $company->host,
-                'place' => 'Local 2 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-11',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -237,7 +237,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 3 de Amostra do company '. $company->host,
-                'place' => 'Local 3 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-12',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -252,7 +252,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 4 de Amostra do company '. $company->host,
-                'place' => 'Local 4 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-13',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -267,7 +267,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 5 de Amostra do company '. $company->host,
-                'place' => 'Local 5 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-14',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
@@ -282,7 +282,7 @@ class EventSeeder extends Seeder
             Event::create([
                 'company_id' => $company->id,
                 'name' => 'Evento 6 de Amostra do company '. $company->host,
-                'place' => 'Local 6 de Amostra do company '. $company->host,
+                'place' => 'Joinville Square Garden',
                 'date' => '2023-10-15',
                 'date_opening' => now(),
                 'image' => '/images/sample-event.jpg',
