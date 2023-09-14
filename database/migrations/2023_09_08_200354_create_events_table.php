@@ -16,12 +16,17 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id');
             $table->string('name');
             $table->string('place');
+            $table->string('place_address');
             $table->date('date');
             $table->dateTime('date_opening');
             $table->string('image');
             $table->text('description');
+            $table->text('description_append')->nullable();
             $table->string('map')->nullable();
             $table->string('organizer');
+            $table->longText('organizer_logo');
+            $table->string('organizer_instagram');
+            $table->string('organizer_facebook');
             $table->string('classification');
             $table->string('link_share_whatsapp')->nullable();
             $table->string('link_share_facebook')->nullable();

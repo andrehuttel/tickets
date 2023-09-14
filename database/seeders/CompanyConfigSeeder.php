@@ -80,6 +80,21 @@ class CompanyConfigSeeder extends Seeder
                 'key' => 'is_active',
                 'value' => '1',
             ]);
+            CompanyConfig::create([
+                'company_id' => $company->id,
+                'key' => 'credit_card_active',
+                'value' => '1',
+            ]);
+            CompanyConfig::create([
+                'company_id' => $company->id,
+                'key' => 'boleto_active',
+                'value' => '1',
+            ]);
+            CompanyConfig::create([
+                'company_id' => $company->id,
+                'key' => 'pix_active',
+                'value' => '1',
+            ]);
         }
 
         Company::create([
@@ -148,6 +163,21 @@ class CompanyConfigSeeder extends Seeder
                 'key' => 'is_active',
                 'value' => '1',
             ]);
+            CompanyConfig::create([
+                'company_id' => $company->id,
+                'key' => 'credit_card_active',
+                'value' => '1',
+            ]);
+            CompanyConfig::create([
+                'company_id' => $company->id,
+                'key' => 'boleto_active',
+                'value' => '1',
+            ]);
+            CompanyConfig::create([
+                'company_id' => $company->id,
+                'key' => 'pix_active',
+                'value' => '1',
+            ]);
         }
 
         Company::create([
@@ -214,6 +244,21 @@ class CompanyConfigSeeder extends Seeder
             CompanyConfig::create([
                 'company_id' => $company->id,
                 'key' => 'is_active',
+                'value' => '1',
+            ]);
+            CompanyConfig::create([
+                'company_id' => $company->id,
+                'key' => 'credit_card_active',
+                'value' => '1',
+            ]);
+            CompanyConfig::create([
+                'company_id' => $company->id,
+                'key' => 'boleto_active',
+                'value' => '1',
+            ]);
+            CompanyConfig::create([
+                'company_id' => $company->id,
+                'key' => 'pix_active',
                 'value' => '1',
             ]);
         }
