@@ -58,7 +58,15 @@ Route::middleware([
     'verified',
     CompanyMiddleware::class,
 ])->group(function () {
-    Route::get('/test', function () {
-        return Inertia::render('Home');
+    Route::get('/home', function (Request $request) {
+        $data = $request->get('data');
+        return Inertia::render('Home', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+            'data' => $data,
+            'searchButtonMenu' => true,
+        ]);
     })->name('home');
 });
