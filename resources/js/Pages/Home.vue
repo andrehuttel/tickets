@@ -21,7 +21,7 @@ const { canLogin, canRegister, laravelVersion, phpVersion, data } = defineProps(
 const logout = () => {
     router.post(route('logout'));
 };
-
+console.log(data);
 const companyConfigs = data.company.configs;
 const events = data.events;
 

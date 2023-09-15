@@ -43,11 +43,16 @@
     //     secondColor = secondColorObject.value;
     // }
     let mobileMenuOpen = false;
+    const showingNavigationDropdown = ref(false);
 
     function toggleMobileMenu() {
         console.log(this.mobileMenuOpen);
         this.mobileMenuOpen = !this.mobileMenuOpen;
     }
+
+    const logout = () => {
+        router.post(route('logout'));
+    };
 
     defineExpose({ mobileMenuOpen, toggleMobileMenu });
 </script>
@@ -64,7 +69,33 @@
                             <img src="/images/logo-gototem.png" class="h-8 mr-3" alt="Flowbite Logo" />
                         </a>
                     </div>
-                    <div class="flex items-center mx-auto md:ml-8">
+                    <!-- Hamburger -->
+                    <div class="flex items-center sm:hidden mx-auto">
+                        <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-blue-500 hover:bg-blue-500 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" @click="showingNavigationDropdown = ! showingNavigationDropdown" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
+                            <svg
+                                class="h-6 w-6"
+                                stroke="#fff"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    :class="{'hidden': showingNavigationDropdown, 'inline-flex': ! showingNavigationDropdown }"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                                <path
+                                    :class="{'hidden': ! showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex items-center mx-auto md:ml-8 mt-2">
                         <form>
                             <div id="search" class="relative w-full h-full">
                                 <input type="search" id="search-dropdown" class="block p-2.5 w-80 h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Pesquise por eventos...">
@@ -96,16 +127,12 @@
 
                                         <template #content>
                                             <!-- Account Management -->
-                                            <div class="block px-4 py-2 text-xs text-gray-400">
+                                            <!-- <div class="block px-4 py-2 text-xs text-gray-400">
                                                 Manage Account
-                                            </div>
+                                            </div> -->
 
                                             <DropdownLink :href="route('profile.show')">
                                                 Profile
-                                            </DropdownLink>
-
-                                            <DropdownLink v-if="$page.props.jetstream.hasApiFeatures" :href="route('api-tokens.index')">
-                                                API Tokens
                                             </DropdownLink>
 
                                             <div class="border-t border-gray-200" />
@@ -120,24 +147,60 @@
                                     </Dropdown>
                                 </div>
                                 <template v-else>
-                                    <Link :href="route('login')" class="font-semibold text-white-600 hover:text-white-900 dark:text-white-400 text-white dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Entrar</Link>
+                                    <Link :href="route('login')" class="font-semibold text-white-600 hover:text-white-900 dark:text-white-400 text-white dark:hover:text-white">Entrar</Link>
 
-                                    <!-- <Link v-if="canRegister" :href="route('register')" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</Link> -->
+                                    <!-- <Link v-if="canRegister" :href="route('register')" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Register</Link> -->
                                 </template>
                             </div>
                             
                         </div>
                     </div>
                 </div>
-                <div v-if="mobileMenuOpen" class="bg-white absolute top-0 left-0 right-0 h-screen flex flex-col items-center justify-center z-40">
-                    <Link :href="route('login')" class="font-semibold text-gray-800 hover:text-gray-900 text-xl mb-6">Entrar</Link>
-                    <Link :href="route('help')" class="font-semibold text-gray-800 hover:text-gray-900 text-xl">Ajuda</Link>
+                
+                <!-- Responsive Navigation Menu -->
+                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
+                    <!-- <div class="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                            Dashboard
+                        </ResponsiveNavLink>
+                    </div> -->
+
+                    <!-- Responsive Settings Options -->
+                    <div class="border-t border-gray-200" :style="{ backgroundColor: '#fff' }">
+                        <div class="flex flex-col items-center px-4">
+                            <div>
+                                <Link :href="route('login')" class="font-semibold text-white-600 hover:text-white-900 dark:text-white-400 text-white dark:hover:text-white" :style="{ color: primaryColor ? primaryColor : '' }">Ajuda</Link>
+                            </div>
+                            <div v-if="$page.props.jetstream.managesProfilePhotos" class="shrink-0 mr-3">
+                                <img class="h-10 w-10 rounded-full object-cover" :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name">
+                            </div>
+                            <div>
+                                <div v-if="$page.props.auth.user" class="font-medium text-base text-gray-800">
+                                    {{ $page.props.auth.user.name }}
+                                </div>
+                                <div v-else class="mt-2">
+                                    <Link :href="route('login')" class="font-semibold text-white-600 hover:text-white-900 dark:text-white-400 text-white dark:hover:text-white" :style="{ color: primaryColor ? primaryColor : '' }">Entrar</Link>
+                                </div>
+                                <div v-if="$page.props.auth.user" class="font-medium text-sm text-gray-500">
+                                    {{ $page.props.auth.user.email }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 space-y-1">
+                            <ResponsiveNavLink v-if="$page.props.auth.user" :href="route('profile.show')" :active="route().current('profile.show')">
+                                Profile
+                            </ResponsiveNavLink>
+
+                            <!-- Authentication -->
+                            <form method="POST" v-if="$page.props.auth.user" @submit.prevent="logout">
+                                <ResponsiveNavLink as="button">
+                                    Log Out
+                                </ResponsiveNavLink>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <button @click="toggleMobileMenu" class="block flex flex-wrap items-center pb-2 justify-between mx-auto sm:hidden text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                    </svg>
-                </button>
             </nav>
         </div>
     </div>
