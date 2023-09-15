@@ -18,44 +18,13 @@
         primaryColor: String,
         searchButtonMenu: Boolean,
     });
-    // const { canLogin, canRegister, laravelVersion, phpVersion, data, title } = defineProps([
-    //     'canLogin',
-    //     'canRegister',
-    //     'laravelVersion',
-    //     'phpVersion',
-    //     'data',
-    // ]);
-    // const logout = () => {
-    //     router.post(route('logout'));
-    // };
-    // console.log(data);
-    // const companyConfigs = data.company.configs;
 
-    // let primaryColor = null;
-    // let secondColor = null;
-
-    // const primaryColorObject = companyConfigs.find(config => config.key === 'primary_color');
-    // const secondColorObject = companyConfigs.find(config => config.key === 'second_color');
-
-    // if (primaryColorObject !== undefined) {
-    //     primaryColor = primaryColorObject.value;
-    // }
-    // if (secondColorObject !== undefined) {
-    //     secondColor = secondColorObject.value;
-    // }
-    let mobileMenuOpen = false;
     const showingNavigationDropdown = ref(false);
-
-    function toggleMobileMenu() {
-        console.log(this.mobileMenuOpen);
-        this.mobileMenuOpen = !this.mobileMenuOpen;
-    }
 
     const logout = () => {
         router.post(route('logout'));
     };
 
-    defineExpose({ mobileMenuOpen, toggleMobileMenu });
 </script>
 
 <template>
@@ -65,13 +34,23 @@
         <div class="relative">
             <nav class="bg-green-400 border-green-400 dark:bg-green-900 fixed top-0 left-0 right-0 z-50" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
                 <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                    <div class="flex items-center block flex flex-wrap pb-1 lg:mx-0 mx-auto">
+                    <div class="flex items-center block flex flex-wrap pb-1 lg:mx-0">
                         <a :href="route('home')" class="flex items-center">
                             <img src="/images/logo-gototem.png" class="h-8 mr-3" alt="Flowbite Logo" />
                         </a>
                     </div>
                     <!-- Hamburger -->
-                    <div class="flex items-center sm:hidden mx-auto">
+                    <div class="flex items-center sm:hidden mx-auto mr-0">
+                        <div v-if="searchButtonMenu" class="flex sm:hidden xs:block mx-auto md:ml-8 mr-0">
+                            <div class="mr-4">
+                                <a :href="route('buscar')" class="relative top-0 right-0 p-2.5 text-sm font-medium h-full text-white rounded-r-lg focus:outline-none">
+                                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" :style="{ color: secondColor ? secondColor : '' }" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                    </svg>
+                                    <span class="sr-only">Search</span>
+                                </a>
+                            </div>
+                        </div>
                         <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-blue-500 hover:bg-blue-500 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" @click="showingNavigationDropdown = ! showingNavigationDropdown" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
                             <svg
                                 class="h-6 w-6"
@@ -96,10 +75,10 @@
                             </svg>
                         </button>
                     </div>
-                    <div v-if="searchButtonMenu" class="flex items-center mx-auto md:ml-8 mt-2">
-                        <form>
+                    <div v-if="searchButtonMenu" class="flex items-center xs:hidden sm:block mx-auto md:ml-8 mt-2">
+                        <form :action="route('buscar')" method="GET">
                             <div id="search" class="relative w-full h-full">
-                                <input type="search" id="search-dropdown" class="block p-2.5 w-80 h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Pesquise por eventos...">
+                                <input type="text" id="search-dropdown" name="q" class="custom-focus block p-2.5 w-80 h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Pesquise por eventos...">
                                 <button type="submit" class="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white rounded-r-lg focus:outline-none">
                                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" :style="{ color: primaryColor ? primaryColor : '' }" viewBox="0 0 20 20">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
@@ -206,3 +185,14 @@
         </div>
     </div>
 </template>
+<style>
+[type='text']:focus{
+    box-shadow: none !important;
+    outline: none !important;
+}
+.custom-focus {
+    outline: none !important; /* Remove a borda de foco padrão (contorno) */
+    border: none !important; /* Remove a borda */
+    border-color: transparent !important; /* Define a cor da borda como transparente */
+}
+</style>

@@ -11,7 +11,7 @@ import { Head, Link, router } from '@inertiajs/vue3';
 //import { Carousel, Slide } from "vue-carousel";
 // import Carousel from '@/Pages/Carousel.vue';
 
-const { canLogin, canRegister, laravelVersion, phpVersion, data, event, searchButtonMenu } = defineProps([
+const { canLogin, canRegister, laravelVersion, phpVersion, data, event, searchButtonMenu, filter } = defineProps([
     'canLogin',
     'canRegister',
     'laravelVersion',
@@ -19,6 +19,7 @@ const { canLogin, canRegister, laravelVersion, phpVersion, data, event, searchBu
     'data',
     'event',
     'searchButtonMenu',
+    'filter'
 ]);
 const logout = () => {
     router.post(route('logout'));
@@ -86,76 +87,117 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen });
     </div> -->
 
     <Nav :data="data" :primaryColor="primaryColor" :searchButtonMenu="searchButtonMenu" />
+    
+    <div class="flex mt-200">
+        <h1 :style="{ backgroundColor: secondColor ? secondColor : '' }">Pesquise seu Evento:</h1>
+    </div>
+
+    <div class="bg-gray-500" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
+        <div class="flex justify-center items-center">
+            <div class="max-w-7xl w-full lg:mt-20 xs:mt-12">
+                <section class="text-gray-600 body-font">
+                    <div class="container px-5">
+                        <div class="flex flex-wrap lg:-m-4 mt-8">
+                            <div class="p-4 -pr-4 lg:w-2/4 lg:w-2/4">
+                                <h1 class="text-white font-bold text-2xl">Procure por um evento:</h1>
+                                <div class="flex items-center mx-auto mt-2 mb-6">
+                                    <form :action="route('buscar')" method="GET">
+                                        <div id="search" class="relative w-full h-full">
+                                            <input type="text" :value="filter" id="search-dropdown" name="q" class="custom-focus block p-2.5 w-80 h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Pesquise por eventos...">
+                                            <button type="submit" class="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white rounded-r-lg focus:outline-none">
+                                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" :style="{ color: primaryColor ? primaryColor : '' }" viewBox="0 0 20 20">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                                </svg>
+                                                <span class="sr-only">Search</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
 
     <!-- Traz os eventos aqui -->
     <div class="bg-gray-500" :style="{ backgroundColor: secondColor ? secondColor : '' }">
-        <div class="flex justify-center items-center min-h-screen">
+        <div class="flex justify-center items-center">
             <div class="max-w-7xl w-full">
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 py-8 lg:py-24 mx-auto">
                         <div class="flex flex-wrap -m-4">
-                            <div v-for="ev in event" :key="ev.id" class="p-4 lg:w-1/4 lg:w-1/4">
-                                <a :href="route('evento.show', ev.id)">
-                                    <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-                                        <img class="lg:h-48 lg:h-36 w-full object-cover object-center" src="/images/simple-event.jpg" alt="blog">
-                                        <div class="p-6 pb-1">
-                                            <!-- <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY</h2> -->
-                                            <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{ ev.name }}</h1>
-                                            <!-- <p class="text-blue-600 leading-relaxed mb-3 text-xs" :style="{ color: primaryColor ? primaryColor : '' }">{{ formatDate(ev.date) }}</p> -->
-                                            <div class="flex items-center flex-wrap">
-                                                <span class="text-black mr-1 inline-flex items-center mb-3 leading-none pr-1 py-1" :style="{ color: primaryColor ? primaryColor : '' }">
+                            <!-- <div v-if="event.length === 0" class="m-4">
+                                <h1 class="font-bold text-xl">Nenhum evento encontrado.</h1>
+                            </div> -->
+                            <!-- <div v-else> -->
+                                <div v-if="event.length !== 0" v-for="ev in event" :key="ev.id" class="p-4 lg:w-1/4 lg:w-1/4">
+                                    <a :href="route('evento.show', ev.id)">
+                                        <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+                                            <img class="lg:h-48 lg:h-36 w-full object-cover object-center" src="/images/simple-event.jpg" alt="blog">
+                                            <div class="p-6 pb-1">
+                                                <!-- <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY</h2> -->
+                                                <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{ ev.name }}</h1>
+                                                <!-- <p class="text-blue-600 leading-relaxed mb-3 text-xs" :style="{ color: primaryColor ? primaryColor : '' }">{{ formatDate(ev.date) }}</p> -->
+                                                <div class="flex items-center flex-wrap">
+                                                    <span class="text-black mr-1 inline-flex items-center mb-3 leading-none pr-1 py-1" :style="{ color: primaryColor ? primaryColor : '' }">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                                                        </svg>
+                                                        {{ formatDate(ev.date) }}
+                                                    </span>
+                                                </div>
+                                                <div class="flex items-center flex-wrap">
+                                                    <span class="text-gray-400 mr-1 inline-flex items-center leading-none text-xs pr-1 py-1" :style="{ color: primaryColor ? primaryColor : '' }">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                        </svg>
+                                                        Abertura: {{ formatTime(ev.date_opening) }} 
+                                                    </span>
+                                                    <span class="text-gray-400 inline-flex items-center leading-none text-xs" :style="{ color: primaryColor ? primaryColor : '' }">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                        </svg>
+                                                        Inicio: {{ formatTime(ev.date) }}
+                                                    </span>
+                                                </div>
+                                                <div class="flex items-center flex-wrap">
+                                                    <span class="text-black mr-1 inline-flex items-center leading-none text-xs pr-1 py-1">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                                                     </svg>
-                                                    {{ formatDate(ev.date) }}
-                                                </span>
-                                            </div>
-                                            <div class="flex items-center flex-wrap">
-                                                <span class="text-gray-400 mr-1 inline-flex items-center leading-none text-xs pr-1 py-1" :style="{ color: primaryColor ? primaryColor : '' }">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    {{ ev.place }}
+                                                    </span>
+                                                </div>
+                                                <!-- <div class="flex items-center flex-wrap ">
+                                                <a class="text-indigo-500 inline-flex items-center lg:mb-2 lg:mb-0">Learn More
+                                                    <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M5 12h14"></path>
+                                                    <path d="M12 5l7 7-7 7"></path>
                                                     </svg>
-                                                    Abertura: {{ formatTime(ev.date_opening) }} 
+                                                </a>
+                                                <span class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto lg:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
+                                                    <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                    </svg>1.2K
                                                 </span>
-                                                <span class="text-gray-400 inline-flex items-center leading-none text-xs" :style="{ color: primaryColor ? primaryColor : '' }">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                    </svg>
-                                                    Inicio: {{ formatTime(ev.date) }}
+                                                <span class="text-gray-400 inline-flex items-center leading-none text-sm">
+                                                    <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                    <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
+                                                    </svg>6
                                                 </span>
+                                                </div> -->
                                             </div>
-                                            <div class="flex items-center flex-wrap">
-                                                <span class="text-black mr-1 inline-flex items-center leading-none text-xs pr-1 py-1">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                                                </svg>
-                                                {{ ev.place }}
-                                                </span>
-                                            </div>
-                                            <!-- <div class="flex items-center flex-wrap ">
-                                            <a class="text-indigo-500 inline-flex items-center lg:mb-2 lg:mb-0">Learn More
-                                                <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M5 12h14"></path>
-                                                <path d="M12 5l7 7-7 7"></path>
-                                                </svg>
-                                            </a>
-                                            <span class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto lg:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
-                                                <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                <circle cx="12" cy="12" r="3"></circle>
-                                                </svg>1.2K
-                                            </span>
-                                            <span class="text-gray-400 inline-flex items-center leading-none text-sm">
-                                                <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                                <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
-                                                </svg>6
-                                            </span>
-                                            </div> -->
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
+                                <div v-else class="md:m-4 md:-mt-10 xs:m-0 xs:mt-2 xs:mb-24">
+                                    <h1 class="font-bold text-lg">Nenhum evento encontrado.</h1>
+                                </div>
+                            <!-- </div> -->
                         </div>
                     </div>
                 </section>
@@ -170,10 +212,19 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen });
 .bg-dots-darker {
     background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E");
 }
-input:focus {
+[type='text']:focus{
+    box-shadow: none !important;
+    outline: none !important;
+}
+.custom-focus {
+    outline: none !important; /* Remove a borda de foco padrão (contorno) */
+    border: none !important; /* Remove a borda */
+    border-color: transparent !important; /* Define a cor da borda como transparente */
+}
+/* input:focus {
     box-shadow: 0 0 0 0;
     outline: 0;
-}
+} */
 @media (prefers-color-scheme: dark) {
     .dark\:bg-dots-lighter {
         background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E");

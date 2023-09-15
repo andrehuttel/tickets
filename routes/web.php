@@ -48,7 +48,6 @@ Route::middleware([
             'event' => $event, // Passa o evento para a vista
         ]);
     })->name('evento.show');
-    // Route::get('/buscar', 'SearchController@index')->name('buscar');
     Route::get('/buscar', [SearchController::class, 'index'])->name('buscar');
 
 });

@@ -28,7 +28,7 @@ class CompanyMiddleware
             $data = [
                 'company' => $company,
                 'config' => $company->configs->first(),
-                'events' => $company->events,
+                'events' => $company->events()->orderBy('date', 'asc')->get(),
             ];
             $request->attributes->set('data', $data);
 
