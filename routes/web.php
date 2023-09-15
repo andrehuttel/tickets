@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SearchController;
 use App\Http\Middleware\CompanyMiddleware;
 use App\Models\Company;
 use App\Models\Event;
@@ -28,7 +29,8 @@ Route::middleware([
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
-            'data' => $data
+            'data' => $data,
+            'searchButtonMenu' => true,
         ]);
     })->name('home');
     Route::get('/evento/{id}', function (Request $request, $id) {
@@ -46,6 +48,9 @@ Route::middleware([
             'event' => $event, // Passa o evento para a vista
         ]);
     })->name('evento.show');
+    // Route::get('/buscar', 'SearchController@index')->name('buscar');
+    Route::get('/buscar', [SearchController::class, 'index'])->name('buscar');
+
 });
 
 Route::middleware([

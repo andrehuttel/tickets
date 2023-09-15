@@ -11,18 +11,18 @@ import { Head, Link, router } from '@inertiajs/vue3';
 //import { Carousel, Slide } from "vue-carousel";
 // import Carousel from '@/Pages/Carousel.vue';
 
-const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMenu } = defineProps([
+const { canLogin, canRegister, laravelVersion, phpVersion, data, event, searchButtonMenu } = defineProps([
     'canLogin',
     'canRegister',
     'laravelVersion',
     'phpVersion',
     'data',
+    'event',
     'searchButtonMenu',
 ]);
 const logout = () => {
     router.post(route('logout'));
 };
-console.log(data);
 const companyConfigs = data.company.configs;
 const events = data.events;
 
@@ -60,8 +60,14 @@ function formatTime(data) {
 
   return timeFormatted;
 }
+let mobileMenuOpen = false;
 
-defineExpose({ primaryColor, secondColor });
+function toggleMobileMenu() {
+    console.log(this.mobileMenuOpen);
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+}
+
+defineExpose({ primaryColor, secondColor, mobileMenuOpen });
 </script>
 <!-- <script
   type="text/javascript"
@@ -81,8 +87,6 @@ defineExpose({ primaryColor, secondColor });
 
     <Nav :data="data" :primaryColor="primaryColor" :searchButtonMenu="searchButtonMenu" />
 
-    <CarouselBanner :data="data" :primaryColor="primaryColor" />
-
     <!-- Traz os eventos aqui -->
     <div class="bg-gray-500" :style="{ backgroundColor: secondColor ? secondColor : '' }">
         <div class="flex justify-center items-center min-h-screen">
@@ -90,20 +94,20 @@ defineExpose({ primaryColor, secondColor });
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 py-8 lg:py-24 mx-auto">
                         <div class="flex flex-wrap -m-4">
-                            <div v-for="event in events" :key="event.id" class="p-4 lg:w-1/4 lg:w-1/4">
-                                <a :href="route('evento.show', event.id)">
+                            <div v-for="ev in event" :key="ev.id" class="p-4 lg:w-1/4 lg:w-1/4">
+                                <a :href="route('evento.show', ev.id)">
                                     <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                                         <img class="lg:h-48 lg:h-36 w-full object-cover object-center" src="/images/simple-event.jpg" alt="blog">
                                         <div class="p-6 pb-1">
                                             <!-- <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY</h2> -->
-                                            <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{ event.name }}</h1>
-                                            <!-- <p class="text-blue-600 leading-relaxed mb-3 text-xs" :style="{ color: primaryColor ? primaryColor : '' }">{{ formatDate(event.date) }}</p> -->
+                                            <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{ ev.name }}</h1>
+                                            <!-- <p class="text-blue-600 leading-relaxed mb-3 text-xs" :style="{ color: primaryColor ? primaryColor : '' }">{{ formatDate(ev.date) }}</p> -->
                                             <div class="flex items-center flex-wrap">
                                                 <span class="text-black mr-1 inline-flex items-center mb-3 leading-none pr-1 py-1" :style="{ color: primaryColor ? primaryColor : '' }">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                                                     </svg>
-                                                    {{ formatDate(event.date) }}
+                                                    {{ formatDate(ev.date) }}
                                                 </span>
                                             </div>
                                             <div class="flex items-center flex-wrap">
@@ -111,13 +115,13 @@ defineExpose({ primaryColor, secondColor });
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                     </svg>
-                                                    Abertura: {{ formatTime(event.date_opening) }} 
+                                                    Abertura: {{ formatTime(ev.date_opening) }} 
                                                 </span>
                                                 <span class="text-gray-400 inline-flex items-center leading-none text-xs" :style="{ color: primaryColor ? primaryColor : '' }">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                     </svg>
-                                                    Inicio: {{ formatTime(event.date) }}
+                                                    Inicio: {{ formatTime(ev.date) }}
                                                 </span>
                                             </div>
                                             <div class="flex items-center flex-wrap">
@@ -126,7 +130,7 @@ defineExpose({ primaryColor, secondColor });
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                                                 </svg>
-                                                {{ event.place }}
+                                                {{ ev.place }}
                                                 </span>
                                             </div>
                                             <!-- <div class="flex items-center flex-wrap ">

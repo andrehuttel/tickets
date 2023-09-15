@@ -16,6 +16,7 @@
         data: Object,
         title: String,
         primaryColor: String,
+        searchButtonMenu: Boolean,
     });
     // const { canLogin, canRegister, laravelVersion, phpVersion, data, title } = defineProps([
     //     'canLogin',
@@ -95,7 +96,7 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="flex items-center mx-auto md:ml-8 mt-2">
+                    <div v-if="searchButtonMenu" class="flex items-center mx-auto md:ml-8 mt-2">
                         <form>
                             <div id="search" class="relative w-full h-full">
                                 <input type="search" id="search-dropdown" class="block p-2.5 w-80 h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Pesquise por eventos...">
