@@ -35,7 +35,7 @@
             <nav class="bg-green-400 border-green-400 dark:bg-green-900 fixed top-0 left-0 right-0 z-50" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
                 <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <div class="flex items-center block flex flex-wrap pb-1 lg:mx-0">
-                        <a :href="route('home')" class="flex items-center">
+                        <a :href="route('/')" class="flex items-center">
                             <img src="/images/logo-gototem.png" class="h-8 mr-3" alt="Flowbite Logo" />
                         </a>
                     </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
 use App\Http\Middleware\CompanyMiddleware;
 use App\Models\Company;
@@ -23,37 +24,17 @@ use Inertia\Inertia;
 Route::middleware([
     CompanyMiddleware::class,
 ])->group(function () {
-    Route::get('/', function (Request $request) {
-        $data = $request->get('data');
-        return Inertia::render('Home', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-            'data' => $data,
-            'searchButtonMenu' => true,
-        ]);
-    })->name('home');
+    Route::get('/', [HomeController::class, 'index'])->name('/');
     Route::get('/evento/{id}', [EventController::class, 'show'])->name('evento.show');
     Route::get('/buscar', [SearchController::class, 'index'])->name('buscar');
-
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-    CompanyMiddleware::class,
-])->group(function () {
-    Route::get('/home', function (Request $request) {
-        $data = $request->get('data');
-        return Inertia::render('Home', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-            'data' => $data,
-            'searchButtonMenu' => true,
-        ]);
-    })->name('home');
-});
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified',
+//     CompanyMiddleware::class,
+// ])->group(function () {
+//     Route::get('/', [HomeController::class, 'index'])->name('/');
+//     Route::get('/home', [HomeController::class, 'index'])->name('home');
+// });
