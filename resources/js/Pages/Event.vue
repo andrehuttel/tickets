@@ -158,7 +158,7 @@ defineExpose({ primaryColor, secondColor });
         
         <div class="container mx-auto w-full max-w-screen-xl">
             <!-- Product info -->
-            <div class="mx-auto max-w-2xl px-4 pb-8 pt-4 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8">
+            <div class="mx-auto max-w-2xl px-4 pb-8 pt-4 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-4">
                 <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
                     <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{{ event.name }}</h1>
                     <div class="mt-4 text-sm text-gray-900" v-html="event.description"></div>
@@ -172,7 +172,7 @@ defineExpose({ primaryColor, secondColor });
                         <p class="text-black font-bold mt-4">{{ event.place }}</p>
                         <p class="text-black mt-4">{{ event.place_address }}</p>
                         <div class="mt-4">
-                            <a href="#" class="rounded-full py-2 px-12 mr-4 text-white" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">Ver no Mapa</a>
+                            <a :href="event.map" target="_blank" class="rounded-full py-2 px-12 mr-4 text-white" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">Ver no Mapa</a>
                         </div>
                     </div>
 

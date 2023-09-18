@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\SearchController;
 use App\Http\Middleware\CompanyMiddleware;
 use App\Models\Company;
@@ -33,21 +34,7 @@ Route::middleware([
             'searchButtonMenu' => true,
         ]);
     })->name('home');
-    Route::get('/evento/{id}', function (Request $request, $id) {
-        $event = Event::where('id', $id)->where('company_id', $request->get('data')['company']['id'])->first(); // Recupera o evento com base no ID
-        if (!$event) {
-            abort(404);
-        }
-        $data = $request->get('data');
-        return Inertia::render('Event', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-            'data' => $data,
-            'event' => $event, // Passa o evento para a vista
-        ]);
-    })->name('evento.show');
+    Route::get('/evento/{id}', [EventController::class, 'show'])->name('evento.show');
     Route::get('/buscar', [SearchController::class, 'index'])->name('buscar');
 
 });
