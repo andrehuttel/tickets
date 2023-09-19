@@ -36,7 +36,7 @@
           <swiper
             :centeredSlides="true"
             :autoplay="{
-              delay: 400000,
+              delay: 4000,
               disableOnInteraction: false,
             }"
             :pagination="{
@@ -47,7 +47,7 @@
             class="mySwiper"
             :style="{ '--swiper-navigation-color': primaryColor, '--swiper-theme-color': primaryColor }"
           >
-            <swiper-slide class="p-4" :style="{ 'background-color': primaryColor }"><img class="h-auto max-w-full rounded" src="/images/example1.jpg" alt="blog"><!--<div class="px-4"><h1>TESTE IMAGEM</h1><p>aqui vai a descrição desse evento.<br>Dia: xx/xx/xxxx Horário: xx:xx<br>Local: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            <swiper-slide class="p-4" :style="{ 'background-color': primaryColor }"><img class="" src="/images/festeja.png" alt="blog"><!--<div class="px-4"><h1>TESTE IMAGEM</h1><p>aqui vai a descrição desse evento.<br>Dia: xx/xx/xxxx Horário: xx:xx<br>Local: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
             </p></div>--></swiper-slide>
             <swiper-slide>Slide 2</swiper-slide><swiper-slide>Slide 3</swiper-slide>
             <swiper-slide>Slide 4</swiper-slide><swiper-slide>Slide 5</swiper-slide>
@@ -77,7 +77,7 @@ body {
 .swiper {
   width: 100%;
   height: 100%;
-  max-height: 400px !important;
+  max-height: 490px !important;
   max-width: 1280px !important;
 }
 
@@ -96,8 +96,9 @@ body {
 .swiper-slide img {
   display: block;
   width: 100%;
-  width: 100%;
   object-fit: cover;
+  max-width: 100% !important;
+  background-size: cover;
   /* max-width: 800px !important; */
 }
 
