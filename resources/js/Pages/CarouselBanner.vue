@@ -62,7 +62,7 @@
 
 <style>
 :root {
---swiper-navigation-size: 32px; /* To edit the size of the arrows */
+  --swiper-navigation-size: 32px; /* To edit the size of the arrows */
 }
 
 body {
