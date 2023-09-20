@@ -100,7 +100,7 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen });
         </template>
     </div> -->
 
-    <Nav :data="data" :primaryColor="primaryColor" :searchButtonMenu="searchButtonMenu" />
+    <AppLayout :data="data" :searchButtonMenu="searchButtonMenu">
     
     <div class="flex mt-200">
         <h1 :style="{ backgroundColor: secondColor ? secondColor : '' }">Pesquise seu Evento:</h1>
@@ -213,7 +213,7 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen });
 
     <Pagination :data="events" :primaryColor="primaryColor" />
 
-    <Footer :data="data" :primaryColor="primaryColor" />
+    </AppLayout>
 
 </template>
 

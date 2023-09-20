@@ -14,8 +14,8 @@ defineProps({
             :key="k"
             class="px-2 py-1 text-sm leading-2 bg-white rounded hover:bg-white focus:text-indigo-500 hover:shadow"
             :style="{
-              'color': link.active ? 'white' : '', // Define a cor do texto para 'white' se link.active for verdadeiro
-              'background-color': link.active ? primaryColor : '', // Define a cor de fundo como primaryColor se link.active for verdadeiro
+              'color': link.active ? 'white' : '',
+              'background-color': link.active ? primaryColor : '',
             }"
             :href="link.url"
             v-html="link.label.includes('Previous') ? 'Anterior' : (link.label.includes('Next') ? 'Próximo' : link.label)"

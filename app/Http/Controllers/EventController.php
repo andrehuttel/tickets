@@ -27,6 +27,7 @@ class EventController extends Controller
             'phpVersion' => PHP_VERSION,
             'data' => $request->get('data'),
             'event' => $event,
+            'searchButtonMenu' => true,
         ]);
     }
 }

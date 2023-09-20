@@ -4,14 +4,16 @@ import Nav from '@/Pages/Nav.vue';
 import Footer from '@/Pages/Footer.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
+import AppLayout from '@/Layouts/AppLayout.vue';
 
-const { canLogin, canRegister, laravelVersion, phpVersion, data, event } = defineProps([
+const { canLogin, canRegister, laravelVersion, phpVersion, data, event, searchButtonMenu } = defineProps([
     'canLogin',
     'canRegister',
     'laravelVersion',
     'phpVersion',
     'data',
     'event',
+    'searchButtonMenu'
 ]);
 
 const logout = () => {
@@ -76,7 +78,7 @@ defineExpose({ primaryColor, secondColor });
     </div> -->
 
     <!-- <template> -->
-    <Nav :data="data" :primaryColor="primaryColor" />
+    <AppLayout :data="data" :searchButtonMenu="searchButtonMenu">
     <main>
         <div class="container-fluid background-image mt-10 pb-8" :style="{
                         'background-color': primaryColor || '',
@@ -255,7 +257,7 @@ defineExpose({ primaryColor, secondColor });
         </div>
     </main>
 
-    <Footer :data="data" :primaryColor="primaryColor" />
+    </AppLayout>
 
 </template>
 

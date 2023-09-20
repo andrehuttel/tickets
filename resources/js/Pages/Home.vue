@@ -79,7 +79,7 @@ defineExpose({ primaryColor, secondColor });
         </template>
     </div> -->
 
-    <Nav :data="data" :primaryColor="primaryColor" :searchButtonMenu="searchButtonMenu" />
+    <AppLayout :data="data" :searchButtonMenu="searchButtonMenu">
 
     <CarouselBanner :data="data" :primaryColor="primaryColor" />
 
@@ -158,7 +158,7 @@ defineExpose({ primaryColor, secondColor });
             </div>
         </div>
     </div>
-    <Footer :data="data" :primaryColor="primaryColor" />
+    </AppLayout>
 
 </template>
 
