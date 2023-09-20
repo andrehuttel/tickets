@@ -14,10 +14,22 @@ class SearchController extends Controller
     {
         $searchTerm = $request->query('q');
 
-        $event = Event::where('name', 'like', '%' . $searchTerm . '%')
-        ->where('company_id', $request->get('data')['company']['id'])
-        ->orderBy('date', 'asc')
-        ->get();
+        // $events = Event::query()
+        //     ->when($searchTerm, function ($query, $search) {
+        //         $query->where('name', 'like', "%{$search}%");
+        //     })
+        //     ->where('company_id', $request->get('data')['company']['id'])
+        //     ->orderBy('date', 'asc')
+        //     ->paginate(2);
+
+        // $formattedEvents = $events->map(function ($event) {
+        //     return [
+        //         'id' => $event->id,
+        //         'name' => $event->name,
+        //     ];
+        // });
+
+        // dd($formattedEvents);
 
         return Inertia::render('SearchResults', [
             'canLogin' => Route::has('login'),
@@ -25,9 +37,16 @@ class SearchController extends Controller
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
             'data' => $request->get('data'),
-            'event' => $event, // Passa o evento para a vista
+            'events' => Event::query()
+                ->when($searchTerm, function ($query, $search) {
+                    $query->where('name', 'like', "%{$search}%");
+                })
+                ->where('company_id', $request->get('data')['company']['id'])
+                ->orderBy('date', 'asc')
+                ->paginate(8)
+                ->withQueryString(),
             'searchButtonMenu' => false,
-            'filter' => Request()->query('q'),
+            'filter' => $searchTerm,
         ]);
     }
 }

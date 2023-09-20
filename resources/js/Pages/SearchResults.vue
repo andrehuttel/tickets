@@ -8,10 +8,13 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
+import { ref, computed, watch } from 'vue';
+import Pagination from '@/Components/Pagination.vue';
+import {Inertia} from '@inertiajs/inertia';
 //import { Carousel, Slide } from "vue-carousel";
 // import Carousel from '@/Pages/Carousel.vue';
 
-const { canLogin, canRegister, laravelVersion, phpVersion, data, event, searchButtonMenu, filter } = defineProps([
+const { canLogin, canRegister, laravelVersion, phpVersion, data, event, searchButtonMenu, filter, events } = defineProps([
     'canLogin',
     'canRegister',
     'laravelVersion',
@@ -19,13 +22,15 @@ const { canLogin, canRegister, laravelVersion, phpVersion, data, event, searchBu
     'data',
     'event',
     'searchButtonMenu',
-    'filter'
+    'filter',
+    'events'
 ]);
 const logout = () => {
     router.post(route('logout'));
 };
 const companyConfigs = data.company.configs;
-const events = data.events;
+const items = events.data;
+console.log(items);
 
 let primaryColor = null;
 let secondColor = null;
@@ -68,6 +73,15 @@ function toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
 }
 
+let search = ref(filter);
+
+watch(search, (value) => {
+    Inertia.get('/buscar', { q: value }, {
+        preserveState: true,
+        replace: true
+    });
+});
+
 defineExpose({ primaryColor, secondColor, mobileMenuOpen });
 </script>
 <!-- <script
@@ -101,17 +115,9 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen });
                             <div class="p-4 -pr-4 lg:w-2/4 lg:w-2/4">
                                 <h1 class="text-white font-bold text-2xl">Procure por um evento:</h1>
                                 <div class="flex items-center mx-auto mt-2 mb-6">
-                                    <form :action="route('buscar')" method="GET">
-                                        <div id="search" class="relative w-full h-full">
-                                            <input type="text" :value="filter" id="search-dropdown" name="q" class="custom-focus block p-2.5 w-80 h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Pesquise por eventos...">
-                                            <button type="submit" class="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white rounded-r-lg focus:outline-none">
-                                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" :style="{ color: primaryColor ? primaryColor : '' }" viewBox="0 0 20 20">
-                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                                                </svg>
-                                                <span class="sr-only">Search</span>
-                                            </button>
-                                        </div>
-                                    </form>
+                                    <div id="search" class="relative w-full h-full">
+                                        <input type="text" v-model="search" class="custom-focus block p-2.5 w-80 h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Pesquise por eventos...">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -132,7 +138,7 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen });
                                 <h1 class="font-bold text-xl">Nenhum evento encontrado.</h1>
                             </div> -->
                             <!-- <div v-else> -->
-                                <div v-if="event.length !== 0" v-for="ev in event" :key="ev.id" class="p-4 lg:w-1/4 lg:w-1/4">
+                                <div v-if="items.length !== 0" v-for="ev in items" :key="ev.id" class="p-4 lg:w-1/4 lg:w-1/4">
                                     <a :href="route('evento.show', ev.id)">
                                         <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                                             <img class="lg:h-48 lg:h-36 w-full object-cover object-center" src="/images/simple-event.jpg" alt="blog">
@@ -204,6 +210,9 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen });
             </div>
         </div>
     </div>
+
+    <Pagination :data="events" :primaryColor="primaryColor" />
+
     <Footer :data="data" :primaryColor="primaryColor" />
 
 </template>
