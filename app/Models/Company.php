@@ -10,6 +10,7 @@ class Company extends Model
     
     use HasFactory;
     protected $table = 'company';
+    protected $fillable = ['id', 'name', 'cnpj', 'host'];
 
     public function configs()
     {
@@ -19,5 +20,10 @@ class Company extends Model
     public function events()
     {
         return $this->hasMany(Event::class);
+    }
+
+    public function banners()
+    {
+        return $this->hasMany(Banner::class);
     }
 }

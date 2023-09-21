@@ -65,8 +65,6 @@ defineExpose({ primaryColor, secondColor });
 
 <template>
     <div>
-        <Head :title="title" />
-
         <Nav :data="data" :primaryColor="primaryColor" :searchButtonMenu="searchButtonMenu" />
 
         <main>

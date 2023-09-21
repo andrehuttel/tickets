@@ -1,0 +1,224 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Banner;
+use App\Models\Company;
+use App\Models\CompanyConfig;
+use App\Models\Event;
+use App\Services\ApiService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+
+class CompanyService
+{
+    public function getCompany()
+    {
+        try {
+            $apiService = new ApiService();
+            $apiData = $apiService->getData(env('API_URL'), env('API_USERNAME'), env('API_PASSWORD'), null);
+
+            if ($apiData) {
+                foreach ($apiData as $key => $value) {
+                    $company = Company::where('id', $value['id'])->first();
+                    if ($company) {
+                        $company->update([
+                            'name' => $value['name'], 
+                            'cnpj' => $value['cnpj'],
+                            'host' => $value['store_host'],
+                        ]);
+                        Log::info("Empresa atualizada: {$company->name}");
+                    } else {
+                        Company::create([
+                            'id' => $value['id'],
+                            'name' => $value['name'], 
+                            'cnpj' => $value['cnpj'],
+                            'host' => $value['store_host'],
+                        ]);
+                        Log::info("Nova empresa criada: {$value['name']}");
+                    }
+                }
+                // Cache os dados da empresa por um período de tempo (por exemplo, 60 minutos)
+                // Cache::put('company_' . $host, $apiData, 60); // 60 minutos
+                return response()->json(['message' => 'Dados da empresa atualizados com sucesso'], 200);
+            }
+
+            return response()->json(['error' => 'Nenhum dado da empresa recebido da API'], 400);
+        } catch (\Exception $e) {
+            Log::error('Erro ao acessar a API: ' . $e->getMessage());
+            return response()->json(['error' => 'Ocorreu um erro ao acessar a API'], 500);
+        }
+    }
+
+    public function getConfig($id)
+    {
+        try {
+            $apiService = new ApiService();
+            $apiData = $apiService->getData(env('API_URL'), env('API_USERNAME'), env('API_PASSWORD'), $id);
+
+            if ($apiData) {
+                $apiData = array_slice($apiData, 1, null, true); //exclui o primeiro elemento (key 0)
+                foreach ($apiData as $key => $value) {
+                    if ($key == 'featured_banners') {
+                        foreach ($value as $key1 => $value1) {
+                            $config = Banner::where('company_id', $id)->where('id', $value1['id'])->first();
+                            if ($config) {
+                                $config->update([
+                                    'image' => $value1['image'], 
+                                    'link' => $value1['link'],
+                                ]);
+                                Log::info("Config atualizada: {$value1['image']} => {$value1['link']} no company: {$id}");
+                            } else {
+                                Banner::create([
+                                    'id' => $value1['id'],
+                                    'company_id' => $id, 
+                                    'image' => $value1['image'], 
+                                    'link' => $value1['link'],
+                                ]);
+                                Log::info("Nova config inserida: {$value1['image']} => {$value1['link']} no company: {$id}");
+                            }
+                        }
+                    } else if ($key == 'configs') {
+                        foreach ($value as $key1 => $value1) {
+                            $config = CompanyConfig::where('company_id', $id)->where('key', $key1)->first();
+                            if ($config) {
+                                $config->update([
+                                    'key' => $key1, 
+                                    'value' => $value1,
+                                ]);
+                                Log::info("Config atualizada: {$key1} => {$value1} no company: {$id}");
+                            } else {
+                                CompanyConfig::create([
+                                    'company_id' => $id, 
+                                    'key' => $key1,
+                                    'value' => $value1,
+                                ]);
+                                Log::info("Nova config inserida: {$key1} => {$value1} no company: {$id}");
+                            }
+                        }
+                    } else if ($key == 'events') {
+                        foreach ($value as $key1 => $value1) {
+                            $config = Event::where('company_id', $id)->where('id', $value1['id'])->first();
+                            if ($config) {
+                                $eventData = [
+                                    'name' => $value1['name'],
+                                    'date' => $value1['date'],
+                                    'start_hour' => $value1['start_hour'],
+                                    'place_open_hour' => $value1['place_open_hour'],
+                                    'description' => $value1['description'],
+                                    'description_append' => isset($value1['description_append']) ? $value1['description_append'] : null,
+                                    'image' => isset($value1['image']) ? $value1['image'] : null,
+                                    'event_map_image' => isset($value1['event_map_image']) ? $value1['event_map_image'] : null,
+                                    'fl_show_payment_methods' => isset($value1['fl_show_payment_methods']) ? $value1['fl_show_payment_methods'] : null,
+                                    'fl_show_organizer' => isset($value1['fl_show_organizer']) ? $value1['fl_show_organizer'] : null,
+                                    'fl_show_classification' => isset($value1['fl_show_classification']) ? $value1['fl_show_classification'] : null,
+                                    'fl_featured' => isset($value1['fl_featured']) ? $value1['fl_featured'] : null,
+                                    'classification_text' => isset($value1['classification_text']) ? $value1['classification_text'] : null,
+                                    // 'link_share_whatsapp' => isset($value1['link_share_whatsapp']) ? $value1['link_share_whatsapp'] : null,
+                                    // 'link_share_facebook' => isset($value1['link_share_facebook']) ? $value1['link_share_facebook'] : null,
+                                    // 'link_share_twitter' => isset($value1['link_share_twitter']) ? $value1['link_share_twitter'] : null,
+                                ];
+
+                                if (!is_null($value1['category'])) {
+                                    $eventData['category_id'] = isset($value1['category']['id']) ? $value1['category']['id'] : null;
+                                    $eventData['category_name'] = isset($value1['category']['name']) ? $value1['category']['name'] : null;
+                                }
+                                if (!is_null($value1['group'])) {
+                                    $eventData['group_id'] = isset($value1['group']['id']) ? $value1['group']['id'] : null;
+                                    $eventData['group_name'] = isset($value1['group']['name']) ? $value1['group']['name'] : null;
+                                }
+                                if (!is_null($value1['place'])) {
+                                    $eventData['place_id'] = isset($value1['place']['id']) ? $value1['place']['id'] : null;
+                                    $eventData['place_name'] = isset($value1['place']['name']) ? $value1['place']['name'] : null;
+                                    $eventData['place_address'] = isset($value1['place']['address']) ? $value1['place']['address'] : null;
+                                }
+                                if (!is_null($value1['organizer'])) {
+                                    $eventData['organizer_id'] = isset($value1['organizer']['id']) ? $value1['organizer']['id'] : null;
+                                    $eventData['organizer_name'] = isset($value1['organizer']['name']) ? $value1['organizer']['name'] : null;
+                                    $eventData['organizer_logo'] = isset($value1['organizer']['logo']) ? $value1['organizer']['logo'] : null;
+                                    $eventData['organizer_instagram'] = isset($value1['organizer']['instagram']) ? $value1['organizer']['instagram'] : null;
+                                    $eventData['organizer_facebook'] = isset($value1['organizer']['facebook']) ? $value1['organizer']['facebook'] : null;
+                                }
+                                
+                                $config->update($eventData);
+                                Log::info("Evento atualizado: id => {$value1['id']} no company: {$id}");
+                            } else {
+                                $eventData = [
+                                    'id' => $value1['id'],
+                                    'company_id' => $id, 
+                                    'name' => $value1['name'],
+                                    'date' => $value1['date'],
+                                    'start_hour' => $value1['start_hour'],
+                                    'place_open_hour' => $value1['place_open_hour'],
+                                    'description' => $value1['description'],
+                                    'description_append' => isset($value1['description_append']) ? $value1['description_append'] : null,
+                                    'image' => isset($value1['image']) ? $value1['image'] : null,
+                                    'event_map_image' => isset($value1['event_map_image']) ? $value1['event_map_image'] : null,
+                                    'fl_show_payment_methods' => isset($value1['fl_show_payment_methods']) ? $value1['fl_show_payment_methods'] : null,
+                                    'fl_show_organizer' => isset($value1['fl_show_organizer']) ? $value1['fl_show_organizer'] : null,
+                                    'fl_show_classification' => isset($value1['fl_show_classification']) ? $value1['fl_show_classification'] : null,
+                                    'fl_featured' => isset($value1['fl_featured']) ? $value1['fl_featured'] : null,
+                                    'classification_text' => isset($value1['classification_text']) ? $value1['classification_text'] : null,
+                                    // 'link_share_whatsapp' => isset($value1['link_share_whatsapp']) ? $value1['link_share_whatsapp'] : null,
+                                    // 'link_share_facebook' => isset($value1['link_share_facebook']) ? $value1['link_share_facebook'] : null,
+                                    // 'link_share_twitter' => isset($value1['link_share_twitter']) ? $value1['link_share_twitter'] : null,
+                                ];
+
+                                if (!is_null($value1['category'])) {
+                                    $eventData['category_id'] = isset($value1['category']['id']) ? $value1['category']['id'] : null;
+                                    $eventData['category_name'] = isset($value1['category']['name']) ? $value1['category']['name'] : null;
+                                }
+                                if (!is_null($value1['group'])) {
+                                    $eventData['group_id'] = isset($value1['group']['id']) ? $value1['group']['id'] : null;
+                                    $eventData['group_name'] = isset($value1['group']['name']) ? $value1['group']['name'] : null;
+                                }
+                                if (!is_null($value1['place'])) {
+                                    $eventData['place_id'] = isset($value1['place']['id']) ? $value1['place']['id'] : null;
+                                    $eventData['place_name'] = isset($value1['place']['name']) ? $value1['place']['name'] : null;
+                                    $eventData['place_address'] = isset($value1['place']['address']) ? $value1['place']['address'] : null;
+                                }
+                                if (!is_null($value1['organizer'])) {
+                                    $eventData['organizer_id'] = isset($value1['organizer']['id']) ? $value1['organizer']['id'] : null;
+                                    $eventData['organizer_name'] = isset($value1['organizer']['name']) ? $value1['organizer']['name'] : null;
+                                    $eventData['organizer_logo'] = isset($value1['organizer']['logo']) ? $value1['organizer']['logo'] : null;
+                                    $eventData['organizer_instagram'] = isset($value1['organizer']['instagram']) ? $value1['organizer']['instagram'] : null;
+                                    $eventData['organizer_facebook'] = isset($value1['organizer']['facebook']) ? $value1['organizer']['facebook'] : null;
+                                }
+
+                                Event::create($eventData);
+                                Log::info("Novo evento inserido: id => {$value1['id']} no company: {$id}");
+                            }
+                        }
+                    } else {
+                        $config = CompanyConfig::where('company_id', $id)->where('key', $key)->first();
+                        if ($config) {
+                            $config->update([
+                                'key' => $key, 
+                                'value' => $value,
+                            ]);
+                            Log::info("Config atualizada: {$key} => {$value} no company: {$id}");
+                        } else {
+                            CompanyConfig::create([
+                                'company_id' => $id, 
+                                'key' => $key,
+                                'value' => $value,
+                            ]);
+                            Log::info("Nova config inserida: {$key} => {$value} no company: {$id}");
+                        }
+                    }
+                }
+                // Cache os dados da empresa por um período de tempo (por exemplo, 60 minutos)
+                // Cache::put('company_' . $host, $apiData, 60); // 60 minutos
+                
+                return response()->json(['message' => 'Dados da config atualizados com sucesso'], 200);
+            }
+
+            Log::error('Nenhuma config da empresa recebida pela API');
+            return response()->json(['error' => 'Nenhuma config da empresa recebida pela API'], 400);
+        } catch (\Exception $e) {
+            Log::error('Erro ao acessar a API: ' . $e->getMessage());
+            return response()->json(['error' => 'Ocorreu um erro ao acessar a API'], 500);
+        }
+    }
+}

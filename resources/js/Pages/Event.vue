@@ -174,7 +174,7 @@ defineExpose({ primaryColor, secondColor });
                         <p class="text-black font-bold mt-4">{{ event.place }}</p>
                         <p class="text-black mt-4">{{ event.place_address }}</p>
                         <div class="mt-4">
-                            <a :href="event.map" target="_blank" class="rounded-full py-2 px-12 mr-4 text-white" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">Ver no Mapa</a>
+                            <a :href="'https://www.google.com/maps/place/' + event.map" target="_blank" class="rounded-full py-2 px-12 mr-4 text-white" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">Ver no Mapa</a>
                         </div>
                     </div>
 

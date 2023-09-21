@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('company_configs', function (Blueprint $table) {
-            $table->id();
+        Schema::create('banners', function (Blueprint $table) {
+            $table->string('id')->primary();
             $table->string('company_id');
-            $table->string('key')->nullable();
-            $table->string('value')->nullable();
+            $table->text('image')->nullable();
+            $table->text('link')->nullable();
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('company')->onDelete('cascade');
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('company_configs');
+        Schema::dropIfExists('banners');
     }
 };

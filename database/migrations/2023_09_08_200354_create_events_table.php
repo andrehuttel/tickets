@@ -12,25 +12,36 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('events', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('company_id');
+            $table->string('id')->primary();
+            $table->string('company_id');
             $table->string('name');
-            $table->string('place');
-            $table->string('place_address');
             $table->date('date');
-            $table->dateTime('date_opening');
-            $table->string('image');
+            $table->time('start_hour');
+            $table->time('place_open_hour');
             $table->text('description');
             $table->text('description_append')->nullable();
-            $table->string('map')->nullable();
-            $table->string('organizer');
-            $table->longText('organizer_logo');
-            $table->string('organizer_instagram');
-            $table->string('organizer_facebook');
-            $table->string('classification');
-            $table->string('link_share_whatsapp')->nullable();
-            $table->string('link_share_facebook')->nullable();
-            $table->string('link_share_twitter')->nullable();
+            $table->longText('image');
+            $table->longText('event_map_image')->nullable();
+            $table->string('category_id')->nullable();
+            $table->string('category_name')->nullable();
+            $table->string('group_id')->nullable();
+            $table->string('group_name')->nullable();
+            $table->string('place_id')->nullable();
+            $table->string('place_name')->nullable();
+            $table->string('place_address')->nullable();
+            $table->string('organizer_id')->nullable();
+            $table->string('organizer_name')->nullable();
+            $table->longText('organizer_logo')->nullable();
+            $table->string('organizer_instagram')->nullable();
+            $table->string('organizer_facebook')->nullable();
+            $table->boolean('fl_show_payment_methods')->nullable();
+            $table->boolean('fl_show_organizer')->nullable();
+            $table->boolean('fl_show_classification')->nullable();
+            $table->boolean('fl_featured')->nullable();
+            $table->string('classification_text')->nullable();
+            $table->longText('link_share_whatsapp')->nullable();
+            $table->longText('link_share_facebook')->nullable();
+            $table->longText('link_share_twitter')->nullable();
             $table->timestamps();
 
             // Defina a chave estrangeira para a tabela "company"
