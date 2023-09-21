@@ -115,9 +115,6 @@ class CompanyService
                                     'fl_show_classification' => isset($value1['fl_show_classification']) ? $value1['fl_show_classification'] : null,
                                     'fl_featured' => isset($value1['fl_featured']) ? $value1['fl_featured'] : null,
                                     'classification_text' => isset($value1['classification_text']) ? $value1['classification_text'] : null,
-                                    // 'link_share_whatsapp' => isset($value1['link_share_whatsapp']) ? $value1['link_share_whatsapp'] : null,
-                                    // 'link_share_facebook' => isset($value1['link_share_facebook']) ? $value1['link_share_facebook'] : null,
-                                    // 'link_share_twitter' => isset($value1['link_share_twitter']) ? $value1['link_share_twitter'] : null,
                                 ];
 
                                 if (!is_null($value1['category'])) {
@@ -137,8 +134,6 @@ class CompanyService
                                     $eventData['organizer_id'] = isset($value1['organizer']['id']) ? $value1['organizer']['id'] : null;
                                     $eventData['organizer_name'] = isset($value1['organizer']['name']) ? $value1['organizer']['name'] : null;
                                     $eventData['organizer_logo'] = isset($value1['organizer']['logo']) ? $value1['organizer']['logo'] : null;
-                                    $eventData['organizer_instagram'] = isset($value1['organizer']['instagram']) ? $value1['organizer']['instagram'] : null;
-                                    $eventData['organizer_facebook'] = isset($value1['organizer']['facebook']) ? $value1['organizer']['facebook'] : null;
                                 }
                                 
                                 $config->update($eventData);
@@ -160,9 +155,6 @@ class CompanyService
                                     'fl_show_classification' => isset($value1['fl_show_classification']) ? $value1['fl_show_classification'] : null,
                                     'fl_featured' => isset($value1['fl_featured']) ? $value1['fl_featured'] : null,
                                     'classification_text' => isset($value1['classification_text']) ? $value1['classification_text'] : null,
-                                    // 'link_share_whatsapp' => isset($value1['link_share_whatsapp']) ? $value1['link_share_whatsapp'] : null,
-                                    // 'link_share_facebook' => isset($value1['link_share_facebook']) ? $value1['link_share_facebook'] : null,
-                                    // 'link_share_twitter' => isset($value1['link_share_twitter']) ? $value1['link_share_twitter'] : null,
                                 ];
 
                                 if (!is_null($value1['category'])) {
@@ -182,8 +174,6 @@ class CompanyService
                                     $eventData['organizer_id'] = isset($value1['organizer']['id']) ? $value1['organizer']['id'] : null;
                                     $eventData['organizer_name'] = isset($value1['organizer']['name']) ? $value1['organizer']['name'] : null;
                                     $eventData['organizer_logo'] = isset($value1['organizer']['logo']) ? $value1['organizer']['logo'] : null;
-                                    $eventData['organizer_instagram'] = isset($value1['organizer']['instagram']) ? $value1['organizer']['instagram'] : null;
-                                    $eventData['organizer_facebook'] = isset($value1['organizer']['facebook']) ? $value1['organizer']['facebook'] : null;
                                 }
 
                                 Event::create($eventData);

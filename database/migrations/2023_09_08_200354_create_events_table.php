@@ -32,16 +32,11 @@ return new class extends Migration
             $table->string('organizer_id')->nullable();
             $table->string('organizer_name')->nullable();
             $table->longText('organizer_logo')->nullable();
-            $table->string('organizer_instagram')->nullable();
-            $table->string('organizer_facebook')->nullable();
             $table->boolean('fl_show_payment_methods')->nullable();
             $table->boolean('fl_show_organizer')->nullable();
             $table->boolean('fl_show_classification')->nullable();
             $table->boolean('fl_featured')->nullable();
             $table->string('classification_text')->nullable();
-            $table->longText('link_share_whatsapp')->nullable();
-            $table->longText('link_share_facebook')->nullable();
-            $table->longText('link_share_twitter')->nullable();
             $table->timestamps();
 
             // Defina a chave estrangeira para a tabela "company"
