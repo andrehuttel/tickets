@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +14,16 @@ class Event extends Model
     'description_append', 'image', 'event_map_image', 'category_id', 'category_name', 'group_id', 'group_name',
     'place_id', 'place_name', 'place_address', 'organizer_id', 'organizer_name', 'organizer_logo',
     'fl_show_payment_methods', 'fl_show_organizer', 'fl_show_classification', 'fl_featured', 'classification_text'];
+
+    public function getStartHourAttribute($value)
+    {
+        return Carbon::createFromFormat('H:i:s', $value)->format('H:i');
+    }
+
+    public function getPlaceOpenHourAttribute($value)
+    {
+        return Carbon::createFromFormat('H:i:s', $value)->format('H:i');
+    }
 
     public function company()
     {
