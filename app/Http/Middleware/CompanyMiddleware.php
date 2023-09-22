@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Company;
+use App\Models\CompanyConfig;
 use App\Services\ApiService;
 use Closure;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class CompanyMiddleware
         if ($company) {
             $data = [
                 'company' => $company,
-                'config' => $company->configs->first(),
+                'config' => $company->configs->all(),
                 'events' => $company->events()->orderBy('date', 'asc')->get(),
             ];
             $request->attributes->set('data', $data);
