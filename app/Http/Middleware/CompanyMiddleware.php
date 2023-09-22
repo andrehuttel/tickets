@@ -26,11 +26,11 @@ class CompanyMiddleware
     protected function isValidCompany($host, $request)
     {
         $company = Company::where('host', $host)->orWhere('host_generated', $host)->first();
-
         if ($company) {
             $data = [
                 'company' => $company,
                 'config' => $company->configs->all(),
+                'banners' => $company->banners->all(),
                 'events' => $company->events()->orderBy('date', 'asc')->get(),
             ];
             $request->attributes->set('data', $data);

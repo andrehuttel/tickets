@@ -23,13 +23,12 @@ const logout = () => {
     router.post(route('logout'));
 };
 const companyConfigs = data.company.configs;
-const events = data.events;
 
 let primaryColor = null;
 let secondColor = null;
 
-const primaryColorObject = companyConfigs.find(config => config.key === 'primary_color');
-const secondColorObject = companyConfigs.find(config => config.key === 'second_color');
+const primaryColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_PRIMARY_COLOR');
+const secondColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_SECONDARY_COLOR');
 
 if (primaryColorObject !== undefined) {
     primaryColor = primaryColorObject.value;
@@ -38,34 +37,12 @@ if (secondColorObject !== undefined) {
     secondColor = secondColorObject.value;
 }
 
-function capitalizeFirstLetter(string) {
-    const parts = string.split(' ');
-    if (parts.length >= 3) {
-        parts[0] = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
-        parts[3] = parts[3].charAt(0).toUpperCase() + parts[3].slice(1);
-        return parts.join(' ');
-    }
-    return string;
-}
-function formatDate(data) {
-    const optionsDate = { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' };
-    const dateFormatted = new Date(data).toLocaleDateString('pt-BR', optionsDate);
-    
-    return this.capitalizeFirstLetter(dateFormatted).replace('.', '');
-}
-function formatTime(data) {
-  const optionsTime = { hour: 'numeric', minute: 'numeric' };
-  const timeFormatted = new Date(data).toLocaleTimeString('pt-BR', optionsTime);
-
-  return timeFormatted;
-}
-
 defineExpose({ primaryColor, secondColor });
 </script>
 
 <template>
     <div>
-        <Nav :data="data" :primaryColor="primaryColor" :searchButtonMenu="searchButtonMenu" />
+        <Nav :data="data" :primaryColor="primaryColor" :secondColor="secondColor" :searchButtonMenu="searchButtonMenu" />
 
         <main>
             <slot />

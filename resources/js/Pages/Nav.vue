@@ -16,10 +16,20 @@
         data: Object,
         title: String,
         primaryColor: String,
+        secondColor: String,
         searchButtonMenu: Boolean,
     });
 
     const showingNavigationDropdown = ref(false);
+
+    function getValue(array, key) {
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].key === key) {
+                return array[i].value;
+            }
+        }
+        return null;
+    }
 
     const logout = () => {
         router.post(route('logout'));
@@ -36,7 +46,7 @@
                 <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <div class="flex items-center block flex flex-wrap pb-1 lg:mx-0">
                         <a :href="route('/')" class="flex items-center">
-                            <img src="/images/logo-gototem.png" class="h-8 mr-3" alt="Flowbite Logo" />
+                            <img :src="getValue(data.config, 'STORE_TPL_LOGO')" class="h-8 mr-3" alt="Flowbite Logo" />
                         </a>
                     </div>
                     <!-- Hamburger -->
@@ -44,7 +54,7 @@
                         <div v-if="searchButtonMenu" class="flex sm:hidden xs:block mx-auto md:ml-8 mr-0">
                             <div class="mr-4">
                                 <a :href="route('buscar')" class="relative top-0 right-0 p-2.5 text-sm font-medium h-full text-white rounded-r-lg focus:outline-none">
-                                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" :style="{ color: secondColor ? secondColor : '' }" viewBox="0 0 20 20">
+                                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                     </svg>
                                     <span class="sr-only">Search</span>

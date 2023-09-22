@@ -22,21 +22,26 @@ const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMen
 const logout = () => {
     router.post(route('logout'));
 };
-console.log(data);
+
 const companyConfigs = data.company.configs;
 const events = data.events;
 
 let primaryColor = null;
 let secondColor = null;
+let storeTitle = null;
 
-const primaryColorObject = companyConfigs.find(config => config.key === 'primary_color');
-const secondColorObject = companyConfigs.find(config => config.key === 'second_color');
+const primaryColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_PRIMARY_COLOR');
+const secondColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_SECONDARY_COLOR');
+const storeTitleObject = companyConfigs.find(config => config.key === 'STORE_TITLE');
 
 if (primaryColorObject !== undefined) {
     primaryColor = primaryColorObject.value;
 }
 if (secondColorObject !== undefined) {
     secondColor = secondColorObject.value;
+}
+if (storeTitleObject !== undefined) {
+    storeTitle = storeTitleObject.value;
 }
 
 function capitalizeFirstLetter(string) {
@@ -61,27 +66,24 @@ function formatTime(data) {
   return timeFormatted;
 }
 
-defineExpose({ primaryColor, secondColor });
+function getValue(array, key) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].key === key) {
+            return array[i].value;
+        }
+    }
+    return null;
+}
+
+defineExpose({ primaryColor, secondColor, storeTitle });
 </script>
-<!-- <script
-  type="text/javascript"
-  src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script> -->
 
 <template class="bg-green-500">
-    <Head title="Home" />
-    <!-- <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-        <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</Link>
-
-        <template v-else>
-            <Link :href="route('login')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</Link>
-
-            <Link v-if="canRegister" :href="route('register')" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</Link>
-        </template>
-    </div> -->
+    <Head :title="'Home - ' + storeTitle" />
 
     <AppLayout :data="data" :searchButtonMenu="searchButtonMenu">
 
-    <CarouselBanner :data="data" :primaryColor="primaryColor" />
+    <CarouselBanner v-if="getValue(data.config, 'STORE_TPL_FL_SHOW_FEAT_EVENTS') == true" :data="data" :primaryColor="primaryColor" :eventsQtd="getValue(data.config, 'STORE_TPL_FEAT_EVENTS_QTY')" />
 
     <!-- Traz os eventos aqui -->
     <div class="bg-gray-500" :style="{ backgroundColor: secondColor ? secondColor : '' }">

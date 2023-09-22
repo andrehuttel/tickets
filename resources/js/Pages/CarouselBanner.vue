@@ -24,6 +24,12 @@
     props: {
       primaryColor: String,
       data: Object,
+      eventsQtd: String,
+    },
+    computed: {
+      limitedBanners() {
+        return this.data.banners.slice(0, this.eventsQtd);
+      },
     },
   };
 </script>
@@ -47,12 +53,7 @@
             class="mySwiper"
             :style="{ '--swiper-navigation-color': primaryColor, '--swiper-theme-color': primaryColor }"
           >
-            <swiper-slide class="p-4" :style="{ 'background-color': primaryColor }"><img class="" src="/images/festeja.png" alt="blog"><!--<div class="px-4"><h1>TESTE IMAGEM</h1><p>aqui vai a descrição desse evento.<br>Dia: xx/xx/xxxx Horário: xx:xx<br>Local: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-            </p></div>--></swiper-slide>
-            <swiper-slide>Slide 2</swiper-slide><swiper-slide>Slide 3</swiper-slide>
-            <swiper-slide>Slide 4</swiper-slide><swiper-slide>Slide 5</swiper-slide>
-            <swiper-slide>Slide 6</swiper-slide><swiper-slide>Slide 7</swiper-slide>
-            <swiper-slide>Slide 8</swiper-slide><swiper-slide>Slide 9</swiper-slide>
+            <swiper-slide  v-for="(banner, index) in limitedBanners" :key="banner.id" class="p-4" :style="{ 'background-color': primaryColor }"><img class="" :src="banner.image"><!--<div class="px-4"><h1>TESTE IMAGEM</h1><p>aqui vai a descrição desse evento.<br>Dia: xx/xx/xxxx Horário: xx:xx<br>Local: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx--></swiper-slide>
           </swiper>
         </div>
       </div>

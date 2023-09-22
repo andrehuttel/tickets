@@ -9,6 +9,8 @@ class Banner extends Model
 {
     use HasFactory;
     protected $table = 'banners';
+    protected $keyType = 'string';
+    protected $primaryKey = 'id';
     protected $fillable = ['id', 'company_id', 'image', 'link'];
 
     public function company()
