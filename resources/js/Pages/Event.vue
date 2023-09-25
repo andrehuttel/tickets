@@ -26,6 +26,7 @@ let primaryColor = null;
 let secondColor = null;
 let storeTitle = null;
 let paymentMethods = null;
+let dataEvent = event.date;
 
 const primaryColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_PRIMARY_COLOR');
 const secondColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_SECONDARY_COLOR');
@@ -65,6 +66,18 @@ function formatTime(data) {
   const timeFormatted = new Date(data).toLocaleTimeString('pt-BR', optionsTime);
 
   return timeFormatted;
+}
+
+function isEventOpen() {
+    // Dividir a data em ano, mês e dia
+    const [ano, mes, dia] = dataEvent.split('-').map(Number);
+
+    // Obter a data atual
+    const currentDate = new Date();
+
+    // Criar uma nova data com a data do evento
+    const eventDate = new Date(ano, mes - 1, dia); // Lembre-se de subtrair 1 do mês, pois os meses em JavaScript são baseados em zero (janeiro é 0, fevereiro é 1, etc.)
+    return eventDate > currentDate;
 }
 
 function backgroundStyle() {
@@ -141,7 +154,12 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                             </span>
                         </div>
                         <div class="lg:flex items-center mt-auto">
-                            <button class="rounded-full py-2 xs:mt-4 xs:font-sm xs:text-xs xs:px-6 lg:text-base px-12 mr-4 text-white xs:w-full" :style="{ backgroundColor: secondColor ?? primaryColor ?? 'background-green' }">Comprar Ingressos</button>
+                            <button class="rounded-full py-2 xs:mt-4 xs:font-sm xs:text-xs xs:px-6 lg:text-base px-12 mr-4 text-white xs:w-full"
+                                :style="{ backgroundColor: (isEventOpen() == false) ? 'red' : (secondColor || primaryColor || 'background-green') }"
+                                :disabled="isEventOpen() == false"
+                            >
+                                {{ (isEventOpen() == false) ? 'Vendas Encerradas' : 'Comprar Ingressos' }}
+                            </button>
                             <div class="flex mt-4 sm:justify-center lg:mt-0 w-full xs:w-full">
                                 <div class="flex items-center space-x-5 lg:pt-5">
                                     <div>
