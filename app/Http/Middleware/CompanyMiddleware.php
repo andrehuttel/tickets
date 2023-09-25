@@ -31,7 +31,8 @@ class CompanyMiddleware
                 'company' => $company,
                 'config' => $company->configs->all(),
                 'banners' => $company->banners->all(),
-                'events' => $company->events()->orderBy('date', 'asc')->get(),
+                'events' => $company->events()->where('fl_featured', false)->orderBy('date', 'asc')->get(),
+                'events_featured' => $company->events()->where('fl_featured', true)->orderBy('date', 'asc')->get(),
             ];
             $request->attributes->set('data', $data);
 

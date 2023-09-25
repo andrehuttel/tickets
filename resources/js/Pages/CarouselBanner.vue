@@ -23,6 +23,7 @@
     },
     props: {
       primaryColor: String,
+      secondColor: String,
       data: Object,
       eventsQtd: String,
     },
@@ -35,7 +36,7 @@
 </script>
 
 <template>
-  <div class="bg-gray-500" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
+  <div class="bg-gray-100">
     <div class="flex justify-center items-center">
       <div class="container py-8 mx-auto">
         <div class="flex flex-wrap -m-4">
@@ -51,9 +52,9 @@
             :navigation="true"
             :modules="modules"
             class="mySwiper"
-            :style="{ '--swiper-navigation-color': primaryColor, '--swiper-theme-color': primaryColor }"
+            :style="{ '--swiper-navigation-color': secondColor ?? primaryColor ?? 'background-green', '--swiper-theme-color': secondColor ?? primaryColor ?? 'background-green' }"
           >
-            <swiper-slide  v-for="(banner, index) in limitedBanners" :key="banner.id" class="p-4" :style="{ 'background-color': primaryColor }"><img class="" :src="banner.image"><!--<div class="px-4"><h1>TESTE IMAGEM</h1><p>aqui vai a descrição desse evento.<br>Dia: xx/xx/xxxx Horário: xx:xx<br>Local: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx--></swiper-slide>
+            <swiper-slide  v-for="(banner, index) in limitedBanners" :key="banner.id" class="p-4 bg-gray-100"><img class="" :src="banner.image"><!--<div class="px-4"><h1>TESTE IMAGEM</h1><p>aqui vai a descrição desse evento.<br>Dia: xx/xx/xxxx Horário: xx:xx<br>Local: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx--></swiper-slide>
           </swiper>
         </div>
       </div>
@@ -62,6 +63,9 @@
 </template>
 
 <style>
+.background-green{
+    background-color: rgb(0, 155, 114);
+}
 :root {
   --swiper-navigation-size: 32px; /* To edit the size of the arrows */
 }
@@ -85,7 +89,6 @@ body {
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #fff;
 
   /* Center slide text vertically */
   display: flex;

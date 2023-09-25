@@ -113,7 +113,7 @@ class CompanyService
                                     'fl_show_payment_methods' => isset($value1['fl_show_payment_methods']) ? $value1['fl_show_payment_methods'] : null,
                                     'fl_show_organizer' => isset($value1['fl_show_organizer']) ? $value1['fl_show_organizer'] : null,
                                     'fl_show_classification' => isset($value1['fl_show_classification']) ? $value1['fl_show_classification'] : null,
-                                    'fl_featured' => isset($value1['fl_featured']) ? $value1['fl_featured'] : null,
+                                    'fl_featured' => isset($value1['fl_featured']) ? $value1['fl_featured'] : 0,
                                     'classification_text' => isset($value1['classification_text']) ? $value1['classification_text'] : null,
                                 ];
 
@@ -153,7 +153,7 @@ class CompanyService
                                     'fl_show_payment_methods' => isset($value1['fl_show_payment_methods']) ? $value1['fl_show_payment_methods'] : null,
                                     'fl_show_organizer' => isset($value1['fl_show_organizer']) ? $value1['fl_show_organizer'] : null,
                                     'fl_show_classification' => isset($value1['fl_show_classification']) ? $value1['fl_show_classification'] : null,
-                                    'fl_featured' => isset($value1['fl_featured']) ? $value1['fl_featured'] : null,
+                                    'fl_featured' => isset($value1['fl_featured']) ? $value1['fl_featured'] : 0,
                                     'classification_text' => isset($value1['classification_text']) ? $value1['classification_text'] : null,
                                 ];
 

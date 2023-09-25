@@ -42,7 +42,7 @@
         <Head :title="title" />
 
         <div class="relative">
-            <nav class="bg-green-400 border-green-400 dark:bg-green-900 fixed top-0 left-0 right-0 z-50" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
+            <nav class="background-green fixed top-0 left-0 right-0 z-50" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
                 <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <div class="flex items-center block flex flex-wrap pb-1 lg:mx-0">
                         <a :href="route('/')" class="flex items-center">
@@ -196,6 +196,9 @@
     </div>
 </template>
 <style>
+.background-green{
+    background-color: rgb(0, 155, 114);
+}
 [type='text']:focus{
     box-shadow: none !important;
     outline: none !important;

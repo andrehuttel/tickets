@@ -78,7 +78,7 @@ function methodPayments() {
 defineExpose({ primaryColor, secondColor, storeTitle });
 </script>
 
-<template class="bg-green-500">
+<template class="bg-gray-100">
     <!-- <Head title="Evento"></Head> -->
     <!-- <Head :title="event.name ? `${event.name}` : ''"></Head> -->
     <Head :title="event.name ? event.name + ' - ' + storeTitle : storeTitle" />
@@ -141,7 +141,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                             </span>
                         </div>
                         <div class="lg:flex items-center mt-auto">
-                            <button class="rounded-full py-2 xs:mt-4 xs:font-sm xs:text-xs xs:px-6 lg:text-base px-12 mr-4 text-white xs:w-full" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">Comprar Ingressos</button>
+                            <button class="rounded-full py-2 xs:mt-4 xs:font-sm xs:text-xs xs:px-6 lg:text-base px-12 mr-4 text-white xs:w-full" :style="{ backgroundColor: secondColor ?? primaryColor ?? 'background-green' }">Comprar Ingressos</button>
                             <div class="flex mt-4 sm:justify-center lg:mt-0 w-full xs:w-full">
                                 <div class="flex items-center space-x-5 lg:pt-5">
                                     <div>
@@ -189,7 +189,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                         <p class="text-black font-bold mt-4">{{ event.place }}</p>
                         <p class="text-black mt-4">{{ event.place_address }}</p>
                         <div class="mt-4">
-                            <a :href="'https://www.google.com/maps/place/' + event.place_address" target="_blank" class="rounded-full py-2 px-12 mr-4 text-white" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">Ver no Mapa</a>
+                            <a :href="'https://www.google.com/maps/place/' + event.place_address" target="_blank" class="rounded-full py-2 px-12 mr-4 text-white" :style="{ backgroundColor: secondColor ?? primaryColor ?? 'background-green' }">Ver no Mapa</a>
                         </div>
                     </div>
 
@@ -257,6 +257,9 @@ defineExpose({ primaryColor, secondColor, storeTitle });
 </template>
 
 <style>
+.background-green{
+    background-color: rgb(0, 155, 114);
+}
 .icon-payment{
     /* display: inline-block; */
     width: 40px;
