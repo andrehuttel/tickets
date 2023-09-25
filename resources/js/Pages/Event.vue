@@ -25,10 +25,12 @@ const companyConfigs = data.company.configs;
 let primaryColor = null;
 let secondColor = null;
 let storeTitle = null;
+let paymentMethods = null;
 
 const primaryColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_PRIMARY_COLOR');
 const secondColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_SECONDARY_COLOR');
 const storeTitleObject = companyConfigs.find(config => config.key === 'STORE_TITLE');
+const paymentMethodsObject = companyConfigs.find(config => config.key === 'STORE_CHKT_PAY_METH_FLAGS');
 
 if (primaryColorObject !== undefined) {
     primaryColor = primaryColorObject.value;
@@ -38,6 +40,9 @@ if (secondColorObject !== undefined) {
 }
 if (storeTitleObject !== undefined) {
     storeTitle = storeTitleObject.value;
+}
+if (paymentMethodsObject !== undefined) {
+    paymentMethods = paymentMethodsObject.value;
 }
 
 function capitalizeFirstLetter(string) {
@@ -64,6 +69,10 @@ function formatTime(data) {
 
 function backgroundStyle() {
     return backgroundImage = url('https://d2hnilqqbw3vnf.cloudfront.net/images/imagens/full/mCteMLfK1gxdLahIe5j8qdcB0yYg2K0r2F0QOu2o.jpeg');
+}
+
+function methodPayments() {
+    return paymentMethods.split(',').map(method => method.trim());
 }
 
 defineExpose({ primaryColor, secondColor, storeTitle });
@@ -193,32 +202,12 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                         <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl" :style="{ color: primaryColor ? primaryColor : '' }">Formas de Pagamento</h1>
                         <p class="text-black mt-4">{{ event.payment_methods }}</p>
                         <ul class="flex space-x-1">
-                            <li class="icon-payment flex justify-center items-center">
-                                <img src="/images/icon_payments/visa.png" class="content-center w-40 h-30" alt="Visa">
-                            </li>
-                            <li class="icon-payment flex justify-center items-center">
-                                <img src="/images/icon_payments/mastercard.png" class="content-center w-40 h-30" alt="Mastercard">
-                            </li>
-                            <li class="icon-payment flex justify-center items-center">
-                                <img src="/images/icon_payments/elo.png" class="content-center w-40 h-30" alt="Elo">
-                            </li>
-                            <li class="icon-payment flex justify-center items-center">
-                                <img src="/images/icon_payments/american_express.png" class="content-center w-40 h-30" alt="American Express">
-                            </li>
-                            <li class="icon-payment flex justify-center items-center">
-                                <img src="/images/icon_payments/cabal.png" class="content-center w-40 h-30" alt="Cabal">
-                            </li>
-                            <li class="icon-payment flex justify-center items-center">
-                                <img src="/images/icon_payments/dinners.png" class="content-center w-40 h-30" alt="Dinner's Club">
-                            </li>
-                            <li class="icon-payment flex justify-center items-center">
-                                <img src="/images/icon_payments/hipercard.png" class="content-center w-40 h-30" alt="Hipercard">
-                            </li>
-                            <li class="icon-payment flex justify-center items-center">
-                                <img src="/images/icon_payments/boleto.png" class="content-center w-40 h-30" alt="Boleto">
-                            </li>
-                            <li class="icon-payment flex justify-center items-center">
-                                <img src="/images/icon_payments/pix.png" class="content-center w-40 h-30" alt="Pix">
+                            <li v-for="method in methodPayments()" :key="method" class="icon-payment flex justify-center items-center">
+                            <img
+                                :src="'/images/icon_payments/'+method+'.png'"
+                                class="content-center w-40 h-30"
+                                :alt="method"
+                            >
                             </li>
                         </ul>
                         <!-- <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Add to bag</button> -->
@@ -226,16 +215,16 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                 </div>
 
                 <div class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
-                    <div class="mt-8 space-y-6">
+                    <div v-if="event.event_map_image" class="mt-8 space-y-6">
                         <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl" :style="{ color: primaryColor ? primaryColor : '' }">Mapa do Local</h1>
                         <div class="col-span-2 lg:col-span-2 aspect-h-4 aspect-w-6 lg:block">
-                            <img src="/images/mapa_evento.jpg" :alt="event.name">
+                            <img :src="event.event_map_image" :alt="event.name">
                         </div>
                     </div>
                     <div v-if="event.fl_show_organizer == true">
                         <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl mt-8" :style="{ color: primaryColor ? primaryColor : '' }">Organizador</h1>
                         <div class="mt-8 flex items-center space-x-6">
-                            <img :src="event.organizer_logo" :alt="event.organizer_name" class="h-20 rounded">
+                            <img v-if="event.organizer_logo" :src="event.organizer_logo" :alt="event.organizer_name" class="h-20 rounded">
                             <div>
                                 <p class="text-gray-600 font-bold md:text-2xl">{{ event.organizer_name }}</p>
                                 <div class="lg:flex items-center mt-auto">
