@@ -5,3 +5,13 @@
 [x-cloak] {
     display: none;
 }
+
+p {
+    display: block;
+    margin-bottom: 1em;
+}
+
+div.card-event img{
+    max-height: 165px;
+    background-size: cover;
+}
