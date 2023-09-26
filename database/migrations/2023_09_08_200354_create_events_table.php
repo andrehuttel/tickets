@@ -37,6 +37,9 @@ return new class extends Migration
             $table->boolean('fl_show_classification')->nullable();
             $table->boolean('fl_featured')->nullable();
             $table->string('classification_text')->nullable();
+            $table->string('uri')->nullable();
+            $table->string('meta_title')->nullable();
+            $table->string('meta_description')->nullable();
             $table->timestamps();
 
             // Defina a chave estrangeira para a tabela "company"

@@ -9,6 +9,7 @@ use App\Models\Event;
 use App\Services\ApiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class CompanyService
@@ -61,48 +62,27 @@ class CompanyService
                 $apiData = array_slice($apiData, 1, null, true); //exclui o primeiro elemento (key 0)
                 foreach ($apiData as $key => $value) {
                     if ($key == 'featured_banners') {
+                        Banner::where('company_id', $id)->delete();
+                        Log::info("Banners deletados no company: {$id}");
                         foreach ($value as $key1 => $value1) {
-                            $config = Banner::where('company_id', $id)->where('id', $value1['id'])->first();
-                            if ($config) {
-                                $config->delete();
-                                Log::info("Banner deletado: {$value1['image']} => {$value1['link']} no company: {$id}");
-                                Banner::create([
-                                    'id' => $value1['id'],
-                                    'company_id' => $id, 
-                                    'image' => $value1['image'], 
-                                    'link' => $value1['link'],
-                                ]);
-                                Log::info("Novo Banner inserido: {$value1['image']} => {$value1['link']} no company: {$id}");
-                            } else {
-                                Banner::create([
-                                    'id' => $value1['id'],
-                                    'company_id' => $id, 
-                                    'image' => $value1['image'], 
-                                    'link' => $value1['link'],
-                                ]);
-                                Log::info("Novo Banner inserido: {$value1['image']} => {$value1['link']} no company: {$id}");
-                            }
+                            Banner::create([
+                                'id' => $value1['id'],
+                                'company_id' => $id, 
+                                'image' => $value1['image'], 
+                                'link' => $value1['link'],
+                            ]);
+                            Log::info("Novo Banner inserido: {$value1['image']} => {$value1['link']} no company: {$id}");
                         }
                     } else if ($key == 'configs') {
+                        CompanyConfig::where('company_id', $id)->delete();
+                        Log::info("Config deletada no company: {$id}");
                         foreach ($value as $key1 => $value1) {
-                            $config = CompanyConfig::where('company_id', $id)->where('key', $key1)->first();
-                            if ($config) {
-                                $config->delete();
-                                Log::info("Config deletada: {$key1} => {$value1} no company: {$id}");
-                                CompanyConfig::create([
-                                    'company_id' => $id, 
-                                    'key' => $key1,
-                                    'value' => $value1,
-                                ]);
-                                Log::info("Nova Config inserida: {$key1} => {$value1} no company: {$id}");
-                            } else {
-                                CompanyConfig::create([
-                                    'company_id' => $id, 
-                                    'key' => $key1,
-                                    'value' => $value1,
-                                ]);
-                                Log::info("Nova config inserida: {$key1} => {$value1} no company: {$id}");
-                            }
+                            CompanyConfig::create([
+                                'company_id' => $id, 
+                                'key' => $key1,
+                                'value' => $value1,
+                            ]);
+                            Log::info("Nova config inserida: {$key1} => {$value1} no company: {$id}");
                         }
                     } else if ($key == 'events') {
                         foreach ($value as $key1 => $value1) {
@@ -122,6 +102,9 @@ class CompanyService
                                     'fl_show_classification' => isset($value1['fl_show_classification']) ? $value1['fl_show_classification'] : null,
                                     'fl_featured' => isset($value1['fl_featured']) ? $value1['fl_featured'] : 0,
                                     'classification_text' => isset($value1['classification_text']) ? $value1['classification_text'] : null,
+                                    'uri' => isset($value1['uri']) ? $value1['uri'] : null,
+                                    'meta_title' => isset($value1['meta_title']) ? $value1['meta_title'] : null,
+                                    'meta_description' => isset($value1['meta_description']) ? $value1['meta_description'] : null,
                                 ];
 
                                 if (!is_null($value1['category'])) {
@@ -162,6 +145,9 @@ class CompanyService
                                     'fl_show_classification' => isset($value1['fl_show_classification']) ? $value1['fl_show_classification'] : null,
                                     'fl_featured' => isset($value1['fl_featured']) ? $value1['fl_featured'] : 0,
                                     'classification_text' => isset($value1['classification_text']) ? $value1['classification_text'] : null,
+                                    'uri' => isset($value1['uri']) ? $value1['uri'] : null,
+                                    'meta_title' => isset($value1['meta_title']) ? $value1['meta_title'] : null,
+                                    'meta_description' => isset($value1['meta_description']) ? $value1['meta_description'] : null,
                                 ];
 
                                 if (!is_null($value1['category'])) {
@@ -186,25 +172,6 @@ class CompanyService
                                 Event::create($eventData);
                                 Log::info("Novo evento inserido: id => {$value1['id']} no company: {$id}");
                             }
-                        }
-                    } else {
-                        $config = CompanyConfig::where('company_id', $id)->where('key', $key)->first();
-                        if ($config) {
-                            $config->delete();
-                            Log::info("Config deletada: {$key} => {$value} no company: {$id}");
-                            CompanyConfig::create([
-                                'company_id' => $id, 
-                                'key' => $key,
-                                'value' => $value,
-                            ]);
-                            Log::info("Nova config inserida: {$key} => {$value} no company: {$id}");
-                        } else {
-                            CompanyConfig::create([
-                                'company_id' => $id, 
-                                'key' => $key,
-                                'value' => $value,
-                            ]);
-                            Log::info("Nova config inserida: {$key} => {$value} no company: {$id}");
                         }
                     }
                 }
