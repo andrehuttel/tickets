@@ -10,9 +10,9 @@ use Inertia\Inertia;
 
 class EventController extends Controller
 {
-    public function show(Request $request, $name)
+    public function show(Request $request, $uri)
     {
-        $event = Event::where('name', $name)
+        $event = Event::where('uri', $uri)
             ->where('company_id', $request->get('data')['company']['id'])
             ->first();
 

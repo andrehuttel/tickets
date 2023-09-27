@@ -26,7 +26,7 @@ Route::middleware([
     CompanyMiddleware::class,
 ])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('/');
-    Route::get('/evento/{name}', [EventController::class, 'show'])->name('evento.show');
+    Route::get('/{uri}', [EventController::class, 'show'])->name('evento.show');
     Route::get('/buscar', [SearchController::class, 'index'])->name('buscar');
     Route::get('/{name}', [CategoryController::class, 'show'])->name('categoria.show');
 });

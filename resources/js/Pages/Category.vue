@@ -95,7 +95,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                     <div class="container px-5 py-8 lg:py-24 mx-auto">
                         <div class="flex flex-wrap -m-4">
                             <div v-for="event in events" :key="event.id" class="p-4 lg:w-1/4 lg:w-1/4">
-                                <a :href="route('evento.show', event.name)">
+                                <a :href="route('evento.show', event.uri)">
                                     <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                                         <img class="lg:h-48 lg:h-36 w-full object-cover object-center" :src="event.image">
                                         <div class="p-6 pb-1">

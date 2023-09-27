@@ -8,60 +8,61 @@
         title: String,
         primaryColor: String,
     });
+
+    function getValue(array, key) {
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].key === key) {
+                return array[i].value;
+            }
+        }
+        return null;
+    }
 </script>
 
 <template>
     <footer class="bg-gray-900 dark:bg-gray-900" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
         <div class="mx-auto w-full max-w-screen-xl">
-            <div class="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
-                <!-- <div>
-                    <h2 class="mb-6 text-sm font-semibold text-white text-white-900 uppercase dark:text-white">Company</h2>
+            <div class="grid grid-cols-3 gap-8 px-4 py-6 lg:py-8 md:grid-cols-6">
+                <div>
                     <ul class="text-white-500 text-white dark:text-white-400 font-medium">
-                        <li class="mb-4">
-                            <a href="#" class=" hover:underline">About</a>
+                        <li v-if="getValue(data.config, 'STORE_CMS_ABOUT_US_FL_SHOW') == true" class="mb-4">
+                            <a href="#" class="hover:underline">Sobre</a>
                         </li>
                         <li class="mb-4">
-                            <a href="#" class="hover:underline">Careers</a>
+                            <a href="#" class="hover:underline">Ajuda</a>
                         </li>
                         <li class="mb-4">
-                            <a href="#" class="hover:underline">Brand Center</a>
-                        </li>
-                        <li class="mb-4">
-                            <a href="#" class="hover:underline">Blog</a>
+                            <a href="#" class="hover:underline">Contato</a>
                         </li>
                     </ul>
-                </div> -->
+                </div>
                 <div>
-                    <h2 class="mb-6 text-sm font-semibold text-white text-white-900 uppercase dark:text-white">Para Consumidores</h2>
                     <ul class="text-white-500 text-white dark:text-white-400 font-medium">
-                        <li class="mb-4">
+                        <li v-if="getValue(data.config, 'STORE_CMS_TERMS_OF_USE_FL_SHOW') == true" class="mb-4">
                             <a href="#" class="hover:underline">Termos de Uso</a>
                         </li>
-                        <li class="mb-4">
+                        <li v-if="getValue(data.config, 'STORE_CMS_PRIVACY_POLICY_FL_SHOW') == true" class="mb-4">
                             <a href="#" class="hover:underline">Política de Privacidade</a>
                         </li>
-                        <li class="mb-4">
+                        <li v-if="getValue(data.config, 'STORE_CMS_SERVICE_TAX_FL_SHOW') == true" class="mb-4">
+                            <a href="#" class="hover:underline">Taxa de Serviço</a>
+                        </li>
+                        <li v-if="getValue(data.config, 'STORE_CMS_HALF_ENTRY_FL_SHOW') == true" class="mb-4">
                             <a href="#" class="hover:underline">Meia Entrada</a>
                         </li>
                     </ul>
                 </div>
-                <!-- <div>
-                    <h2 class="mb-6 text-sm font-semibold text-white text-white-900 uppercase dark:text-white">Legal</h2>
+                <div>
                     <ul class="text-white-500 text-white dark:text-white-400 font-medium">
-                        <li class="mb-4">
-                            <a href="#" class="hover:underline">Privacy Policy</a>
-                        </li>
-                        <li class="mb-4">
-                            <a href="#" class="hover:underline">Licensing</a>
-                        </li>
-                        <li class="mb-4">
-                            <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+                        <li v-for="category in data.categories" class="mb-4">
+                            <a :href="route('categoria.show', category)" class="hover:underline">{{category}}</a>
                         </li>
                     </ul>
-                </div> -->
+                </div>
             </div>
-            <div class="px-4 py-6 bg-gray-100 dark:bg-gray-700 md:flex md:items-center md:justify-between border-t" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
-                <span class="text-sm text-white sm:text-center mb-6 font-semibold text-white text-white-900 dark:text-white">Todos os direitos reservados © 2023 <a href="https://gototem.com.br">Gototem</a></span>
+            <div class="px-4 py-6 bg-gray-100 dark:bg-gray-700 border-t" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
+                <p class="text-sm text-white sm:text-center md:text-left font-semibold text-white text-white-900 dark:text-white">{{data.company.name}} (CNPJ {{data.company.cnpj}})</p>
+                <p class="text-sm text-white sm:text-center md:text-left font-semibold text-white text-white-900 dark:text-white">Todos os direitos reservados © 2023 <a href="https://gototem.com.br">{{data.company.name}}</a></p>
                 <!-- <div class="flex mt-4 space-x-5 sm:justify-center md:mt-0">
                     <a href="#" class="text-white text-white-400 hover:text-white-900 dark:hover:text-white">
                         <svg class="w-4 h-4 mr-1" height="1em" viewBox="0 0 512 512" style="fill: #fff;">

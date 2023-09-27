@@ -11,12 +11,13 @@ import { Head, Link, router } from '@inertiajs/vue3';
 //import { Carousel, Slide } from "vue-carousel";
 // import Carousel from '@/Pages/Carousel.vue';
 
-const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMenu } = defineProps([
+const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMenu, faviconUrl } = defineProps([
     'canLogin',
     'canRegister',
     'laravelVersion',
     'phpVersion',
     'data',
+    'faviconUrl',
     'searchButtonMenu',
 ]);
 const logout = () => {
@@ -80,7 +81,9 @@ defineExpose({ primaryColor, secondColor, storeTitle });
 </script>
 
 <template class="bg-green-100">
-    <Head :title="'Home - ' + storeTitle" />
+    <Head :title="'Home - ' + storeTitle">
+        <link rel="icon" :href="data.faviconUrl" type="image/x-icon">
+    </Head>
 
     <AppLayout :data="data" :searchButtonMenu="searchButtonMenu">
 
@@ -94,7 +97,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                     <div class="container px-5 py-8 lg:py-24 mx-auto">
                         <div class="flex flex-wrap -m-4">
                             <div v-for="event in events_featured" :key="event.id" class="p-4 lg:w-1/4 lg:w-1/4">
-                                <a :href="route('evento.show', event.name)">
+                                <a :href="route('evento.show', event.uri)">
                                     <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                                         <img class="lg:h-48 lg:h-36 w-full object-cover object-center" :src="event.image">
                                         <div class="p-6 pb-1">
@@ -158,7 +161,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                         </div>
                         <div class="flex flex-wrap -m-4">
                             <div v-for="event in events" :key="event.id" class="p-4 lg:w-1/4 lg:w-1/4">
-                                <a :href="route('evento.show', event.name)">
+                                <a :href="route('evento.show', event.uri)">
                                     <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                                         <img class="lg:h-48 lg:h-36 w-full object-cover object-center" :src="event.image">
                                         <div class="p-6 pb-1">
