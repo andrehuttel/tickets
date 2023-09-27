@@ -11,7 +11,7 @@ class Banner extends Model
     protected $table = 'banners';
     protected $keyType = 'string';
     protected $primaryKey = 'id';
-    protected $fillable = ['id', 'company_id', 'image', 'link'];
+    protected $fillable = ['id', 'company_id', 'image', 'title', 'subtitle', 'link'];
 
     public function company()
     {

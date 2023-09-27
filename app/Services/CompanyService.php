@@ -68,8 +68,10 @@ class CompanyService
                             Banner::create([
                                 'id' => $value1['id'],
                                 'company_id' => $id, 
-                                'image' => $value1['image'], 
-                                'link' => $value1['link'],
+                                'image' => isset($value1['image']) ? $value1['image'] : null, 
+                                'title' => isset($value1['title']) ? $value1['title'] : null, 
+                                'subtitle' => isset($value1['subtitle']) ? $value1['subtitle'] : null,
+                                'link' => isset($value1['link']) ? $value1['link'] : null,
                             ]);
                             Log::info("Novo Banner inserido: {$value1['image']} => {$value1['link']} no company: {$id}");
                         }

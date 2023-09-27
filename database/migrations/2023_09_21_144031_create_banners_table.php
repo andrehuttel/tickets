@@ -15,6 +15,8 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('company_id');
             $table->text('image')->nullable();
+            $table->text('title')->nullable();
+            $table->text('subtitle')->nullable();
             $table->text('link')->nullable();
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('company')->onDelete('cascade');
