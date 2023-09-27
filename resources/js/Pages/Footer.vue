@@ -55,7 +55,7 @@
                 <div>
                     <ul class="text-white-500 text-white dark:text-white-400 font-medium">
                         <li v-for="category in data.categories" class="mb-4">
-                            <a :href="route('categoria.show', category)" class="hover:underline">{{category}}</a>
+                            <a :href="route('event.show', { category: category, uri: null })" class="hover:underline">{{category}}</a>
                         </li>
                     </ul>
                 </div>

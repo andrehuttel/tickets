@@ -1,16 +1,10 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
 use App\Http\Middleware\CompanyMiddleware;
-use App\Models\Company;
-use App\Models\Event;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +20,8 @@ Route::middleware([
     CompanyMiddleware::class,
 ])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('/');
-    Route::get('/{uri}', [EventController::class, 'show'])->name('evento.show');
     Route::get('/buscar', [SearchController::class, 'index'])->name('buscar');
-    Route::get('/{name}', [CategoryController::class, 'show'])->name('categoria.show');
+    Route::get('/{category}/{uri?}', [EventController::class, 'show'])->name('event.show');
 });
 
 // Route::middleware([

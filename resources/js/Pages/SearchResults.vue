@@ -139,7 +139,7 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen, storeTitle });
                             </div> -->
                             <!-- <div v-else> -->
                                 <div v-if="items.length !== 0" v-for="ev in items" :key="ev.id" class="p-4 lg:w-1/4 lg:w-1/4">
-                                    <a :href="route('evento.show', ev.uri)">
+                                    <a :href="route('event.show', { category: ev.category_name, uri: ev.uri })">
                                     <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                                         <img class="lg:h-48 lg:h-36 w-full object-cover object-center" :src="ev.image">
                                         <div class="p-6 pb-1">

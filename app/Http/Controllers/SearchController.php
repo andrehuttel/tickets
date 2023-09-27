@@ -14,23 +14,6 @@ class SearchController extends Controller
     {
         $searchTerm = $request->query('q');
 
-        // $events = Event::query()
-        //     ->when($searchTerm, function ($query, $search) {
-        //         $query->where('name', 'like', "%{$search}%");
-        //     })
-        //     ->where('company_id', $request->get('data')['company']['id'])
-        //     ->orderBy('date', 'asc')
-        //     ->paginate(2);
-
-        // $formattedEvents = $events->map(function ($event) {
-        //     return [
-        //         'id' => $event->id,
-        //         'name' => $event->name,
-        //     ];
-        // });
-
-        // dd($formattedEvents);
-
         return Inertia::render('SearchResults', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
