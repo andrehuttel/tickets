@@ -11,13 +11,12 @@ import { Head, Link, router } from '@inertiajs/vue3';
 //import { Carousel, Slide } from "vue-carousel";
 // import Carousel from '@/Pages/Carousel.vue';
 
-const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMenu, faviconUrl } = defineProps([
+const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMenu } = defineProps([
     'canLogin',
     'canRegister',
     'laravelVersion',
     'phpVersion',
     'data',
-    'faviconUrl',
     'searchButtonMenu',
 ]);
 const logout = () => {

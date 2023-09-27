@@ -93,7 +93,9 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen, storeTitle });
   src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script> -->
 
 <template class="bg-green-500">
-    <Head :title="'Busca - ' + storeTitle" />
+    <Head :title="'Busca - ' + storeTitle">
+        <link rel="icon" :href="data.faviconUrl" type="image/x-icon">
+    </Head>
     <!-- <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
         <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</Link>
 
