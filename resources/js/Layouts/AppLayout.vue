@@ -37,6 +37,15 @@ if (secondColorObject !== undefined) {
     secondColor = secondColorObject.value;
 }
 
+function getValue(array, key) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].key === key) {
+            return array[i].value;
+        }
+    }
+    return null;
+}
+
 defineExpose({ primaryColor, secondColor });
 </script>
 
@@ -49,5 +58,13 @@ defineExpose({ primaryColor, secondColor });
         </main>
 
         <Footer :data="data" :primaryColor="primaryColor" />
+        <!-- Ícone flutuante do WhatsApp -->
+        <div id="whatsapp-icon" class="whatsapp-icon">
+            <!-- <a href="https://api.whatsapp.com/send?phone=SEUNUMERO" target="_blank"> -->
+               <!-- :href="'https://api.whatsapp.com/send?phone=&text=' + data.company.name + ' - ' + event.name + ' - ' + $page.props.ziggy.location"> -->
+            <a :href="'https://wa.me/55'+ getValue(data.config, 'STORE_CONTACT_PHONE_WHATSAPP')" target="_blank">
+                <img src="https://gototem.com.br/assets/img/whatsappbota771o.png" alt="WhatsApp">
+            </a>
+        </div>
     </div>
 </template>
