@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
@@ -27,6 +28,7 @@ Route::middleware([
     Route::get('/', [HomeController::class, 'index'])->name('/');
     Route::get('/evento/{name}', [EventController::class, 'show'])->name('evento.show');
     Route::get('/buscar', [SearchController::class, 'index'])->name('buscar');
+    Route::get('/{name}', [CategoryController::class, 'show'])->name('categoria.show');
 });
 
 // Route::middleware([
