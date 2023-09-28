@@ -32,11 +32,12 @@ class EventController extends Controller
             ]);
         } else {
             $company_id = $request->get('data')['company']['id'];
-            $category = Event::where('company_id', $company_id)->where('category_name', $category)
+            $category = Event::where('company_id', $company_id)->where('category_name', $category)->orderBy('category_name', 'asc')
                 ->select('category_id', 'category_name')->distinct()->get();
             $category_id = $category[0]['category_id'];
             $events = Event::where('category_id', $category_id)
                 ->where('company_id', $request->get('data')['company']['id'])
+                ->orderBy('date', 'asc')
                 ->get();
             if (!$category) {
                 abort(404);

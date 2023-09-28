@@ -92,8 +92,13 @@ defineExpose({ primaryColor, secondColor, storeTitle });
     <div class="container-fluid background-image" :style="{'background-color': primaryColor || ''}">
         <div class="flex justify-center items-center title-category">
             <div class="max-w-7xl w-full">
-                <div class="container px-5 py-8 lg:py-24 mx-auto">
-                    <h1 class="text-2xl font-semibold text-white">{{ categoryName }}</h1>
+                <div class="container px-5 pt-8 lg:pt-none mx-auto">
+                    <!-- Conteúdo da div container -->
+                    <div class="pb-20"> <!-- Adiciona padding-bottom de 10px -->
+                        <!-- Outro conteúdo, se houver -->
+                    </div>
+                    <!-- Movendo a tag <h1> para o final da div container -->
+                        <h1 class="text-3xl font-semibold text-white">{{ categoryName }}</h1>
                 </div>
             </div>
         </div>
@@ -102,15 +107,15 @@ defineExpose({ primaryColor, secondColor, storeTitle });
     <!-- Traz os eventos aqui -->
     <div class="bg-gray-100">
         <div class="flex justify-center items-center min-h-screen">
-            <div class="w-full">
+            <div class="max-w-7xl w-full">
                 <section class="text-gray-600 body-font">
-                    <div class="container px-5 py-8 lg:py-24 mx-auto">
+                    <div class="container px-5 py-8 lg:pb-24 lg:pt-8 mx-auto">
                         <div class="flex flex-wrap -m-4">
                             <div v-for="event in events" :key="event.id" class="p-4 lg:w-1/4 lg:w-1/4">
                                 <a :href="route('event.show', { category: event.category_uri, uri: event.uri })">
-                                    <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-                                        <img class="lg:h-48 lg:h-36 w-full object-cover object-center" :src="event.image">
-                                        <div class="p-6 pb-1">
+                                    <div class="h-full shadow-2xl rounded-lg overflow-hidden">
+                                        <img class="w-full object-cover object-center" :src="event.image">
+                                        <div class="p-6">
                                             <!-- <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY</h2> -->
                                             <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{ event.name }}</h1>
                                             <!-- <p class="text-blue-600 leading-relaxed mb-3 text-xs" :style="{ color: primaryColor ? primaryColor : '' }">{{ formatDate(event.date) }}</p> -->

@@ -32,6 +32,7 @@ class CompanyMiddleware
             $faviconUrl = $company->configs[3]['value'];
             $categories = Event::where('company_id', $company->id)
             ->select('category_name', 'category_uri') // Incluindo 'category_uri' no select
+            ->orderBy('category_name', 'asc')
             ->distinct()
             ->get();
             $data = [
