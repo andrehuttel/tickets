@@ -1,0 +1,662 @@
+[
+   {
+      "id":"euaqpe8smdzl26k275zx",
+      "name":"Joinville Square Garden",
+      "cnpj":"12594548000196",
+      "store_host":"tickets.joinvillesquaregarden.local",
+      "featured_banners":[
+         {
+            "id":"iezmiewewcslqmkoie",
+            "image":"https://gototem.com.br/assets/demo/_destaque-adore.jpg",
+            "title": "Adore Setembro",
+            "subtitle": "Adore dia 30 de setembro de 2023 em Joinville",
+            "link":"http://tickets.joinvillesquaregarden.local/evento/adore-outubro-2023-square"
+         },
+         {
+            "id":"symvpxiqviyhmmfwhv",
+            "image":"https://gototem.com.br/assets/demo/_destaque-funk-beat.jpg",
+            "title": "Funk Beat",
+            "subtitle": "Show Nacional Mc Donjuan ",
+            "link":"http://tickets.joinvillesquaregarden.local/evento/funk-beat-2023-square"
+         },
+         {
+            "id":"vdzcbqmiehuyzwwiji",
+            "image":"https://gototem.com.br/assets/demo/_destaque-se-liga.jpg",
+            "title": "Se Liga",
+            "subtitle": "Festa Das Atléticas da Laje",
+            "link":"http://tickets.joinvillesquaregarden.local/evento/se-liga-2023-square"
+         }
+      ],
+      "configs":{
+         "STORE_TITLE":"Joinville Square Garden",
+         "STORE_META_TITLE":"Um titulo bom para o google",
+         "STORE_META_DESCRIPTION":"Uma descricao boa para o google",
+         "STORE_TPL_LOGO":"https://gototem.com.br/assets/demo/logo-square-300.jpg",
+         "STORE_TPL_PRIMARY_COLOR":"#5b2519",
+         "STORE_TPL_SECONDARY_COLOR":"#c78b4c",
+         "STORE_TPL_FL_SHOW_FEAT_EVENTS":true,
+         "STORE_TPL_FEAT_EVENTS_QTY":8,
+         "STORE_TPL_FL_SHOW_CATEGORY_LINKS":true,
+         "STORE_CONTACT_FL_SHOW_FORM":true,
+         "STORE_CONTACT_FL_SHOW_WHATSAPP":true,
+         "STORE_CONTACT_EMAIL_PRIMARY":"ingressos@joinvillesquaregarden.com.br",
+         "STORE_CONTACT_EMAIL_SECONDARY":"suporte@joinvillesquaregarden.com.br",
+         "STORE_CONTACT_PHONE_PRIMARY":"(47) 3425 - 8060",
+         "STORE_CONTACT_PHONE_SECONDARY":"(47) 99104 - 0126",
+         "STORE_CONTACT_PHONE_WHATSAPP":"(47) 99104 - 0126",
+         "STORE_CMS_ABOUT_US":"Este é um texto html <b>sobre</b> a empresa",
+         "STORE_CMS_TERMS_OF_USE":"Este é um texto html com os <b>termos de uso</b>",
+         "STORE_CMS_PRIVACY_POLICY":"Este é um texto html com as <b>políticas de privacidade</b>",
+         "STORE_CMS_HALF_ENTRY":"Este é um texto html sobre <b>meia entrada</b>",
+         "STORE_CMS_SERVICE_TAX":"Este é um texto html com as <b>taxas</b>",
+         "STORE_CMS_ADRRESS":"Av. Santos Dumont, 2625 - Zona Industrial Norte - Joinville/SC",
+         "STORE_CMS_ABOUT_US_FL_SHOW":true,
+         "STORE_CMS_TERMS_OF_USE_FL_SHOW":true,
+         "STORE_CMS_PRIVACY_POLICY_FL_SHOW":true,
+         "STORE_CMS_HALF_ENTRY_FL_SHOW":true,
+         "STORE_CMS_SERVICE_TAX_FL_SHOW":true,
+         "STORE_CHKT_GATEWAY":"PAGSEGURO",
+         "STORE_CHKT_USER":"User",
+         "STORE_CHKT_KEY_PRIMARY":"1234",
+         "STORE_CHKT_KEY_SECONDARY":"1234",
+         "STORE_CHKT_FL_ACCEPTING_ORDERS":true,
+         "STORE_CHKT_CREDIT_C_FL_ACTIVE":true,
+         "STORE_CHKT_DEBIT_C_FL_ACTIVE":true,
+         "STORE_CHKT_BOLETO_FL_ACTIVE":true,
+         "STORE_CHKT_BOLETO_DAYS_BEF_EVENT":5,
+         "STORE_CHKT_PIX_FL_ACTIVE":true,
+         "STORE_CHKT_CREDIT_C_INSTS":10,
+         "STORE_CHKT_PAY_METH_FLAGS":"visa, mastercard, elo, hipercard, dinners, american, pix"
+      },
+      "events":[
+         {
+            "id":"oacrqxkrrsjzobdsrw",
+            "name":"Adore Outubro",
+            "date":"2023-09-30",
+            "start_hour":"23:00",
+            "place_open_hour":"21:00",
+            "description":"<h5>Adore dia 30 de setembro de 2023 em Joinville/SC.</h5><p>ESTAVAM COM SAUDADES JÁ? 🔥</p><p>A festa mais amada da região está de volta 💖</p><p>A primeira ADORE do ano foi inesquecível e essa não será diferente ✨&nbsp;</p><p>Mais uma vez traremos nomes mundiais e gigantes da cena. O brasileiro Liu, o belga Nightfunk e o espanhol Cuartero serão nossos headliners🔥</p><p>Completam o line, trazendo toda a magia da Adore:&nbsp;<br/>Beltran, Carola, Flux Zone, Fractall X Rocksted, Hot Bullet, Pirate Snake, Roger Thiago e Soldera💥</p><p>Prepare-se para mais uma ADORE histórica 🤯</p><p>&nbsp;</p>",
+            "description_append":"Este é um texto html adicionado após a <b>descrição do evento</b>",
+            "image":"https://gototem.com.br/assets/demo/adore.jpg",
+            "event_map_image":"https://gototem.com.br/assets/demo/mapa-adore.jpeg",
+            "category":{
+               "id":"lhtqvigjlarqryerde",
+               "name":"Baladas",
+               "uri": "baladas"
+            },
+            "group":{
+               "id":"qxcjfreidqhveabede",
+               "name":"Adore 2023",
+               "uri": "adore-2023"
+            },
+            "place":{
+               "id":"qwzkswnboudovujeqg",
+               "name":"Square Garden",
+               "address":"Av. Santos Dumont, 2625 - Zona Industrial Norte - Joinville/SC"
+            },
+            "organizer":{
+               "id":"txpmcjvbiderybpqxo",
+               "name":"JSG Eventos",
+               "logo":null
+            },
+            "fl_show_payment_methods":true,
+            "fl_show_organizer":true,
+            "fl_show_classification":true,
+            "fl_featured": true,
+            "classification_text":"18 anos",
+            "uri": "adore-outubro-2023-square",
+            "meta_title": "Adore 2023 Square Garden",
+            "meta_description": "Adore dia 30 de setembro de 2023 em Joinville/SC",
+            "tickets":[
+               [
+                  
+               ],
+               [
+                  
+               ]
+            ]
+         },
+         {
+            "id":"okrrqxzobdsjacrsrw",
+            "name":"Adore Novembro",
+            "date":"2023-11-30",
+            "start_hour":"23:00",
+            "place_open_hour":"21:00",
+            "description":"<h5>Adore dia 30 de setembro de 2023 em Joinville/SC.</h5><p>ESTAVAM COM SAUDADES JÁ? 🔥</p><p>A festa mais amada da região está de volta 💖</p><p>A primeira ADORE do ano foi inesquecível e essa não será diferente ✨&nbsp;</p><p>Mais uma vez traremos nomes mundiais e gigantes da cena. O brasileiro Liu, o belga Nightfunk e o espanhol Cuartero serão nossos headliners🔥</p><p>Completam o line, trazendo toda a magia da Adore:&nbsp;<br/>Beltran, Carola, Flux Zone, Fractall X Rocksted, Hot Bullet, Pirate Snake, Roger Thiago e Soldera💥</p><p>Prepare-se para mais uma ADORE histórica 🤯</p><p>&nbsp;</p>",
+            "description_append":"Este é um texto html adicionado após a <b>descrição do evento</b>",
+            "image":"https://gototem.com.br/assets/demo/adore.jpg",
+            "event_map_image":"https://gototem.com.br/assets/demo/mapa-adore.jpeg",
+            "category":{
+               "id":"lhtqvigjlarqryerde",
+               "name":"Baladas",
+               "uri": "baladas"
+            },
+            "group":{
+               "id":"qxcjfreidqhveabede",
+               "name":"Adore 2023",
+               "uri": "adore-2023"
+            },
+            "place":{
+               "id":"qwzkswnboudovujeqg",
+               "name":"Square Garden",
+               "address":"Av. Santos Dumont, 2625 - Zona Industrial Norte - Joinville/SC"
+            },
+            "organizer":{
+               "id":"txpmcjvbiderybpqxo",
+               "name":"JSG Eventos",
+               "logo":null
+            },
+            "fl_show_payment_methods":true,
+            "fl_show_organizer":true,
+            "fl_show_classification":true,
+            "fl_featured": false,
+            "classification_text":"18 anos",
+            "uri": "adore-novembro-2023-square",
+            "meta_title": "Adore 2023 Square Garden",
+            "meta_description": "Adore dia 30 de setembro de 2023 em Joinville/SC",
+            "tickets":[
+               [
+                  
+               ],
+               [
+                  
+               ]
+            ]
+         },
+         {
+            "id":"xkcrqjzrrsoaobdsrw",
+            "name":"Adore Dezembro",
+            "date":"2023-12-30",
+            "start_hour":"23:00",
+            "place_open_hour":"21:00",
+            "description":"<h5>Adore dia 30 de setembro de 2023 em Joinville/SC.</h5><p>ESTAVAM COM SAUDADES JÁ? 🔥</p><p>A festa mais amada da região está de volta 💖</p><p>A primeira ADORE do ano foi inesquecível e essa não será diferente ✨&nbsp;</p><p>Mais uma vez traremos nomes mundiais e gigantes da cena. O brasileiro Liu, o belga Nightfunk e o espanhol Cuartero serão nossos headliners🔥</p><p>Completam o line, trazendo toda a magia da Adore:&nbsp;<br/>Beltran, Carola, Flux Zone, Fractall X Rocksted, Hot Bullet, Pirate Snake, Roger Thiago e Soldera💥</p><p>Prepare-se para mais uma ADORE histórica 🤯</p><p>&nbsp;</p>",
+            "description_append":"Este é um texto html adicionado após a <b>descrição do evento</b>",
+            "image":"https://gototem.com.br/assets/demo/adore.jpg",
+            "event_map_image":"https://gototem.com.br/assets/demo/mapa-adore.jpeg",
+            "category":{
+               "id":"lhtqvigjlarqryerde",
+               "name":"Baladas",
+               "uri": "baladas"
+            },
+            "group":{
+               "id":"qxcjfreidqhveabede",
+               "name":"Adore 2023",
+               "uri": "adore-2023"
+            },
+            "place":{
+               "id":"qwzkswnboudovujeqg",
+               "name":"Square Garden",
+               "address":"Av. Santos Dumont, 2625 - Zona Industrial Norte - Joinville/SC"
+            },
+            "organizer":{
+               "id":"txpmcjvbiderybpqxo",
+               "name":"JSG Eventos",
+               "logo":null
+            },
+            "fl_show_payment_methods":true,
+            "fl_show_organizer":true,
+            "fl_show_classification":true,
+            "fl_featured": false,
+            "classification_text":"18 anos",
+            "uri": "adore-dezembro-2023-square",
+            "meta_title": "Adore 2023 Square Garden",
+            "meta_description": "Adore dia 30 de setembro de 2023 em Joinville/SC",
+            "tickets":[
+               [
+                  
+               ],
+               [
+                  
+               ]
+            ]
+         },
+         {
+            "id":"jzkcrrrxqsoaobdsrw",
+            "name":"Santa Sexta Open Bar dia 06 de outubro de 2023",
+            "date":"2023-10-06",
+            "start_hour":"23:00",
+            "place_open_hour":"21:00",
+            "description":"<h5>Santa Sexta Open Bar dia 06 de outubro de 2023 em Joinville/SC.</h5><p>VOLTAMOS!!</p><p>Vem aí mais uma edição do OPEN BAR universitário mais insano de Joinville, do jeitinho que a gente gosta!</p><p>As atléticas AMEN e ATENUN apresentam mais uma edição da nossa queridinha, com tudo preparado pra você sair MUITO louco!</p><p>&bull; DJ Luca abrindo o role com muito hiphop e preparando a pista&nbsp;<br/>&bull; DJ Bels com aquele funk&nbsp;que vocês amam<br/>&bull; Dj Lucas Henrique fechando a noite com muito mega funk</p><p>Já anota na agenda, 06/10 no Jardim do Joinville Square Garden!</p><p>OPEN BAR:<br/>Vodka<br/>Energético<br/>Refrigerante<br/>Cerveja<br/>Água</p><p>SANTA SEXTA (...) que de santa, não tem NADA!</p><p>&gt; Vendas 100% online.</p><p>➵ Censura: 18 anos. (Se beber, não dirija!)</p>",            
+            "description_append":"Este é um texto html adicionado após a <b>descrição do evento</b>",
+            "image":"https://gototem.com.br/assets/demo/santa-sexta.jpg",
+            "event_map_image": null,
+            "category":{
+               "id":"igjlalhtqvrqryerde",
+               "name":"Eletrônicas",
+               "uri": "eletronicas"
+            },
+            "group":null,
+            "place":{
+               "id":"qwzkswnboudovujeqg",
+               "name":"Square Garden",
+               "address":"Av. Santos Dumont, 2625 - Zona Industrial Norte - Joinville/SC"
+            },
+            "organizer":{
+               "id":"txpmcjvbiderybpqxo",
+               "name":"JSG Eventos",
+               "logo":null
+            },
+            "fl_show_payment_methods":true,
+            "fl_show_organizer":true,
+            "fl_show_classification":true,
+            "fl_featured": true,
+            "classification_text":"18 anos",
+            "uri": "santa-sexta-2023-square",
+            "meta_title": "Santa Sexta Square Garden",
+            "meta_description": "Santa Sexta Open Bar dia 06 de outubro de 2023 em Joinville/SC",
+            "tickets":[
+               [
+                  
+               ],
+               [
+                  
+               ]
+            ]
+         },
+         {
+            "id":"xqskcrroboajzrdsrw",
+            "name":"Se Liga - Festa Das Atléticas da Laje dia 11 de outubro de 2023 em Joinville SC",
+            "date":"2023-10-11",
+            "start_hour":"23:00",
+            "place_open_hour":"21:00",
+            "description":"<p>Corre e garanta já seu ingresso que o rolê vai ser insano demais 🔥</p><p>Daquele jeitinho universitário que vocês amam 💖</p><p>Daquele jeitinho universitário que vocês amam 💖</p><p>🗓️ 11 de Outubro (Durante o JUBS)<br>📍Joinville Square Garden&nbsp;<p>Daquele jeitinho universitário que vocês amam 💖</p></p><p>LINE:&nbsp;</p><p>Jonatas Felipe (ATRAÇÃO NACIONAL)&nbsp;<br>Bels<br>Decker</p><p>&nbsp;</p><p><b></b></p><h5><b>ATRAÇÕES:</b></h5>Jonatas Felipe <br>Bels<br>Decker<p></p>",            
+            "description_append":"Este é um texto html adicionado após a <b>descrição do evento</b>",
+            "image":"https://gototem.com.br/assets/demo/se-liga.jpg",
+            "event_map_image":"https://placehold.co/700x600",
+            "category":{
+               "id":"igjlalhtqvrqryerde",
+               "name":"Eletrônicas",
+               "uri": "eletronicas"
+            },
+            "group":null,
+            "place":{
+               "id":"qwzkswnboudovujeqg",
+               "name":"Square Garden",
+               "address":"Av. Santos Dumont, 2625 - Zona Industrial Norte - Joinville/SC"
+            },
+            "organizer":{
+               "id":"txpmcjvbiderybpqxo",
+               "name":"JSG Eventos",
+               "logo":null
+            },
+            "fl_show_payment_methods":true,
+            "fl_show_organizer":true,
+            "fl_show_classification":true,
+            "fl_featured": true,
+            "classification_text":"18 anos",
+            "uri": "se-liga-2023-square",
+            "meta_title": "Se liga Square Garden",
+            "meta_description": "Se liga Corre e garanta já seu ingresso que o rolê vai ser insano demais",
+            "tickets":[
+               [
+                  
+               ],
+               [
+                  
+               ]
+            ]
+         },
+         {
+            "id":"xrskcqoajzrdsrrobw",
+            "name":"Menos é Mais + Atitude 67 dia 13 de outubro de 2023 em Joinville SC",
+            "date":"2023-10-13",
+            "start_hour":"23:00",
+            "place_open_hour":"21:00",
+            "description":"<p>Menos é Mais e Atitude 67 se unem para uma Noite Inesquecível em uma experiência completa de entretenimento e música boa em Joinville</p><p>Prepare-se para uma experiência musical única na cidade de Joinville, com dois shows completos de duas bandas brasileiras de grande destaque, Menos é Mais e Atitude 67, que estarão presentes para uma apresentação épica no Joinville Square Garden, no dia 13 de outubro. Esse evento promete ser uma noite inesquecível, apresentando música de alta qualidade, energia incrível e diversão garantida.</p><p>O evento começará às 21h, com uma experiência completa para garantir uma noite de entretenimento contínuo. Os fãs terão a oportunidade de vivenciar em uma única noite os shows de Menos é Mais e Atitude 67 com seus maiores “hits” que estão no topo das paradas desde “Lapada Dela”, “Melhor eu Ir”, “Iludidão” e “Eu Sei” do grupo Menos é Mais, até “Cerveja de Garrafa”, “Deixa Eu, “Sonho” e “Saideira” da banda Atitude 67 que irão envolver a todos com seus estilos musicais únicos.</p><p>Este evento vai mostrar o incrível talento que rendeu a ambas as bandas um lugar especial nos corações dos amantes do bom pagode em todo o Brasil.<br><br>Classificação: 18 anos.<br>Maiores de 16 anos somente acompanhado dos pais ou responsável legal, ou mediante a apresentação de autorização assinada e reconhecida em cartório.<br>OBS:&nbsp;<strong>NÃO&nbsp;É PERMITIDO</strong> a entrada de menores de 18 anos&nbsp;em setor open bar.<br><br>Informações e reservas de camarotes: <a href='https://wa.me/47991293796' target='_blank'>&nbsp;(47) 991293796</a><br>&nbsp;<br>Realização: Grupo Onda e Multi Promo<br>Promoção exclusiva: Rádio 89 FM<br>Classificação: 18 anos</p>",            
+            "description_append":"Este é um texto html adicionado após a <b>descrição do evento</b>",
+            "image":"https://gototem.com.br/assets/demo/menos-e-mais.jpg",
+            "event_map_image":"https://gototem.com.br/assets/demo/mapa-menos-e-mais.jpeg",
+            "category":{
+               "id":"igjlalhtqvrqryerde",
+               "name":"Eletrônicas",
+               "uri": "eletronicas"
+            },
+            "group":null,
+            "place":{
+               "id":"qwzkswnboudovujeqg",
+               "name":"Square Garden",
+               "address":"Av. Santos Dumont, 2625 - Zona Industrial Norte - Joinville/SC"
+            },
+            "organizer":{
+               "id":"txpmcjvbiderybpqxo",
+               "name":"JSG Eventos",
+               "logo":null
+            },
+            "fl_show_payment_methods":true,
+            "fl_show_organizer":true,
+            "fl_show_classification":true,
+            "fl_featured": false,
+            "classification_text":"18 anos",
+            "uri": "menos-e-mais-2023-square",
+            "meta_title": "Menos é maisSquare Garden",
+            "meta_description": "Menos é Mais e Atitude 67 se unem para uma Noite Inesquecível",
+            "tickets":[
+               [
+                  
+               ],
+               [
+                  
+               ]
+            ]
+         },
+         {
+            "id":"ajzkcdsrqrxosrrobw",
+            "name":"FUNK BEAT | Show Nacional Mc Donjuan dia 20 de outubro de 2023 em Joinville SC.",
+            "date":"2023-10-20",
+            "start_hour":"23:00",
+            "place_open_hour":"21:00",
+            "description":"<p>VOCÊS PEDIRAM E NÓS ATENDEMOS!</p><p>A Funk Beat trás a Joinville um dos maiores nomes de Funk da atualidade, MC DON JUAN!</p><p>Quando assunto é Sold Out estamos falando de DonJuan!<br/>Se liga nesses Hits&hellip;</p><p>-CORAÇÃO AMOLECEU</p><p>-A SEMANA INTEIRA&nbsp;</p><p>-AMAR AMEI</p><p>-VAI VOLTAR CHORANDO</p><p><br/>MC DON JUAN tem varias participações com artistas renomeados de outros gêneros musicais com hits que hoje estão na boca do povo.</p><p><strong>Entre esses artistas estão:</strong><br/>-MAYARA E MARAISA<br/>-GUSTAVO MIOTTO<br/>-LUAN SANTANA</p><p>Entre outros.</p><p>Dia 20/10 temos um encontro marcado no Joinville&nbsp;Square&nbsp;Garden.</p><p>&nbsp;</p><p><strong>Informações e Reservas de CAMAROTES no WhatsApp 47 9 9987-3655</strong></p>",            
+            "description_append":"Este é um texto html adicionado após a <b>descrição do evento</b>",
+            "image":"https://gototem.com.br/assets/demo/funk-beat.jpg",
+            "event_map_image":"https://gototem.com.br/assets/demo/mapa-funk-beat.jpeg",
+            "category":{
+               "id":"igjlalhtqvrqryerde",
+               "name":"Eletrônicas",
+               "uri": "eletronicas"
+            },
+            "group":null,
+            "place":{
+               "id":"qwzkswnboudovujeqg",
+               "name":"Square Garden",
+               "address":"Av. Santos Dumont, 2625 - Zona Industrial Norte - Joinville/SC"
+            },
+            "organizer":{
+               "id":"txpmcjvbiderybpqxo",
+               "name":"JSG Eventos",
+               "logo":null
+            },
+            "fl_show_payment_methods":true,
+            "fl_show_organizer":true,
+            "fl_show_classification":true,
+            "fl_featured": false,
+            "classification_text":"18 anos",
+            "uri": "funk-beat-2023-square",
+            "meta_title": "A Funk Beat trás a Joinville",
+            "meta_description": "A Funk Beat trás a Joinville um dos maiores nomes de Funk da atual",
+            "tickets":[
+               [
+                  
+               ],
+               [
+                  
+               ]
+            ]
+         },
+         {
+            "id":"srqkcdorxajzsrrobw",
+            "name":"Balada Metrô dia 21 de outubro de 2023 em Joinville SC",
+            "date":"2023-10-21",
+            "start_hour":"23:00",
+            "place_open_hour":"21:00",
+            "description":"<p>Reservas de mesas, camarotes e backstage, informações sobre mapa e valores de ingressos diretamente com o produtor do evento pelo whatsapp 47 99107 5555</p>",            
+            "description_append":"Este é um texto html adicionado após a <b>descrição do evento</b>",
+            "image":"https://gototem.com.br/assets/demo/balada-metro.jpg",
+            "event_map_image":"https://gototem.com.br/assets/demo/mapa-metro.jpeg",
+            "category":{
+               "id":"igjlalhtqvrqryerde",
+               "name":"Eletrônicas",
+               "uri": "eletronicas"
+            },
+            "group":null,
+            "place":{
+               "id":"qwzkswnboudovujeqg",
+               "name":"Square Garden",
+               "address":"Av. Santos Dumont, 2625 - Zona Industrial Norte - Joinville/SC"
+            },
+            "organizer":{
+               "id":"txpmcjvbiderybpqxo",
+               "name":"JSG Eventos",
+               "logo":null
+            },
+            "fl_show_payment_methods":true,
+            "fl_show_organizer":true,
+            "fl_show_classification":true,
+            "fl_featured": false,
+            "classification_text":"18 anos",
+            "uri": "balada-metro-2023-square",
+            "meta_title": "Balada Metrô dia 21 de outubro",
+            "meta_description": "Balada Metrô dia 21 de outubro de 2023 em Joinville SC",
+            "tickets":[
+               [
+                  
+               ],
+               [
+                  
+               ]
+            ]
+         },
+         {
+            "id":"xajsrrroqkcdorzsbw",
+            "name":"The Garden Com Mochakk dia 11 de novembro de 2023 em Joinville SC",
+            "date":"2023-11-11",
+            "start_hour":"23:00",
+            "place_open_hour":"21:00",
+            "description":"<p><strong>PRÉ-VENDA ENCERRADA!<br/>COMO A&nbsp;PRÉ-VENDA&nbsp;SUPEROU&nbsp;A CAPACIDADE PREVISTA, ESTAMOS RECALCULANDO OS LOTES E LAYOUT DO EVENTO.&nbsp;<br/>RETORNAREMOS COM AS VENDAS EM PRIMEIRO LOTE NA SEGUNDA FEIRA&nbsp;2 DE OUTUBRO.&nbsp;<br/>FIQUE LIGADO PARA NÃO FICAR DE FORA DO THE GARDEN QUE PROMETE PARAR JOINVILLE.<br/>AGUARDE NOVAS INFORMAÇÕES!</strong><br/><br/>Em novembro, teremos o prazer de receber um dos maiores nomes do cenário eletrônica atual: Mochakk 🔥</p><p>Ele que vem fazendo história e simplesmente se consolidou como um nome mundial e gigante da cena ✨&nbsp;</p><p>E trazendo toda magia que o nosso jardim merece💥</p><p>Garanta seu ingresso agora 🥵</p><p><strong>Para mais informações entre em contato via whatsapp 47 9 9104-0126.</strong></p>",            
+            "description_append":"Este é um texto html adicionado após a <b>descrição do evento</b>",
+            "image":"https://gototem.com.br/assets/demo/the-garden-mochakk.jpg",
+            "event_map_image":"https://gototem.com.br/assets/demo/mapa-the-garden.jpeg",
+            "category":{
+               "id":"igjlalhtqvrqryerde",
+               "name":"Eletrônicas",
+               "uri": "eletronicas"
+            },
+            "group":null,
+            "place":{
+               "id":"qwzkswnboudovujeqg",
+               "name":"Square Garden",
+               "address":"Av. Santos Dumont, 2625 - Zona Industrial Norte - Joinville/SC"
+            },
+            "organizer":{
+               "id":"txpmcjvbiderybpqxo",
+               "name":"JSG Eventos",
+               "logo":null
+            },
+            "fl_show_payment_methods":true,
+            "fl_show_organizer":true,
+            "fl_show_classification":true,
+            "fl_featured": true,
+            "classification_text":"18 anos",
+            "uri": "the-garden-mochakk-2023-square",
+            "meta_title": "The Garden Com Mochakk",
+            "meta_description": "The Garden Com Mochakk dia 11 de novembro em Joinville SC",
+            "tickets":[
+               [
+                  
+               ],
+               [
+                  
+               ]
+            ]
+         },
+         {
+            "id":"qkrajsoorzscdxrrbw",
+            "name":"Tardezinha 40º Feat Dj Wesley Gonzaga dia 03 de dezembro de 2023 em Joinville SC",
+            "date":"2023-12-03",
+            "start_hour":"16:00",
+            "place_open_hour":"14:00",
+            "description":"<p>Estamos voltando Joinville 🔥</p><p>O 40&ordm; esta de volta em um formato totalmente diferente!</p><p>tardezinha 40&ordm; feat DJ Wesley Gonzaga &nbsp;</p><p>No palco da tardezinha um dos DJS mais badalados da atualidade! DJ Wesley Gonzaga&nbsp;</p><p>Com vários Hit&rsquo;s como:</p><p>&bull;Gonzaga deu fuga com uma loira cabulosa.</p><p>&bull;Tá brotando no plantão pra tirar foto com revólver.</p><p>&bull;Safada de carteirinha.</p><p>&bull;Ei tudo bem.</p><p>&bull;Sarra nela com fuzil na bandolera.</p><p>Entre outros grandes hit&rsquo;s</p><p>DJ Wesley Gonzaga é sold out por onde passa!</p><p>03/Dezembro&nbsp;<br/>Domingo 16h</p><p>Suas tardes de domingo não serão mais as mesmas!&nbsp;</p><p>Informações e reservas: <a href='https://wa.me/47996976354' target='_blank'>(47) 996976354</a><br/>Local: Joinville Square Garden<br/><br/>Realização: 40&ordm; x abudabhi</p>",            
+            "description_append":"Este é um texto html adicionado após a <b>descrição do evento</b>",
+            "image":"https://gototem.com.br/assets/demo/tardezinha.jpg",
+            "event_map_image":"https://placehold.co/700x600",
+            "category":{
+               "id":"igjlalhtqvrqryerde",
+               "name":"Eletrônicas",
+               "uri": "eletronicas"
+            },
+            "group":null,
+            "place":{
+               "id":"qwzkswnboudovujeqg",
+               "name":"Square Garden",
+               "address":"Av. Santos Dumont, 2625 - Zona Industrial Norte - Joinville/SC"
+            },
+            "organizer":{
+               "id":"txpmcjvbiderybpqxo",
+               "name":"JSG Eventos",
+               "logo":null
+            },
+            "fl_show_payment_methods":true,
+            "fl_show_organizer":true,
+            "fl_show_classification":true,
+            "fl_featured": false,
+            "classification_text":"18 anos",
+            "uri": "tardezinha-2023-square",
+            "meta_title": "Tardezinha 40º Feat Dj Wesley Gonzaga d",
+            "meta_description": "Tardezinha 40º Feat Dj Wesley Gonzaga dia 03 de dezembro ",
+            "tickets":[
+               [
+                  
+               ],
+               [
+                  
+               ]
+            ]
+         }
+         
+      ]
+   },
+   {
+      "id":"yngiwodmqkgklnslwr",
+      "name":"Gototem",
+      "cnpj":"10684737000124",
+      "store_host":"tickets.gototem.local",
+      "featured_banners":[
+         {
+            "id":"ewewcsiezmilqmkoie",
+            "image":"https://placehold.co/800x300?text=GOTOTEM1",
+            "link":null
+         },
+         {
+            "id":"iqviyhsymvpxmmfwhv",
+            "image":"https://placehold.co/800x300?text=GOTOTEM2",
+            "link":null
+         },
+         {
+            "id":"huyzwvdzcbqmiewiji",
+            "image":"https://placehold.co/800x300?text=GOTOTEM3",
+            "link":null
+         }
+      ],
+      "configs":{
+         "STORE_TITLE":"Gototem tickets",
+         "STORE_META_TITLE":"Um titulo bom para o google",
+         "STORE_META_DESCRIPTION":"Uma descricao boa para o google",
+         "STORE_TPL_LOGO":"https://gototem.com.br/assets/img/logos/logo-white.png",
+         "STORE_TPL_PRIMARY_COLOR":"#009b72",
+         "STORE_TPL_SECONDARY_COLOR":"#17a2b8",
+         "STORE_TPL_FL_SHOW_FEAT_EVENTS":true,
+         "STORE_TPL_FEAT_EVENTS_QTY":8,
+         "STORE_TPL_FL_SHOW_CATEGORY_LINKS":true,
+         "STORE_CONTACT_FL_SHOW_FORM":true,
+         "STORE_CONTACT_FL_SHOW_WHATSAPP":true,
+         "STORE_CONTACT_EMAIL_PRIMARY":"ingressos@gototem.com.br",
+         "STORE_CONTACT_EMAIL_SECONDARY":"suporte@gototem.com.br",
+         "STORE_CONTACT_PHONE_PRIMARY":"(47) 3425 - 8060",
+         "STORE_CONTACT_PHONE_SECONDARY":"(47) 99104 - 0126",
+         "STORE_CONTACT_PHONE_WHATSAPP":"(47) 99104 - 0126",
+         "STORE_CMS_ABOUT_US":"Este é um texto html <b>sobre</b> a empresa",
+         "STORE_CMS_TERMS_OF_USE":"Este é um texto html com os <b>termos de uso</b>",
+         "STORE_CMS_PRIVACY_POLICY":"Este é um texto html com as <b>políticas de privacidade</b>",
+         "STORE_CMS_HALF_ENTRY":"Este é um texto html sobre <b>meia entrada</b>",
+         "STORE_CMS_SERVICE_TAX":"Este é um texto html com as <b>taxas</b>",
+         "STORE_CMS_ADRRESS":"Av. Santos Dumont, 2625 - Zona Industrial Norte - Joinville/SC",
+         "STORE_CMS_ABOUT_US_FL_SHOW":true,
+         "STORE_CMS_TERMS_OF_USE_FL_SHOW":true,
+         "STORE_CMS_PRIVACY_POLICY_FL_SHOW":true,
+         "STORE_CMS_HALF_ENTRY_FL_SHOW":true,
+         "STORE_CMS_SERVICE_TAX_FL_SHOW":true,
+         "STORE_CHKT_GATEWAY":"PAGSEGURO",
+         "STORE_CHKT_USER":"User",
+         "STORE_CHKT_KEY_PRIMARY":"1234",
+         "STORE_CHKT_KEY_SECONDARY":"1234",
+         "STORE_CHKT_FL_ACCEPTING_ORDERS":true,
+         "STORE_CHKT_CREDIT_C_FL_ACTIVE":true,
+         "STORE_CHKT_DEBIT_C_FL_ACTIVE":true,
+         "STORE_CHKT_BOLETO_FL_ACTIVE":true,
+         "STORE_CHKT_BOLETO_DAYS_BEF_EVENT":5,
+         "STORE_CHKT_PIX_FL_ACTIVE":true,
+         "STORE_CHKT_CREDIT_C_INSTS":10,
+         "STORE_CHKT_PAY_METH_FLAGS":"visa, mastercard, elo, hipercard, dinners, american, pix, boleto"
+      },
+      "events":[
+         {
+            "id":"jhyddlmbmjbejrcimr",
+            "name":"Show Daniel",
+            "date":"2023-12-12",
+            "start_hour":"23:00",
+            "place_open_hour":"21:00",
+            "description":"<h2>What is Lorem Ipsum?</h2><p><strong>Lorem Ipsum</strong> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>",
+            "description_append":"Este é um texto html adicionado após a <b>descrição do evento</b>",
+            "image":"https://placehold.co/700x400?text=DANIEL-GOTOTEM",
+            "event_map_image":"",
+            "category":{
+               "id":"dzmoqfpmmouasrdjvf",
+               "name":"Shows",
+               "uri": "shows"
+            },
+            "group":null,
+            "place":{
+               "id":"qwzkswnboudovujeqg",
+               "name":"Square Gargen",
+               "address":"Av. Santos Dumont, 2625 - Zona Industrial Norte - Joinville/SC"
+            },
+            "organizer":{
+               "id":"txpmcjvbiderybpqxo",
+               "name":"JSG Eventos",
+               "logo":null
+            },
+            "fl_show_payment_methods":true,
+            "fl_show_organizer":true,
+            "fl_show_classification":true,
+            "fl_featured": true,
+            "classification_text":"18 anos",
+            "tickets":[
+               [
+                  
+               ],
+               [
+                  
+               ]
+            ]
+         },
+         {
+            "id":"lwidspeoqbyszqhunb",
+            "name":"Nenhum de Nós Gototem",
+            "date":"2023-11-01",
+            "start_hour":"23:00",
+            "place_open_hour":"21:00",
+            "description":"<h2>What is Lorem Ipsum?</h2><p><strong>Lorem Ipsum</strong> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>",
+            "description_append":"Este é um texto html adicionado após a <b>descrição do evento</b>",
+            "image":"https://placehold.co/700x400?text=NDENOS-GOTOTEM",
+            "event_map_image":"",
+            "category":{
+               "id":"dzmoqfpmmouasrdjvf",
+               "name":"Shows",
+               "uri": "shows"
+            },
+            "group":null,
+            "place":{
+               "id":"qwzkswnboudovujeqg",
+               "name":"Square Gargen",
+               "address":"Av. Santos Dumont, 2625 - Zona Industrial Norte - Joinville/SC"
+            },
+            "organizer":{
+               "id":"txpmcjvbiderybpqxo",
+               "name":"JSG Eventos",
+               "logo":null
+            },
+            "fl_show_payment_methods":true,
+            "fl_show_organizer":true,
+            "fl_show_classification":true,
+            "classification_text":"18 anos",
+            "tickets":[
+               [
+                  
+               ],
+               [
+                  
+               ]
+            ]
+         }
+      ]
+   }
+]
