@@ -96,7 +96,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                     <div class="container px-5 py-8 lg:pb-24 lg:pt-8 mx-auto">
                         <div class="flex flex-wrap -m-4">
                             <div v-for="event in events_featured" :key="event.id" class="p-4 lg:w-1/4 lg:w-1/4">
-                                <a :href="route('evento.show', { category: event.category_name, uri: event.uri })">
+                                <a :href="route('event.show', { category: event.category_name, uri: event.uri })">
                                     <div class="h-full shadow-2xl rounded-lg overflow-hidden">
                                         <img class="w-full object-cover object-center" :src="event.image">
                                         <div class="p-6">
@@ -160,7 +160,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                         </div>
                         <div class="flex flex-wrap -m-4">
                             <div v-for="event in events" :key="event.id" class="p-4 lg:w-1/4 lg:w-1/4">
-                                <a :href="route('evento.show', { category: event.category_name, uri: event.uri })">
+                                <a :href="route('event.show', { category: event.category_name, uri: event.uri })">
                                     <div class="h-full shadow-2xl rounded-lg overflow-hidden">
                                         <img class="w-full object-cover object-center" :src="event.image">
                                         <div class="p-6">
