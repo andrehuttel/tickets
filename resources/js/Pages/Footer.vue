@@ -26,7 +26,7 @@
                 <div>
                     <ul class="text-white-500 text-white dark:text-white-400 font-medium">
                         <li v-if="getValue(data.config, 'STORE_CMS_ABOUT_US_FL_SHOW') == true" class="mb-4">
-                            <a href="#" class="hover:underline">Sobre</a>
+                            <a :href="route('footer.showAboutUs')" class="hover:underline">Sobre</a>
                         </li>
                         <li class="mb-4">
                             <a href="#" class="hover:underline">Ajuda</a>

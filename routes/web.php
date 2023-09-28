@@ -26,8 +26,9 @@ Route::middleware([
     Route::get('/politica-de-privacidade', [FooterController::class, 'showPrivacyPolicy'])->name('footer.showPrivacyPolicy');
     Route::get('/taxa-de-servico', [FooterController::class, 'showServiceTax'])->name('footer.showServiceTax');
     Route::get('/meia-entrada', [FooterController::class, 'showHalfEntry'])->name('footer.showHalfEntry');
+    Route::get('/sobre-nos', [FooterController::class, 'showAboutUs'])->name('footer.showAboutUs');
     Route::get('/eventos/{group}', [EventController::class, 'showGroup'])->name('event.showGroup');
-    Route::get('/{category}/{uri?}', [EventController::class, 'show'])->name('event.show');
+    Route::get('/{category}/{uri?}', [EventController::class, 'show'])->name('event.show'); //Redireciona para o Evento ou para a Categoria
 });
 
 // Route::middleware([

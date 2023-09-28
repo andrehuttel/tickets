@@ -56,4 +56,16 @@ class FooterController extends Controller
             'searchButtonMenu' => true,
         ]);
     }
+
+    public function showAboutUs(Request $request) 
+    {
+        return Inertia::render('AboutUs', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+            'data' => $request->get('data'),
+            'searchButtonMenu' => true,
+        ]);
+    }
 }
