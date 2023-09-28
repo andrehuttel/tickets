@@ -23,3 +23,13 @@ div.card-event img {
     padding: 10px;
     width: 200px;
 }
+
+p {
+    display: block;
+    margin-bottom: 1em;
+}
+
+div.card-event img{
+    max-height: 165px;
+    background-size: cover;
+}
