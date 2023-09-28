@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\FooterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
 use App\Http\Middleware\CompanyMiddleware;
@@ -21,8 +22,12 @@ Route::middleware([
 ])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('/');
     Route::get('/buscar', [SearchController::class, 'index'])->name('buscar');
-    Route::get('/{category}/{uri?}', [EventController::class, 'show'])->name('event.show');
+    Route::get('/termos-de-uso', [FooterController::class, 'showTermsOfUse'])->name('footer.showTermsOfUse');
+    Route::get('/politica-de-privacidade', [FooterController::class, 'showPrivacyPolicy'])->name('footer.showPrivacyPolicy');
+    Route::get('/taxa-de-servico', [FooterController::class, 'showServiceTax'])->name('footer.showServiceTax');
+    Route::get('/meia-entrada', [FooterController::class, 'showHalfEntry'])->name('footer.showHalfEntry');
     Route::get('/eventos/{group}', [EventController::class, 'showGroup'])->name('event.showGroup');
+    Route::get('/{category}/{uri?}', [EventController::class, 'show'])->name('event.show');
 });
 
 // Route::middleware([

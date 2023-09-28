@@ -39,16 +39,16 @@
                 <div>
                     <ul class="text-white-500 text-white dark:text-white-400 font-medium">
                         <li v-if="getValue(data.config, 'STORE_CMS_TERMS_OF_USE_FL_SHOW') == true" class="mb-4">
-                            <a href="#" class="hover:underline">Termos de Uso</a>
+                            <a :href="route('footer.showTermsOfUse')" class="hover:underline">Termos de Uso</a>
                         </li>
                         <li v-if="getValue(data.config, 'STORE_CMS_PRIVACY_POLICY_FL_SHOW') == true" class="mb-4">
-                            <a href="#" class="hover:underline">Política de Privacidade</a>
+                            <a :href="route('footer.showPrivacyPolicy')" class="hover:underline">Política de Privacidade</a>
                         </li>
                         <li v-if="getValue(data.config, 'STORE_CMS_SERVICE_TAX_FL_SHOW') == true" class="mb-4">
-                            <a href="#" class="hover:underline">Taxa de Serviço</a>
+                            <a :href="route('footer.showServiceTax')" class="hover:underline">Taxa de Serviço</a>
                         </li>
                         <li v-if="getValue(data.config, 'STORE_CMS_HALF_ENTRY_FL_SHOW') == true" class="mb-4">
-                            <a href="#" class="hover:underline">Meia Entrada</a>
+                            <a :href="route('footer.showHalfEntry')" class="hover:underline">Meia Entrada</a>
                         </li>
                     </ul>
                 </div>

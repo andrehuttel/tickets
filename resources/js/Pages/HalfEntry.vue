@@ -57,7 +57,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
 </script>
 
 <template class="bg-green-100">
-    <Head :title="'Política de Privacidade - ' + storeTitle">
+    <Head :title="'Meia Entrada - ' + storeTitle">
         <link rel="icon" :href="data.faviconUrl" type="image/x-icon">
         <meta name="description" :content="data.faviconUrl" />
     </Head>
@@ -70,7 +70,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
             <div class="max-w-7xl w-full">
                 <div class="container px-5 pt-8 lg:pt-none mx-auto">
                     <div class="pb-20"></div>
-                    <h1 class="text-3xl font-semibold text-white">Política de Privacidade</h1>
+                    <h1 class="text-3xl font-semibold text-white">Meia Entrada</h1>
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 py-8 lg:pb-24 lg:pt-8 mx-auto">
                         <div class="flex flex-wrap">
-                            <div v-if="getValue(data.config, 'STORE_CMS_PRIVACY_POLICY')" v-html="getValue(data.config, 'STORE_CMS_PRIVACY_POLICY')" class="w-full min-h-screen mt-6 overflow-hidden" />
+                            <div v-if="getValue(data.config, 'STORE_CMS_HALF_ENTRY')" v-html="getValue(data.config, 'STORE_CMS_HALF_ENTRY')" class="w-full min-h-screen mt-6 overflow-hidden" />
                         </div>
                     </div>
                 </section>

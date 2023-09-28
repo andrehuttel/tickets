@@ -57,23 +57,24 @@ class EventController extends Controller
 
     public function showGroup(Request $request, $group) 
     {
-        $event = Event::where('group_name', $group)
+        $company_id = $request->get('data')['company']['id'];
+        $group = Event::where('company_id', $company_id)->where('group_uri', $group)->select('group_id', 'group_name')->distinct()->get();
+        $group_id = $group[0]['group_id'];
+        $events = Event::where('group_id', $group_id)
             ->where('company_id', $request->get('data')['company']['id'])
             ->get();
-
-        dd($event);
-
-        if (!$event) {
+        if (!$events) {
             abort(404);
         }
 
-        return Inertia::render('Event', [
+        return Inertia::render('Group', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
             'data' => $request->get('data'),
-            'event' => $event,
+            'events' => $events,
+            'groupName' => $group[0]['group_name'],
             'searchButtonMenu' => true,
         ]);
     }
