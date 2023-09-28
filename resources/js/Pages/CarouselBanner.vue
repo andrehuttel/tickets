@@ -54,7 +54,7 @@
             class="mySwiper"
             :style="{ '--swiper-navigation-color': secondColor ?? primaryColor ?? 'background-green', '--swiper-theme-color': secondColor ?? primaryColor ?? 'background-green' }"
           >
-            <swiper-slide  v-for="(banner, index) in limitedBanners" :key="banner.id" class="p-4 bg-gray-100"><img class="" :src="banner.image"><!--<div class="px-4"><h1>TESTE IMAGEM</h1><p>aqui vai a descrição desse evento.<br>Dia: xx/xx/xxxx Horário: xx:xx<br>Local: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx--></swiper-slide>
+            <swiper-slide  v-for="(banner, index) in limitedBanners" :key="banner.id" class="p-4 bg-gray-100"><img class="" :href="banner.link" :src="banner.image"><!--<div class="px-4"><h1>TESTE IMAGEM</h1><p>aqui vai a descrição desse evento.<br>Dia: xx/xx/xxxx Horário: xx:xx<br>Local: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx--></swiper-slide>
           </swiper>
         </div>
       </div>

@@ -22,6 +22,7 @@ Route::middleware([
     Route::get('/', [HomeController::class, 'index'])->name('/');
     Route::get('/buscar', [SearchController::class, 'index'])->name('buscar');
     Route::get('/{category}/{uri?}', [EventController::class, 'show'])->name('event.show');
+    Route::get('/eventos/{group}', [EventController::class, 'showGroup'])->name('event.showGroup');
 });
 
 // Route::middleware([

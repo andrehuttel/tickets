@@ -33,3 +33,9 @@ div.card-event img{
     max-height: 165px;
     background-size: cover;
 }
+
+@media (max-width: 768px) {
+    .whatsapp-icon {
+        width: 150px;
+    }
+}

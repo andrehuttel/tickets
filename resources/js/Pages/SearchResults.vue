@@ -110,15 +110,15 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen, storeTitle });
     
     <div class="bg-gray-100">
         <div class="flex justify-center items-center">
-            <div class="max-w-7xl w-full lg:mt-20 xs:mt-12">
+            <div class="max-w-7xl w-full lg:mt-32 xs:mt-12">
                 <section class="text-gray-600 body-font">
                     <div class="container px-5">
                         <div class="flex flex-wrap lg:-m-4 mt-8">
                             <div class="p-4 -pr-4 lg:w-2/4 lg:w-2/4">
-                                <h1 class="text-black font-bold text-2xl">Procure por um evento:</h1>
+                                <h1 class="text-black font-bold xs:text-lg md:text-2xl">Procure por um evento:</h1>
                                 <div class="flex items-center mx-auto mt-2 mb-2">
                                     <div id="search" class="relative w-full h-full">
-                                        <input type="text" v-model="search" class="custom-focus block p-2.5 w-80 h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Pesquise por eventos...">
+                                        <input type="text" v-model="search" class="custom-focus block p-2.5 w-80 xs:w-full h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Pesquise por eventos...">
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +141,7 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen, storeTitle });
                             </div> -->
                             <!-- <div v-else> -->
                                 <div v-if="items.length !== 0" v-for="ev in items" :key="ev.id" class="p-4 lg:w-1/4 lg:w-1/4">
-                                    <a :href="route('event.show', { category: ev.category_name, uri: ev.uri })">
+                                    <a :href="route('event.show', { category: ev.category_uri, uri: ev.uri })">
                                     <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                                         <img class="lg:h-48 lg:h-36 w-full object-cover object-center" :src="ev.image">
                                         <div class="p-6 pb-1">

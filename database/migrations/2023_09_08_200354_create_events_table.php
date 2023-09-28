@@ -24,8 +24,10 @@ return new class extends Migration
             $table->longText('event_map_image')->nullable();
             $table->string('category_id')->nullable();
             $table->string('category_name')->nullable();
+            $table->string('category_uri')->nullable();
             $table->string('group_id')->nullable();
             $table->string('group_name')->nullable();
+            $table->string('group_uri')->nullable();
             $table->string('place_id')->nullable();
             $table->string('place_name')->nullable();
             $table->string('place_address')->nullable();

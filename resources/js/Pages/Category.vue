@@ -88,15 +88,26 @@ defineExpose({ primaryColor, secondColor, storeTitle });
 
     <AppLayout :data="data" :searchButtonMenu="searchButtonMenu">
 
+    
+    <div class="container-fluid background-image" :style="{'background-color': primaryColor || ''}">
+        <div class="flex justify-center items-center title-category">
+            <div class="max-w-7xl w-full">
+                <div class="container px-5 py-8 lg:py-24 mx-auto">
+                    <h1 class="text-2xl font-semibold text-white">{{ categoryName }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Traz os eventos aqui -->
     <div class="bg-gray-100">
         <div class="flex justify-center items-center min-h-screen">
-            <div class="max-w-7xl w-full">
+            <div class="w-full">
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 py-8 lg:py-24 mx-auto">
                         <div class="flex flex-wrap -m-4">
                             <div v-for="event in events" :key="event.id" class="p-4 lg:w-1/4 lg:w-1/4">
-                                <a :href="route('event.show', { category: event.category_name, uri: event.uri })">
+                                <a :href="route('event.show', { category: event.category_uri, uri: event.uri })">
                                     <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                                         <img class="lg:h-48 lg:h-36 w-full object-cover object-center" :src="event.image">
                                         <div class="p-6 pb-1">
@@ -168,6 +179,9 @@ defineExpose({ primaryColor, secondColor, storeTitle });
 </template>
 
 <style>
+.title-category{
+    min-height: 200px;
+}
 .bg-dots-darker {
     background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E");
 }

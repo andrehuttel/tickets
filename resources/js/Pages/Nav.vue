@@ -46,7 +46,7 @@
                 <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <div class="flex items-center block flex flex-wrap pb-1 lg:mx-0">
                         <a :href="route('/')" class="flex items-center">
-                            <img :src="getValue(data.config, 'STORE_TPL_LOGO')" class="mr-3" :alt="getValue(data.config, 'STORE_TITLE')" />
+                            <img :src="getValue(data.config, 'STORE_TPL_LOGO')" class="mr-3 md:h-auto xs:h-10" :alt="getValue(data.config, 'STORE_TITLE')" />
                         </a>
                     </div>
                     <!-- Hamburger -->

@@ -33,7 +33,7 @@ class EventController extends Controller
         } else {
             $company_id = $request->get('data')['company']['id'];
             $category = Event::where('company_id', $company_id)->where('category_name', $category)
-                ->select('category_id')->distinct()->get();
+                ->select('category_id', 'category_name')->distinct()->get();
             $category_id = $category[0]['category_id'];
             $events = Event::where('category_id', $category_id)
                 ->where('company_id', $request->get('data')['company']['id'])
@@ -48,9 +48,32 @@ class EventController extends Controller
                 'phpVersion' => PHP_VERSION,
                 'data' => $request->get('data'),
                 'events' => $events,
-                'categoryName' => $category,
+                'categoryName' => $category[0]['category_name'],
                 'searchButtonMenu' => true,
             ]);
         }
+    }
+
+    public function showGroup(Request $request, $group) 
+    {
+        $event = Event::where('group_name', $group)
+            ->where('company_id', $request->get('data')['company']['id'])
+            ->get();
+
+        dd($event);
+
+        if (!$event) {
+            abort(404);
+        }
+
+        return Inertia::render('Event', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+            'data' => $request->get('data'),
+            'event' => $event,
+            'searchButtonMenu' => true,
+        ]);
     }
 }
