@@ -24,18 +24,26 @@ div.card-event img {
     width: 200px;
 }
 
-p {
-    display: block;
-    margin-bottom: 1em;
-}
-
-div.card-event img{
-    max-height: 165px;
+/* div.swiper-slide img {
+    min-height: 490px;
     background-size: cover;
+} */
+
+.swiper {
+    margin-top: 80px;
 }
 
 @media (max-width: 768px) {
     .whatsapp-icon {
         width: 150px;
+    }
+
+    div.swiper-slide img {
+        min-height: 300px;
+        background-size: cover;
+    }
+
+    .swiper {
+        margin-top: 65px;
     }
 }

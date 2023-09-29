@@ -10,6 +10,7 @@
 
   // import required modules
   import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+  import { ref } from 'vue';
 
   export default {
     components: {
@@ -17,7 +18,24 @@
       SwiperSlide,
     },
     setup() {
+      const titleValue = ref('');
+      const subtitleValue = ref('');
+      const onSwiper = (swiper) => {
+        const currentSlide = swiper.slides[swiper.activeIndex];
+        titleValue.value = currentSlide.querySelector('.swiper-text h1').textContent;
+        subtitleValue.value = currentSlide.querySelector('.swiper-text p').textContent;
+        
+      };
+      const onSlideChange = (swiper) => {
+        const currentSlide = swiper.slides[swiper.activeIndex];
+        titleValue.value = currentSlide.querySelector('.swiper-text h1').textContent;
+        subtitleValue.value = currentSlide.querySelector('.swiper-text p').textContent;
+      };
       return {
+        onSwiper,
+        onSlideChange,
+        titleValue,
+        subtitleValue,
         modules: [Autoplay, Pagination, Navigation],
       };
     },
@@ -42,6 +60,8 @@
         <div class="flex flex-wrap -m-4">
           <swiper
             :centeredSlides="true"
+            @swiper="onSwiper"
+            @slideChange="onSlideChange"
             :autoplay="{
               delay: 4000,
               disableOnInteraction: false,
@@ -54,8 +74,13 @@
             class="mySwiper"
             :style="{ '--swiper-navigation-color': secondColor ?? primaryColor ?? 'background-green', '--swiper-theme-color': secondColor ?? primaryColor ?? 'background-green' }"
           >
-            <swiper-slide  v-for="(banner, index) in limitedBanners" :key="banner.id" class="p-4 bg-gray-100"><img class="" :href="banner.link" :src="banner.image"><!--<div class="px-4"><h1>TESTE IMAGEM</h1><p>aqui vai a descrição desse evento.<br>Dia: xx/xx/xxxx Horário: xx:xx<br>Local: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx--></swiper-slide>
+            <swiper-slide  v-for="(banner, index) in limitedBanners" :key="banner.id" class="p-4 bg-gray-100"><img class="rounded" :href="banner.link" :src="banner.image">
+              <div class="swiper-text xs:hidden md:block"><h1 class="text-3xl font-semibold">{{ banner.title }}</h1><br><p>{{ banner.subtitle }}</p></div>
+            </swiper-slide>
           </swiper>
+          <div class="swiper-text-xs items-center xs:block md:hidden">
+            <h1 class="text-lg font-semibold text-center">{{ titleValue }}</h1><p class="text-center text-xs pt-1">{{ subtitleValue }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -67,7 +92,7 @@
     background-color: rgb(0, 155, 114);
 }
 :root {
-  --swiper-navigation-size: 32px; /* To edit the size of the arrows */
+  --swiper-navigation-size: 32px;
 }
 
 body {
@@ -90,47 +115,55 @@ body {
   text-align: center;
   font-size: 18px;
 
-  /* Center slide text vertically */
   display: flex;
   justify-content: center;
   align-items: center;
-  /* max-width: 800px !important; */
 }
 
 .swiper-slide img {
   display: block;
   width: 100%;
-  object-fit: cover;
   max-width: 100% !important;
-  background-size: cover;
-  /* max-width: 800px !important; */
+}
+
+.swiper-text{
+  width: 30%;
+  margin-right: 30px;
+}
+
+.swiper-text-xs {
+  flex-direction: column;
+  width: 100%; /* Ocupa toda a largura */
+  margin-right: 0; /* Remove a margem */
 }
 
 .swiper .swiper-button-prev {
   left: 20px !important;
-  margin-top: 0px !important;
+  margin-top: -15px !important;
 }
 
 .swiper .swiper-button-next {
   right: 20px !important;
-  margin-top: 0px !important;
+  margin-top: -15px !important;
 }
 
-@media (max-width: 768px) {
+.swiper-pagination {
+  bottom: 20px !important;
+} 
+
+@media (max-width: 1280px) {
   .swiper-pagination {
-    bottom: 20px !important;
+    bottom: 30px !important;
   } 
   :root{
     --swiper-navigation-size: 24px;
   }
   .swiper .swiper-button-prev {
     left: 20px !important;
-    margin-top: 15px !important;
   }
 
   .swiper .swiper-button-next {
     right: 20px !important;
-    margin-top: 15px !important;
   }
 }
 </style>
