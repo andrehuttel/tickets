@@ -4,12 +4,12 @@
 
   // Import Swiper styles
   import 'swiper/css';
-
+  import 'swiper/css/effect-fade';
   import 'swiper/css/pagination';
   import 'swiper/css/navigation';
 
   // import required modules
-  import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+  import { Autoplay, EffectFade, Pagination, Navigation } from 'swiper/modules';
   import { ref } from 'vue';
 
   export default {
@@ -36,7 +36,7 @@
         onSlideChange,
         titleValue,
         subtitleValue,
-        modules: [Autoplay, Pagination, Navigation],
+        modules: [Autoplay, EffectFade, Pagination, Navigation],
       };
     },
     props: {
@@ -60,6 +60,7 @@
         <div class="flex flex-wrap -m-4">
           <swiper
             :centeredSlides="true"
+            :effect="'fade'"
             @swiper="onSwiper"
             @slideChange="onSlideChange"
             :autoplay="{
