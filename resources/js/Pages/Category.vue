@@ -106,7 +106,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
 
     <!-- Traz os eventos aqui -->
     <div class="bg-gray-100">
-        <div class="flex justify-center items-center min-h-screen">
+        <div class="flex justify-center items-center">
             <div class="max-w-7xl w-full">
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 py-8 lg:pb-24 lg:pt-8 mx-auto">
