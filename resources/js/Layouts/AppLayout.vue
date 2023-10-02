@@ -58,9 +58,7 @@ defineExpose({ primaryColor, secondColor });
         </main>
 
         <Footer :data="data" :primaryColor="primaryColor" />
-        <!-- Ícone flutuante do WhatsApp -->
-        <div id="whatsapp-icon" class="whatsapp-icon">
-            <!-- <a href="https://api.whatsapp.com/send?phone=SEUNUMERO" target="_blank"> -->
+        <div v-if="getValue(data.config, 'STORE_CONTACT_FL_SHOW_WHATSAPP') == true" id="whatsapp-icon" class="whatsapp-icon">
                <!-- :href="'https://api.whatsapp.com/send?phone=&text=' + data.company.name + ' - ' + event.name + ' - ' + $page.props.ziggy.location"> -->
             <a :href="'https://wa.me/55'+ getValue(data.config, 'STORE_CONTACT_PHONE_WHATSAPP')" target="_blank">
                 <img src="https://gototem.com.br/assets/img/whatsappbota771o.png" alt="WhatsApp">
