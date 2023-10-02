@@ -17,6 +17,11 @@
         }
         return null;
     }
+
+    function formatCNPJ(cnpj) {
+        cnpj = cnpj.replace(/\D/g, '');
+        return cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+    }
 </script>
 
 <template>
@@ -61,7 +66,7 @@
                 </div>
             </div>
             <div class="px-4 py-6 bg-gray-100 dark:bg-gray-700 border-t" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
-                <p class="text-sm text-white sm:text-center md:text-left font-semibold text-white text-white-900 dark:text-white">{{data.company.name}} (CNPJ {{data.company.cnpj}})</p>
+                <p class="text-sm text-white sm:text-center md:text-left font-semibold text-white text-white-900 dark:text-white">{{data.company.name}} (CNPJ {{formatCNPJ(data.company.cnpj)}})</p>
                 <p class="text-sm text-white sm:text-center md:text-left font-semibold text-white text-white-900 dark:text-white">Todos os direitos reservados © 2023 <a href="https://gototem.com.br">{{data.company.name}}</a></p>
                 <!-- <div class="flex mt-4 space-x-5 sm:justify-center md:mt-0">
                     <a href="#" class="text-white text-white-400 hover:text-white-900 dark:hover:text-white">
