@@ -27,6 +27,9 @@ Route::middleware([
     Route::get('/taxa-de-servico', [FooterController::class, 'showServiceTax'])->name('footer.showServiceTax');
     Route::get('/meia-entrada', [FooterController::class, 'showHalfEntry'])->name('footer.showHalfEntry');
     Route::get('/sobre-nos', [FooterController::class, 'showAboutUs'])->name('footer.showAboutUs');
+    Route::get('/contato', [FooterController::class, 'showContact'])->name('footer.showContact');
+    Route::post('/contato/enviar-email', [FooterController::class, 'sendEmail'])->name('footer.sendEmail');
+    Route::get('/contato/show-email', [FooterController::class, 'showEmail'])->name('footer.showEmail');
     Route::get('/eventos/{group}', [EventController::class, 'showGroup'])->name('event.showGroup');
     Route::get('/{category}/{uri?}', [EventController::class, 'show'])->name('event.show'); //Redireciona para o Evento ou para a Categoria
 });

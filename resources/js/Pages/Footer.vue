@@ -32,7 +32,7 @@
                             <a href="#" class="hover:underline">Ajuda</a>
                         </li>
                         <li class="mb-4">
-                            <a href="#" class="hover:underline">Contato</a>
+                            <a :href="route('footer.showContact')" class="hover:underline">Contato</a>
                         </li>
                     </ul>
                 </div>
