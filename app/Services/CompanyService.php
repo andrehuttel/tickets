@@ -157,10 +157,12 @@ class CompanyService
                                 if (!is_null($value1['category'])) {
                                     $eventData['category_id'] = isset($value1['category']['id']) ? $value1['category']['id'] : null;
                                     $eventData['category_name'] = isset($value1['category']['name']) ? $value1['category']['name'] : null;
+                                    $eventData['category_uri'] = isset($value1['category']['uri']) ? $value1['category']['uri'] : null;
                                 }
                                 if (!is_null($value1['group'])) {
                                     $eventData['group_id'] = isset($value1['group']['id']) ? $value1['group']['id'] : null;
                                     $eventData['group_name'] = isset($value1['group']['name']) ? $value1['group']['name'] : null;
+                                    $eventData['group_uri'] = isset($value1['group']['uri']) ? $value1['group']['uri'] : null;
                                 }
                                 if (!is_null($value1['place'])) {
                                     $eventData['place_id'] = isset($value1['place']['id']) ? $value1['place']['id'] : null;
