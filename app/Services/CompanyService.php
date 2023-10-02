@@ -18,7 +18,7 @@ class CompanyService
     {
         try {
             $apiService = new ApiService();
-            $apiData = $apiService->getData(env('API_URL'), env('API_USERNAME'), env('API_PASSWORD'), null);
+            $apiData = $apiService->getData(env('API_URL').'/place', env('API_USERNAME'), env('API_PASSWORD'), null);
 
             if ($apiData) {
                 foreach ($apiData as $key => $value) {
@@ -56,7 +56,7 @@ class CompanyService
     {
         try {
             $apiService = new ApiService();
-            $apiData = $apiService->getData(env('API_URL'), env('API_USERNAME'), env('API_PASSWORD'), $id);
+            $apiData = $apiService->getData(env('API_URL').'/place', env('API_USERNAME'), env('API_PASSWORD'), $id);
 
             if ($apiData) {
                 $apiData = array_slice($apiData, 1, null, true); //exclui o primeiro elemento (key 0)

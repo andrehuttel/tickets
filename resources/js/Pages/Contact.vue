@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import axios from 'axios';
+import $ from 'jquery';
 
 const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMenu, faviconUrl } = defineProps([
     'canLogin',
@@ -17,12 +18,36 @@ const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMen
 const form = ref({
     name: '',
     email: '',
-    subject: '',
+    fone: '',
     message: ''
 });
 
 const successMessage = ref('');
 const errorMessage = ref('');
+
+$(document).ready(function() {
+    const foneInput = $('#fone');
+
+    foneInput.on('input', function() {
+        const numericValue = this.value.replace(/\D/g, '');
+        const formattedValue = formatPhoneNumber(numericValue);
+        this.value = formattedValue;
+    });
+
+    function formatPhoneNumber(phoneNumber) {
+        if (phoneNumber.length === 0) {
+            return '';
+        } else if (phoneNumber.length <= 2) {
+            return '(' + phoneNumber;
+        } else if (phoneNumber.length <= 7) {
+            return '(' + phoneNumber.substr(0, 2) + ') ' + phoneNumber.substr(2);
+        } else if (phoneNumber.length <= 10) {
+            return '(' + phoneNumber.substr(0, 2) + ') ' + phoneNumber.substr(2, 4) + '-' + phoneNumber.substr(6);
+        } else {
+            return '(' + phoneNumber.substr(0, 2) + ') ' + phoneNumber.substr(2, 5) + '-' + phoneNumber.substr(7);
+        }
+    }
+});
 
 const submitForm = async () => {
     // Limpa mensagens anteriores
@@ -31,9 +56,16 @@ const submitForm = async () => {
 
     try {
         const response = await axios.post('/contato/enviar-email', form.value);
-        successMessage.value = response.data.message;
+        if (response.data.message) {
+            successMessage.value = response.data.message;
+        } else if (response.data.errors) {
+            // Mensagens de erro
+            const errorMessages = Object.values(response.data.errors).flat();
+            errorMessage.value = errorMessages.join('\n');
+        }
     } catch (error) {
-        errorMessage.value = 'Erro ao enviar a mensagem. Por favor, tente novamente.';
+        console.error("error", error);
+        errorMessage.value = 'Não foi possível enviar a mensagem. Por favor, preencha todos os campos.';
     }
 };
 
@@ -97,7 +129,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 py-8 lg:pb-24 lg:pt-8 mx-auto">
                         <div class="flex flex-wrap">
-                            <div v-if="getValue(data.config, 'STORE_CONTACT_FL_SHOW_FORM') == true" class="w-full min-h-screen mt-6 overflow-hidden">
+                            <div v-if="getValue(data.config, 'STORE_CONTACT_FL_SHOW_FORM') == true" class="w-full md:w-1/2 mb-4">
                                 <form @submit.prevent="submitForm" class="max-w-md">
                                     <div class="mb-4">
                                         <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Nome:</label>
@@ -108,19 +140,36 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                                         <input type="email" id="email" v-model="form.email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" />
                                     </div>
                                     <div class="mb-4">
-                                        <label for="subject" class="block text-gray-700 text-sm font-bold mb-2">Assunto:</label>
-                                        <input type="text" id="subject" v-model="form.subject" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" />
+                                        <label for="fone" class="block text-gray-700 text-sm font-bold mb-2">Telefone:</label>
+                                        <input
+                                            type="text"
+                                            id="fone"
+                                            maxlength="15"
+                                            inputmode="numeric"
+                                            v-model="form.fone"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                                        />
                                     </div>
                                     <div class="mb-4">
                                         <label for="message" class="block text-gray-700 text-sm font-bold mb-2">Mensagem:</label>
                                         <textarea id="message" v-model="form.message" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"></textarea>
                                     </div>
                                     <button type="submit" class="bg-indigo-500 text-white hover:bg-indigo-600 py-2 px-4 rounded-md focus:outline-none" :style="{ backgroundColor: secondColor ?? primaryColor ?? '' }">Enviar</button>
+                                    <!-- Feedback ao usuário -->
+                                    <div v-if="successMessage" class="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-md">{{ successMessage }}</div>
+                                    <div v-if="errorMessage" class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-md">{{ errorMessage }}</div>
                                 </form>
+                            </div>
 
-                                <!-- Feedback ao usuário -->
-                                <div v-if="successMessage" class="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-md">{{ successMessage }}</div>
-                                <div v-if="errorMessage" class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-md">{{ errorMessage }}</div>
+                            <div class="w-full md:w-1/2 mb-4">
+                                <div class="w-full min-h-screen overflow-hidden">
+                                    <h1 class="text-2xl font-bold mb-4">
+                                        Caso desejar, entre em contato através do email:
+                                        <span>{{ getValue(data.config, 'STORE_CONTACT_EMAIL_PRIMARY') }}</span>
+                                        ou através do número:
+                                        <span>{{ getValue(data.config, 'STORE_CONTACT_PHONE_PRIMARY') }}</span>
+                                    </h1>
+                                </div>
                             </div>
                         </div>
                     </div>

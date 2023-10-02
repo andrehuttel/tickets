@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use App\Models\Company;
 use App\Models\CompanyConfig;
 use App\Models\Event;
-use App\Services\ApiService;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
