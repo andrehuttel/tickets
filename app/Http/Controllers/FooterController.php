@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\ContactFormMail;
+use App\Models\Event;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -14,48 +14,76 @@ class FooterController extends Controller
 {
     public function showTermsOfUse(Request $request) 
     {
+        $events = Event::where('company_id', $request->get('data')['company']['id'])
+        ->whereDate('date', '>=', now()) // Adicione esta linha para filtrar eventos a partir de hoje
+        ->orderBy('date', 'asc')
+        ->limit(3)
+        ->get();
+
         return Inertia::render('TermsOfUse', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
             'data' => $request->get('data'),
+            'events' => $events,
             'searchButtonMenu' => true,
         ]);
     }
 
     public function showPrivacyPolicy(Request $request) 
     {
+        $events = Event::where('company_id', $request->get('data')['company']['id'])
+        ->whereDate('date', '>=', now()) // Adicione esta linha para filtrar eventos a partir de hoje
+        ->orderBy('date', 'asc')
+        ->limit(3)
+        ->get();
+
         return Inertia::render('PrivacyPolicy', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
             'data' => $request->get('data'),
+            'events' => $events,
             'searchButtonMenu' => true,
         ]);
     }
 
     public function showServiceTax(Request $request) 
     {
+        $events = Event::where('company_id', $request->get('data')['company']['id'])
+        ->whereDate('date', '>=', now()) // Adicione esta linha para filtrar eventos a partir de hoje
+        ->orderBy('date', 'asc')
+        ->limit(3)
+        ->get();
+
         return Inertia::render('ServiceTax', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
             'data' => $request->get('data'),
+            'events' => $events,
             'searchButtonMenu' => true,
         ]);
     }
 
     public function showHalfEntry(Request $request) 
     {
+        $events = Event::where('company_id', $request->get('data')['company']['id'])
+        ->whereDate('date', '>=', now()) // Adicione esta linha para filtrar eventos a partir de hoje
+        ->orderBy('date', 'asc')
+        ->limit(3)
+        ->get();
+
         return Inertia::render('HalfEntry', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
             'data' => $request->get('data'),
+            'events' => $events,
             'searchButtonMenu' => true,
         ]);
     }
