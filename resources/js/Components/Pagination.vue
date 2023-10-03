@@ -17,7 +17,7 @@ defineProps({
         'color': link.active ? 'white' : '',
         'background-color': link.active ? primaryColor : '',
       }"
-      :href="link.url"
+      :href="link.url ? link.url : ''"
       v-html="link.label.includes('Previous') ? 'Anterior' : (link.label.includes('Next') ? 'Próximo' : link.label)"
     />
   </div>

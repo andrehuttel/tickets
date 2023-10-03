@@ -11,6 +11,7 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, computed, watch } from 'vue';
 import Pagination from '@/Components/Pagination.vue';
 import {Inertia} from '@inertiajs/inertia';
+import debounce from "lodash/debounce";
 //import { Carousel, Slide } from "vue-carousel";
 // import Carousel from '@/Pages/Carousel.vue';
 
@@ -77,14 +78,11 @@ function toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
 }
 
-let search = ref(filter);
+let search = ref(filter === null ? '' : filter);
 
-watch(search, (value) => {
-    Inertia.get('/buscar', { q: value }, {
-        preserveState: true,
-        replace: true
-    });
-});
+watch(search, debounce(function (value) {
+    Inertia.get('/buscar', { q: value }, {preserveState: true, replace: true });
+}, 300));
 
 defineExpose({ primaryColor, secondColor, mobileMenuOpen, storeTitle });
 </script>
@@ -96,15 +94,6 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen, storeTitle });
     <Head :title="'Busca - ' + storeTitle">
         <link rel="icon" :href="data.faviconUrl" type="image/x-icon">
     </Head>
-    <!-- <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-        <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</Link>
-
-        <template v-else>
-            <Link :href="route('login')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</Link>
-
-            <Link v-if="canRegister" :href="route('register')" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</Link>
-        </template>
-    </div> -->
 
     <AppLayout :data="data" :searchButtonMenu="searchButtonMenu">
     
@@ -136,76 +125,50 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen, storeTitle });
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 py-8 lg:py-24 mx-auto">
                         <div class="flex flex-wrap -m-4">
-                            <!-- <div v-if="ev.length === 0" class="m-4">
-                                <h1 class="font-bold text-xl">Nenhum evento encontrado.</h1>
-                            </div> -->
-                            <!-- <div v-else> -->
-                                <div v-if="items.length !== 0" v-for="ev in items" :key="ev.id" class="p-4 lg:w-1/4 lg:w-1/4">
-                                    <a :href="route('event.show', { category: ev.category_uri, uri: ev.uri })">
-                                    <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-                                        <img class="lg:h-48 lg:h-36 w-full object-cover object-center" :src="ev.image">
-                                        <div class="p-6 pb-1">
-                                            <!-- <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY</h2> -->
-                                            <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{ ev.name }}</h1>
-                                            <!-- <p class="text-blue-600 leading-relaxed mb-3 text-xs" :style="{ color: primaryColor ? primaryColor : '' }">{{ formatDate(ev.date) }}</p> -->
-                                            <div class="flex items-center flex-wrap">
-                                                <span class="text-black mr-1 inline-flex items-center mb-3 leading-none pr-1 py-1" :style="{ color: primaryColor ?? 'black' }">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-                                                    </svg>
-                                                    {{ formatDate(ev.date) }}
-                                                </span>
-                                            </div>
-                                            <div class="flex items-center flex-wrap">
-                                                <span class="text-gray-400 mr-1 inline-flex items-center leading-none text-xs pr-1 py-1" :style="{ color: primaryColor ?? 'black' }">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                    </svg>
-                                                    Abertura: {{ ev.place_open_hour }} 
-                                                </span>
-                                                <span class="text-gray-400 inline-flex items-center leading-none text-xs" :style="{ color: primaryColor ?? 'black' }">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                    </svg>
-                                                    Inicio: {{ ev.start_hour }}
-                                                </span>
-                                            </div>
-                                            <div class="flex items-center flex-wrap">
-                                                <span class="text-black mr-1 inline-flex items-center leading-none text-xs pr-1 py-1">
+                            <div v-if="items.length !== 0" v-for="ev in items" :key="ev.id" class="p-4 lg:w-1/4 lg:w-1/4">
+                                <a :href="route('event.show', { category: ev.category_uri, uri: ev.uri })">
+                                <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+                                    <img class="lg:h-48 lg:h-36 w-full object-cover object-center" :src="ev.image">
+                                    <div class="p-6 pb-1">
+                                        <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{ ev.name }}</h1>
+                                        <div class="flex items-center flex-wrap">
+                                            <span class="text-black mr-1 inline-flex items-center mb-3 leading-none pr-1 py-1" :style="{ color: primaryColor ?? 'black' }">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                                                 </svg>
-                                                {{ ev.place_name }}
-                                                </span>
-                                            </div>
-                                            <!-- <div class="flex items-center flex-wrap ">
-                                            <a class="text-indigo-500 inline-flex items-center lg:mb-2 lg:mb-0">Learn More
-                                                <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M5 12h14"></path>
-                                                <path d="M12 5l7 7-7 7"></path>
+                                                {{ formatDate(ev.date) }}
+                                            </span>
+                                        </div>
+                                        <div class="flex items-center flex-wrap">
+                                            <span class="text-gray-400 mr-1 inline-flex items-center leading-none text-xs pr-1 py-1" :style="{ color: primaryColor ?? 'black' }">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
-                                            </a>
-                                            <span class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto lg:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
-                                                <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                <circle cx="12" cy="12" r="3"></circle>
-                                                </svg>1.2K
+                                                Abertura: {{ ev.place_open_hour }} 
                                             </span>
-                                            <span class="text-gray-400 inline-flex items-center leading-none text-sm">
-                                                <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                                <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
-                                                </svg>6
+                                            <span class="text-gray-400 inline-flex items-center leading-none text-xs" :style="{ color: primaryColor ?? 'black' }">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                Inicio: {{ ev.start_hour }}
                                             </span>
-                                            </div> -->
+                                        </div>
+                                        <div class="flex items-center flex-wrap">
+                                            <span class="text-black mr-1 inline-flex items-center leading-none text-xs pr-1 py-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                                            </svg>
+                                            {{ ev.place_name }}
+                                            </span>
                                         </div>
                                     </div>
-                                    </a>
                                 </div>
-                                <div v-else class="md:m-4 md:-mt-10 xs:m-0 xs:mt-2 xs:mb-24">
-                                    <h1 class="font-bold text-lg">Nenhum evento encontrado.</h1>
-                                </div>
-                            <!-- </div> -->
+                                </a>
+                            </div>
+                            <div v-else class="md:m-4 md:-mt-10 xs:m-0 xs:mt-2 xs:mb-24">
+                                <h1 class="font-bold text-lg">Nenhum evento encontrado.</h1>
+                            </div>
                         </div>
                     </div>
                 </section>
