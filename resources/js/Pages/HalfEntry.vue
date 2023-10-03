@@ -86,9 +86,9 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                 <section class="text-gray-600 body-font">
                     <div class="container px-5 py-8 lg:pb-24 lg:pt-8 mx-auto">
                         <div class="flex flex-wrap">
-                            <div v-if="getValue(data.config, 'STORE_CMS_HALF_ENTRY')" v-html="getValue(data.config, 'STORE_CMS_HALF_ENTRY')" class="w-full w-2/3 mb-4" />
-                            <div class="w-full md:w-1/3 mb-4">
-                                <div class="w-full min-h-screen overflow-hidden">
+                            <div v-if="getValue(data.config, 'STORE_CMS_HALF_ENTRY')" v-html="getValue(data.config, 'STORE_CMS_HALF_ENTRY')" class="w-2/3 mb-4" />
+                            <div class="md:w-1/3 mb-4">
+                                <div class="min-h-screen overflow-hidden">
                                     <div>
                                         <ul class="text-white-500 text-gray-900 dark:text-white-400 font-medium border-b border-gray-900">
                                             <li v-if="getValue(data.config, 'STORE_CMS_TERMS_OF_USE_FL_SHOW') == true" class="mb-4">
