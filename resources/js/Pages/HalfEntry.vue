@@ -110,10 +110,10 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                                                     <img :src="event.image" alt="Imagem do Evento" class="w-full h-auto rounded">
                                                 </div>
                                                 <div class="w-2/3 ml-4">
-                                                    <h1 class="title-font text-md font-medium text-gray-900 mb-1">{{ event.name }}</h1>
+                                                    <h1 class="title-font xs:text-xs sm:text-lg md:text-xs xl:text-md font-medium text-gray-900 mb-1">{{ event.name }}</h1>
                                                     <div class="flex items-center flex-wrap">
-                                                        <span class="text-xs text-black mr-1 inline-flex items-center leading-none pr-1" :style="{ color: primaryColor ?? 'black' }">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                                                        <span class="mt-1 text-xs text-black mr-1 inline-flex items-center leading-none pr-1" :style="{ color: primaryColor ?? 'black' }">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-calendar w-4 h-4 mr-1">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                                                             </svg>
                                                             {{ formatDate(event.date) }}
@@ -139,5 +139,21 @@ defineExpose({ primaryColor, secondColor, storeTitle });
 <style>
 .title-category{
     min-height: 200px;
+}
+
+@media (max-width: 475px) { 
+  .icon-calendar{
+    width: 0.5rem !important;
+    height: 0.5rem !important;
+  }
+  .text-xs{
+    font-size: x-small;
+  }
+}
+
+@media (min-width: 1280px) { 
+  .title-font{
+    font-size: large;
+  }
 }
 </style>

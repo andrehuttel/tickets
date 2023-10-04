@@ -74,7 +74,7 @@
           >
             <swiper-slide  v-for="(banner, index) in limitedBanners" :key="banner.id" class="p-4" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
               <a :href="banner.link">
-                <img class="rounded" :href="banner.link" :src="banner.image">
+                <img class="rounded" :href="banner.link" :src="banner.image" :alt="banner.title">
                 <div class="swiper-text md:block text-left text-white">
                   <h1 class="lg:text-3xl xs:text-lg font-semibold">{{ banner.title }}</h1>
                   <p class="lg:text-lg xs:text-xs mt-4">{{ banner.subtitle }}</p>
@@ -175,6 +175,7 @@ body {
 
   .mySwiper .swiper-slide img {
     margin: auto;
+    min-height: auto;
   }
 }
 

@@ -1,15 +1,7 @@
 <script setup>
-import Slider from '@/Pages/Slider.vue';
-// import Footer from '@/Pages/Footer.vue';
 import Nav from '@/Pages/Nav.vue';
 import Footer from '@/Pages/Footer.vue';
-import CarouselBanner from '@/Pages/CarouselBanner.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import AppLayout from '@/Layouts/AppLayout.vue';
-import { Head, Link, router } from '@inertiajs/vue3';
-//import { Carousel, Slide } from "vue-carousel";
-// import Carousel from '@/Pages/Carousel.vue';
+import { router } from '@inertiajs/vue3';
 
 const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMenu } = defineProps([
     'canLogin',
@@ -19,9 +11,6 @@ const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMen
     'data',
     'searchButtonMenu',
 ]);
-const logout = () => {
-    router.post(route('logout'));
-};
 const companyConfigs = data.company.configs;
 
 let primaryColor = null;

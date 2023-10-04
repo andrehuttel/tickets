@@ -163,12 +163,10 @@ defineExpose({ primaryColor, secondColor, storeTitle });
 
                             <div class="w-full md:w-1/2 mb-4">
                                 <div class="w-full min-h-screen overflow-hidden">
-                                    <h1 class="text-2xl font-bold mb-4">
-                                        Caso desejar, entre em contato através do email:
-                                        <span>{{ getValue(data.config, 'STORE_CONTACT_EMAIL_PRIMARY') }}</span>
-                                        ou através do número:
-                                        <span>{{ getValue(data.config, 'STORE_CONTACT_PHONE_PRIMARY') }}</span>
-                                    </h1>
+                                    <p class="more-info text-2xl font-bold mb-4">
+                                        Caso desejar, entre em contato através do email: {{ getValue(data.config, 'STORE_CONTACT_EMAIL_PRIMARY') }}
+                                        ou através do número: {{ getValue(data.config, 'STORE_CONTACT_PHONE_PRIMARY') }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -185,5 +183,15 @@ defineExpose({ primaryColor, secondColor, storeTitle });
 <style>
 .title-category{
     min-height: 200px;
+}
+
+.more-info{
+    word-wrap: break-word;
+}
+
+@media (min-width: 640px) and (max-width: 1024px) { 
+  .more-info{
+    margin-left: 20px;
+  }
 }
 </style>

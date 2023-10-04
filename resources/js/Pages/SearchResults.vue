@@ -101,7 +101,7 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen, storeTitle });
         <div class="flex justify-center items-center">
             <div class="max-w-7xl w-full lg:mt-32 xs:mt-12">
                 <section class="text-gray-600 body-font">
-                    <div class="container px-5">
+                    <div class="container lg:px-5 md:px-4 px-2">
                         <div class="flex flex-wrap lg:-m-4 mt-8">
                             <div class="p-4 -pr-4 lg:w-2/4 lg:w-2/4">
                                 <h1 class="text-black font-bold xs:text-lg md:text-2xl">Procure por um evento:</h1>
@@ -123,9 +123,9 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen, storeTitle });
         <div class="flex justify-center items-center">
             <div class="max-w-7xl w-full">
                 <section class="text-gray-600 body-font">
-                    <div class="container px-5 py-8 lg:py-24 mx-auto">
+                    <div class="container md:px-5 py-8 lg:py-24 mx-auto">
                         <div class="flex flex-wrap -m-4">
-                            <div v-if="items.length !== 0" v-for="ev in items" :key="ev.id" class="p-4 lg:w-1/4 lg:w-1/4">
+                            <div v-if="items.length !== 0" v-for="ev in items" :key="ev.id" class="p-4 sm:w-2/4 lg:w-1/4">
                                 <a :href="route('event.show', { category: ev.category_uri, uri: ev.uri })">
                                 <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                                     <img class="lg:h-48 lg:h-36 w-full object-cover object-center" :src="ev.image">
