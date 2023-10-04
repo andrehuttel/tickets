@@ -28,7 +28,7 @@ class CompanyMiddleware
     {
         $company = Company::where('host', $host)->orWhere('host_generated', $host)->first();
         if ($company) {
-            $faviconUrl = $company->configs[3]['value'];
+            $faviconUrl = $company->configs->where('key', 'STORE_TPL_LOGO')->first();
             $categories = Event::where('company_id', $company->id)
             ->select('category_name', 'category_uri')
             ->orderBy('category_name', 'asc')
