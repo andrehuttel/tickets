@@ -57,7 +57,7 @@ function formatDate(data) {
     const optionsDate = { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' };
     const dateFormatted = new Date(data).toLocaleDateString('pt-BR', optionsDate);
     
-    return this.capitalizeFirstLetter(dateFormatted).replace('.', '');
+    return capitalizeFirstLetter(dateFormatted).replace('.', '');
 }
 
 function isEventOpen() {
