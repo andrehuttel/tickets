@@ -1,19 +1,11 @@
 <script setup>
-import Slider from '@/Pages/Slider.vue';
-// import Footer from '@/Pages/Footer.vue';
-import Nav from '@/Pages/Nav.vue';
-import Footer from '@/Pages/Footer.vue';
-import CarouselBanner from '@/Pages/CarouselBanner.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, computed, watch } from 'vue';
 import Pagination from '@/Components/Pagination.vue';
 import {Inertia} from '@inertiajs/inertia';
 import debounce from "lodash/debounce";
-//import { Carousel, Slide } from "vue-carousel";
-// import Carousel from '@/Pages/Carousel.vue';
+import { onMounted } from 'vue';
 
 const { canLogin, canRegister, laravelVersion, phpVersion, data, event, searchButtonMenu, filter, events } = defineProps([
     'canLogin',
@@ -26,19 +18,19 @@ const { canLogin, canRegister, laravelVersion, phpVersion, data, event, searchBu
     'filter',
     'events'
 ]);
-const logout = () => {
-    router.post(route('logout'));
-};
+
 const companyConfigs = data.company.configs;
 const items = events.data;
 
 let primaryColor = null;
 let secondColor = null;
 let storeTitle = null;
+let storeMetaDescription = null;
 
 const primaryColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_PRIMARY_COLOR');
 const secondColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_SECONDARY_COLOR');
 const storeTitleObject = companyConfigs.find(config => config.key === 'STORE_TITLE');
+const storeMetaDescriptionObject = companyConfigs.find(config => config.key === 'STORE_META_DESCRIPTION');
 
 if (primaryColorObject !== undefined) {
     primaryColor = primaryColorObject.value;
@@ -48,6 +40,9 @@ if (secondColorObject !== undefined) {
 }
 if (storeTitleObject !== undefined) {
     storeTitle = storeTitleObject.value;
+}
+if (storeMetaDescriptionObject !== undefined) {
+    storeMetaDescription = storeMetaDescriptionObject.value;
 }
 
 function capitalizeFirstLetter(string) {
@@ -65,18 +60,6 @@ function formatDate(data) {
     
     return this.capitalizeFirstLetter(dateFormatted).replace('.', '');
 }
-function formatTime(data) {
-  const optionsTime = { hour: 'numeric', minute: 'numeric' };
-  const timeFormatted = new Date(data).toLocaleTimeString('pt-BR', optionsTime);
-
-  return timeFormatted;
-}
-let mobileMenuOpen = false;
-
-function toggleMobileMenu() {
-    console.log(this.mobileMenuOpen);
-    this.mobileMenuOpen = !this.mobileMenuOpen;
-}
 
 let search = ref(filter === null ? '' : filter);
 
@@ -84,15 +67,24 @@ watch(search, debounce(function (value) {
     Inertia.get('/buscar', { q: value }, {preserveState: true, replace: true });
 }, 300));
 
-defineExpose({ primaryColor, secondColor, mobileMenuOpen, storeTitle });
+onMounted(() => {
+  const descriptionMeta = document.createElement('meta');
+  descriptionMeta.name = 'description';
+  descriptionMeta.content = storeMetaDescription;
+
+  const existingDescriptionMeta = document.querySelector('meta[name="description"]');
+  if (existingDescriptionMeta) {
+    existingDescriptionMeta.remove();
+  }
+  document.head.appendChild(descriptionMeta);
+});
+
+defineExpose({ primaryColor, secondColor, storeTitle });
 </script>
-<!-- <script
-  type="text/javascript"
-  src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script> -->
 
 <template class="bg-green-500">
     <Head :title="'Busca - ' + storeTitle">
-        <link rel="icon" :href="data.faviconUrl" type="image/x-icon">
+        <link rel="icon" :href="data.faviconUrl.value" type="image/x-icon">
     </Head>
 
     <AppLayout :data="data" :searchButtonMenu="searchButtonMenu">
@@ -107,7 +99,7 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen, storeTitle });
                                 <h1 class="text-black font-bold xs:text-lg md:text-2xl">Procure por um evento:</h1>
                                 <div class="flex items-center mx-auto mt-2 mb-2">
                                     <div id="search" class="relative w-full h-full">
-                                        <input type="text" v-model="search" class="custom-focus block p-2.5 w-80 xs:w-full h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Pesquise por eventos...">
+                                        <input type="text" id="buscar" v-model="search" class="custom-focus block p-2.5 w-80 xs:w-full h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Pesquise por eventos...">
                                     </div>
                                 </div>
                             </div>
@@ -118,7 +110,6 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen, storeTitle });
         </div>
     </div>
 
-    <!-- Traz os eventos aqui -->
     <div class="bg-gray-100">
         <div class="flex justify-center items-center">
             <div class="max-w-7xl w-full">
@@ -128,7 +119,7 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen, storeTitle });
                             <div v-if="items.length !== 0" v-for="ev in items" :key="ev.id" class="p-4 sm:w-2/4 lg:w-1/4">
                                 <a :href="route('event.show', { category: ev.category_uri, uri: ev.uri })">
                                 <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-                                    <img class="lg:h-48 lg:h-36 w-full object-cover object-center" :src="ev.image">
+                                    <img class="lg:h-48 lg:h-36 w-full object-cover object-center" :src="ev.image" :alt="ev.name">
                                     <div class="p-6 pb-1">
                                         <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{ ev.name }}</h1>
                                         <div class="flex items-center flex-wrap">
@@ -195,10 +186,6 @@ defineExpose({ primaryColor, secondColor, mobileMenuOpen, storeTitle });
     border: none !important; /* Remove a borda */
     border-color: transparent !important; /* Define a cor da borda como transparente */
 }
-/* input:focus {
-    box-shadow: 0 0 0 0;
-    outline: 0;
-} */
 @media (prefers-color-scheme: dark) {
     .dark\:bg-dots-lighter {
         background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E");

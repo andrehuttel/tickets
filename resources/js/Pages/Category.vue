@@ -1,15 +1,7 @@
 <script setup>
-import Slider from '@/Pages/Slider.vue';
-// import Footer from '@/Pages/Footer.vue';
-import Nav from '@/Pages/Nav.vue';
-import Footer from '@/Pages/Footer.vue';
-import CarouselBanner from '@/Pages/CarouselBanner.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-//import { Carousel, Slide } from "vue-carousel";
-// import Carousel from '@/Pages/Carousel.vue';
+import { onMounted } from 'vue';
 
 const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMenu, faviconUrl, categoryName, events } = defineProps([
     'canLogin',
@@ -23,18 +15,17 @@ const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMen
     'events'
 ]);
 
-const logout = () => {
-    router.post(route('logout'));
-};
 const companyConfigs = data.company.configs;
 
 let primaryColor = null;
 let secondColor = null;
 let storeTitle = null;
+let storeMetaDescription = null;
 
 const primaryColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_PRIMARY_COLOR');
 const secondColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_SECONDARY_COLOR');
 const storeTitleObject = companyConfigs.find(config => config.key === 'STORE_TITLE');
+const storeMetaDescriptionObject = companyConfigs.find(config => config.key === 'STORE_META_DESCRIPTION');
 
 if (primaryColorObject !== undefined) {
     primaryColor = primaryColorObject.value;
@@ -44,6 +35,9 @@ if (secondColorObject !== undefined) {
 }
 if (storeTitleObject !== undefined) {
     storeTitle = storeTitleObject.value;
+}
+if (storeMetaDescriptionObject !== undefined) {
+    storeMetaDescription = storeMetaDescriptionObject.value;
 }
 
 function capitalizeFirstLetter(string) {
@@ -61,29 +55,25 @@ function formatDate(data) {
     
     return this.capitalizeFirstLetter(dateFormatted).replace('.', '');
 }
-function formatTime(data) {
-  const optionsTime = { hour: 'numeric', minute: 'numeric' };
-  const timeFormatted = new Date(data).toLocaleTimeString('pt-BR', optionsTime);
 
-  return timeFormatted;
-}
+onMounted(() => {
+  const descriptionMeta = document.createElement('meta');
+  descriptionMeta.name = 'description';
+  descriptionMeta.content = storeMetaDescription;
 
-function getValue(array, key) {
-    for (let i = 0; i < array.length; i++) {
-        if (array[i].key === key) {
-            return array[i].value;
-        }
-    }
-    return null;
-}
+  const existingDescriptionMeta = document.querySelector('meta[name="description"]');
+  if (existingDescriptionMeta) {
+    existingDescriptionMeta.remove();
+  }
+  document.head.appendChild(descriptionMeta);
+});
 
 defineExpose({ primaryColor, secondColor, storeTitle });
 </script>
 
 <template class="bg-green-100">
     <Head :title="categoryName+' - ' + storeTitle">
-        <link rel="icon" :href="data.faviconUrl" type="image/x-icon">
-        <meta name="description" :content="data.faviconUrl" />
+        <link rel="icon" :href="data.faviconUrl.value" type="image/x-icon">
     </Head>
 
     <AppLayout :data="data" :searchButtonMenu="searchButtonMenu">
@@ -93,18 +83,13 @@ defineExpose({ primaryColor, secondColor, storeTitle });
         <div class="flex justify-center items-center title-category">
             <div class="max-w-7xl w-full">
                 <div class="container px-5 pt-8 lg:pt-none mx-auto">
-                    <!-- Conteúdo da div container -->
-                    <div class="pb-20"> <!-- Adiciona padding-bottom de 10px -->
-                        <!-- Outro conteúdo, se houver -->
-                    </div>
-                    <!-- Movendo a tag <h1> para o final da div container -->
+                    <div class="pb-20"></div>
                         <h1 class="text-3xl font-semibold text-white">{{ categoryName }}</h1>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Traz os eventos aqui -->
     <div class="bg-gray-100">
         <div class="flex justify-center items-center">
             <div class="max-w-7xl w-full">
@@ -114,11 +99,9 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                             <div v-for="event in events" :key="event.id" class="p-4 sm:w-2/4 lg:w-1/4">
                                 <a :href="route('event.show', { category: event.category_uri, uri: event.uri })">
                                     <div class="h-full shadow-2xl rounded-lg overflow-hidden">
-                                        <img class="w-full object-cover object-center" :src="event.image">
+                                        <img class="w-full object-cover object-center" :src="event.image" :alt="event.name">
                                         <div class="p-6">
-                                            <!-- <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY</h2> -->
                                             <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{ event.name }}</h1>
-                                            <!-- <p class="text-blue-600 leading-relaxed mb-3 text-xs" :style="{ color: primaryColor ? primaryColor : '' }">{{ formatDate(event.date) }}</p> -->
                                             <div class="flex items-center flex-wrap">
                                                 <span class="text-black mr-1 inline-flex items-center mb-3 leading-none pr-1 py-1" :style="{ color: primaryColor ?? 'black' }">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
@@ -150,25 +133,6 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                                                 {{ event.place_name }}
                                                 </span>
                                             </div>
-                                            <!-- <div class="flex items-center flex-wrap ">
-                                            <a class="text-indigo-500 inline-flex items-center lg:mb-2 lg:mb-0">Learn More
-                                                <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M5 12h14"></path>
-                                                <path d="M12 5l7 7-7 7"></path>
-                                                </svg>
-                                            </a>
-                                            <span class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto lg:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
-                                                <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                <circle cx="12" cy="12" r="3"></circle>
-                                                </svg>1.2K
-                                            </span>
-                                            <span class="text-gray-400 inline-flex items-center leading-none text-sm">
-                                                <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                                <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
-                                                </svg>6
-                                            </span>
-                                            </div> -->
                                         </div>
                                     </div>
                                 </a>
@@ -186,17 +150,5 @@ defineExpose({ primaryColor, secondColor, storeTitle });
 <style>
 .title-category{
     min-height: 200px;
-}
-.bg-dots-darker {
-    background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E");
-}
-input:focus {
-    box-shadow: 0 0 0 0;
-    outline: 0;
-}
-@media (prefers-color-scheme: dark) {
-    .dark\:bg-dots-lighter {
-        background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E");
-    }
 }
 </style>

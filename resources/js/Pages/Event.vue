@@ -1,10 +1,7 @@
 <script setup>
-import Dropdown from '@/Components/Dropdown.vue';
-import Nav from '@/Pages/Nav.vue';
-import Footer from '@/Pages/Footer.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { onMounted } from 'vue';
 
 const { canLogin, canRegister, laravelVersion, phpVersion, data, event, searchButtonMenu } = defineProps([
     'canLogin',
@@ -16,21 +13,19 @@ const { canLogin, canRegister, laravelVersion, phpVersion, data, event, searchBu
     'searchButtonMenu'
 ]);
 
-const logout = () => {
-    router.post(route('logout'));
-};
-
 const companyConfigs = data.company.configs;
 
 let primaryColor = null;
 let secondColor = null;
 let storeTitle = null;
+let storeMetaDescription = null;
 let paymentMethods = null;
 let dataEvent = event.date;
 
 const primaryColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_PRIMARY_COLOR');
 const secondColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_SECONDARY_COLOR');
 const storeTitleObject = companyConfigs.find(config => config.key === 'STORE_TITLE');
+const storeMetaDescriptionObject = companyConfigs.find(config => config.key === 'STORE_META_DESCRIPTION');
 const paymentMethodsObject = companyConfigs.find(config => config.key === 'STORE_CHKT_PAY_METH_FLAGS');
 
 if (primaryColorObject !== undefined) {
@@ -41,6 +36,9 @@ if (secondColorObject !== undefined) {
 }
 if (storeTitleObject !== undefined) {
     storeTitle = storeTitleObject.value;
+}
+if (storeMetaDescriptionObject !== undefined) {
+    storeMetaDescription = storeMetaDescriptionObject.value;
 }
 if (paymentMethodsObject !== undefined) {
     paymentMethods = paymentMethodsObject.value;
@@ -61,53 +59,38 @@ function formatDate(data) {
     
     return this.capitalizeFirstLetter(dateFormatted).replace('.', '');
 }
-function formatTime(data) {
-  const optionsTime = { hour: 'numeric', minute: 'numeric' };
-  const timeFormatted = new Date(data).toLocaleTimeString('pt-BR', optionsTime);
-
-  return timeFormatted;
-}
 
 function isEventOpen() {
-    // Dividir a data em ano, mês e dia
     const [ano, mes, dia] = dataEvent.split('-').map(Number);
-
-    // Obter a data atual
     const currentDate = new Date();
-
-    // Criar uma nova data com a data do evento
     const eventDate = new Date(ano, mes - 1, dia); // Lembre-se de subtrair 1 do mês, pois os meses em JavaScript são baseados em zero (janeiro é 0, fevereiro é 1, etc.)
     return eventDate > currentDate;
-}
-
-function backgroundStyle() {
-    return backgroundImage = url('https://d2hnilqqbw3vnf.cloudfront.net/images/imagens/full/mCteMLfK1gxdLahIe5j8qdcB0yYg2K0r2F0QOu2o.jpeg');
 }
 
 function methodPayments() {
     return paymentMethods.split(',').map(method => method.trim());
 }
 
+onMounted(() => {
+  const descriptionMeta = document.createElement('meta');
+  descriptionMeta.name = 'description';
+  descriptionMeta.content = storeMetaDescription;
+
+  const existingDescriptionMeta = document.querySelector('meta[name="description"]');
+  if (existingDescriptionMeta) {
+    existingDescriptionMeta.remove();
+  }
+  document.head.appendChild(descriptionMeta);
+});
+
 defineExpose({ primaryColor, secondColor, storeTitle });
 </script>
 
 <template class="bg-gray-100">
-    <!-- <Head title="Evento"></Head> -->
-    <!-- <Head :title="event.name ? `${event.name}` : ''"></Head> -->
     <Head :title="event.name ? event.name + ' - ' + storeTitle : storeTitle">
-        <link rel="icon" :href="data.faviconUrl" type="image/x-icon">
+        <link rel="icon" :href="data.faviconUrl.value" type="image/x-icon">
     </Head>
-    <!-- <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-        <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</Link>
 
-        <template v-else>
-            <Link :href="route('login')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</Link>
-
-            <Link v-if="canRegister" :href="route('register')" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</Link>
-        </template>
-    </div> -->
-
-    <!-- <template> -->
     <AppLayout :data="data" :searchButtonMenu="searchButtonMenu">
     <main>
         <div class="container-fluid background-image mt-10 pb-8" :style="{
@@ -116,7 +99,6 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                         ? `linear-gradient(${primaryColor}, rgba(0, 0, 0, 0.8)), url(${event.image})`
                         : `linear-gradient(#FFFFFF, rgba(0, 0, 0, 0.8)), url(${event.image})`
                     }">
-            <!-- Image gallery -->
             <div class="container mx-auto w-full max-w-screen-xl lg:max-h-[400px]">
                 <div class="mt-6 lg:grid lg:grid-cols-4 lg:gap-4 px-4 pt-24">
                     <div class="col-span-2 lg:col-span-2 aspect-h-4 aspect-w-6 lg:block lg:max-h-[320px] object-scale-down">
@@ -194,14 +176,12 @@ defineExpose({ primaryColor, secondColor, storeTitle });
         </div>
         
         <div class="container mx-auto w-full max-w-screen-xl">
-            <!-- Product info -->
             <div class="mx-auto max-w-2xl px-4 pb-8 pt-4 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-4">
                 <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
                     <div class="mt-4 text-sm text-gray-900" v-html="event.description"></div>
                     <div class="mt-4 text-sm text-gray-900" v-html="event.description_append"></div>
                 </div>
 
-                <!-- Options -->
                 <div class="mt-4 lg:row-span-3 lg:mt-0">
                     <div class="">
                         <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl" :style="{ color: primaryColor ? primaryColor : '' }">Local do Evento</h1>
@@ -229,7 +209,6 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                             >
                             </li>
                         </ul>
-                        <!-- <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Add to bag</button> -->
                     </div>
                 </div>
 
@@ -248,19 +227,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                                 <p class="text-gray-600 font-bold md:text-2xl">{{ event.organizer_name }}</p>
                                 <div class="lg:flex items-center mt-auto">
                                 <div class="flex mt-4 lg:mt-0 w-full xs:w-full">
-                                    <div class="flex items-center space-x-2 lg:pt-5">
-                                        <!-- <a :href="event.organizer_instagram" class="text-black text-black-400 hover:text-black-900 dark:hover:text-black flex items-center">
-                                            <svg class="w-4 h-4 mr-1" height="1em" viewBox="0 0 448 512">
-                                                <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
-                                            <span class="sr-only">Instagram</span>
-                                        </a>
-                                        <a :href="event.organizer_facebook" class="text-black text-black-400 hover:text-black-900 dark:hover:text-black flex items-center">
-                                            <svg class="w-4 h-4 mr-1" height="1em" viewBox="0 0 512 512">
-                                                <path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/>
-                                            </svg>
-                                            <span class="sr-only">Facebook</span>
-                                        </a> -->
-                                    </div>
+                                    <div class="flex items-center space-x-2 lg:pt-5"></div>
                                 </div>
                             </div>
                             </div>
@@ -280,7 +247,6 @@ defineExpose({ primaryColor, secondColor, storeTitle });
     background-color: rgb(0, 155, 114);
 }
 .icon-payment{
-    /* display: inline-block; */
     width: 40px;
     height: 30px;
     background: #fff;
@@ -296,7 +262,6 @@ input:focus {
 }
 
 .background-image {
-    /* position: absolute; */
     background-color: var(rgb(34, 197, 94));
     background-repeat: no-repeat;
     background-size: cover;

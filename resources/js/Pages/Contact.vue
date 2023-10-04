@@ -4,6 +4,7 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import axios from 'axios';
 import $ from 'jquery';
+import { onMounted } from 'vue';
 
 const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMenu, faviconUrl } = defineProps([
     'canLogin',
@@ -77,10 +78,12 @@ const companyConfigs = data.company.configs;
 let primaryColor = null;
 let secondColor = null;
 let storeTitle = null;
+let storeMetaDescription = null;
 
 const primaryColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_PRIMARY_COLOR');
 const secondColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_SECONDARY_COLOR');
 const storeTitleObject = companyConfigs.find(config => config.key === 'STORE_TITLE');
+const storeMetaDescriptionObject = companyConfigs.find(config => config.key === 'STORE_META_DESCRIPTION');
 
 if (primaryColorObject !== undefined) {
     primaryColor = primaryColorObject.value;
@@ -90,6 +93,9 @@ if (secondColorObject !== undefined) {
 }
 if (storeTitleObject !== undefined) {
     storeTitle = storeTitleObject.value;
+}
+if (storeMetaDescriptionObject !== undefined) {
+    storeMetaDescription = storeMetaDescriptionObject.value;
 }
 
 function getValue(array, key) {
@@ -101,13 +107,24 @@ function getValue(array, key) {
     return null;
 }
 
+onMounted(() => {
+  const descriptionMeta = document.createElement('meta');
+  descriptionMeta.name = 'description';
+  descriptionMeta.content = storeMetaDescription;
+
+  const existingDescriptionMeta = document.querySelector('meta[name="description"]');
+  if (existingDescriptionMeta) {
+    existingDescriptionMeta.remove();
+  }
+  document.head.appendChild(descriptionMeta);
+});
+
 defineExpose({ primaryColor, secondColor, storeTitle });
 </script>
 
 <template class="bg-green-100">
     <Head :title="'Contato - ' + storeTitle">
-        <link rel="icon" :href="data.faviconUrl" type="image/x-icon">
-        <meta name="description" :content="data.faviconUrl" />
+        <link rel="icon" :href="data.faviconUrl.value" type="image/x-icon">
     </Head>
 
     <AppLayout :data="data" :searchButtonMenu="searchButtonMenu">

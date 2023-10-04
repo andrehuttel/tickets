@@ -1,15 +1,7 @@
 <script setup>
-import Slider from '@/Pages/Slider.vue';
-// import Footer from '@/Pages/Footer.vue';
-import Nav from '@/Pages/Nav.vue';
-import Footer from '@/Pages/Footer.vue';
-import CarouselBanner from '@/Pages/CarouselBanner.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-//import { Carousel, Slide } from "vue-carousel";
-// import Carousel from '@/Pages/Carousel.vue';
+import { onMounted } from 'vue';
 
 const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMenu, faviconUrl, groupName, events } = defineProps([
     'canLogin',
@@ -23,18 +15,17 @@ const { canLogin, canRegister, laravelVersion, phpVersion, data, searchButtonMen
     'events'
 ]);
 
-const logout = () => {
-    router.post(route('logout'));
-};
 const companyConfigs = data.company.configs;
 
 let primaryColor = null;
 let secondColor = null;
 let storeTitle = null;
+let storeMetaDescription = null;
 
 const primaryColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_PRIMARY_COLOR');
 const secondColorObject = companyConfigs.find(config => config.key === 'STORE_TPL_SECONDARY_COLOR');
 const storeTitleObject = companyConfigs.find(config => config.key === 'STORE_TITLE');
+const storeMetaDescriptionObject = companyConfigs.find(config => config.key === 'STORE_META_DESCRIPTION');
 
 if (primaryColorObject !== undefined) {
     primaryColor = primaryColorObject.value;
@@ -44,6 +35,9 @@ if (secondColorObject !== undefined) {
 }
 if (storeTitleObject !== undefined) {
     storeTitle = storeTitleObject.value;
+}
+if (storeMetaDescriptionObject !== undefined) {
+    storeMetaDescription = storeMetaDescriptionObject.value;
 }
 
 function capitalizeFirstLetter(string) {
@@ -55,35 +49,32 @@ function capitalizeFirstLetter(string) {
     }
     return string;
 }
+
 function formatDate(data) {
     const optionsDate = { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' };
     const dateFormatted = new Date(data).toLocaleDateString('pt-BR', optionsDate);
     
     return this.capitalizeFirstLetter(dateFormatted).replace('.', '');
 }
-function formatTime(data) {
-  const optionsTime = { hour: 'numeric', minute: 'numeric' };
-  const timeFormatted = new Date(data).toLocaleTimeString('pt-BR', optionsTime);
 
-  return timeFormatted;
-}
+onMounted(() => {
+  const descriptionMeta = document.createElement('meta');
+  descriptionMeta.name = 'description';
+  descriptionMeta.content = storeMetaDescription;
 
-function getValue(array, key) {
-    for (let i = 0; i < array.length; i++) {
-        if (array[i].key === key) {
-            return array[i].value;
-        }
-    }
-    return null;
-}
+  const existingDescriptionMeta = document.querySelector('meta[name="description"]');
+  if (existingDescriptionMeta) {
+    existingDescriptionMeta.remove();
+  }
+  document.head.appendChild(descriptionMeta);
+});
 
 defineExpose({ primaryColor, secondColor, storeTitle });
 </script>
 
 <template class="bg-green-100">
     <Head :title="groupName+' - ' + storeTitle">
-        <link rel="icon" :href="data.faviconUrl" type="image/x-icon">
-        <meta name="description" :content="data.faviconUrl" />
+        <link rel="icon" :href="data.faviconUrl.value" type="image/x-icon">
     </Head>
 
     <AppLayout :data="data" :searchButtonMenu="searchButtonMenu">
@@ -93,17 +84,12 @@ defineExpose({ primaryColor, secondColor, storeTitle });
         <div class="flex justify-center items-center title-group">
             <div class="max-w-7xl w-full">
                 <div class="container px-5 pt-8 lg:pt-none mx-auto">
-                    <!-- Conteúdo da div container -->
-                    <div class="pb-20"> <!-- Adiciona padding-bottom de 10px -->
-                        <!-- Outro conteúdo, se houver -->
-                    </div>
-                    <!-- Movendo a tag <h1> para o final da div container -->
+                    <div class="pb-20"></div>
                         <h1 class="text-3xl font-semibold text-white">{{ groupName }}</h1>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Traz os eventos aqui -->
     <div class="bg-gray-100">
         <div class="flex justify-center items-center min-h-screen">
             <div class="max-w-7xl w-full">
@@ -113,7 +99,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                             <div v-for="event in events" :key="event.id" class="p-4 sm:w-2/4 lg:w-1/4">
                                 <a :href="route('event.show', { category: event.category_uri, uri: event.uri })">
                                     <div class="h-full shadow-2xl rounded-lg overflow-hidden">
-                                        <img class="w-full object-cover object-center" :src="event.image">
+                                        <img class="w-full object-cover object-center" :src="event.image" :alt="event.name">
                                         <div class="p-6">
                                             <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{ event.name }}</h1>
                                             <div class="flex items-center flex-wrap">

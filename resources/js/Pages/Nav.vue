@@ -58,7 +58,7 @@
                                 </a>
                             </div>
                         </div>
-                        <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-blue-500 hover:bg-blue-500 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" @click="showingNavigationDropdown = ! showingNavigationDropdown" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
+                        <button title="Menu" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-blue-500 hover:bg-blue-500 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" @click="showingNavigationDropdown = ! showingNavigationDropdown" :style="{ backgroundColor: primaryColor ? primaryColor : '' }">
                             <svg
                                 class="h-6 w-6"
                                 stroke="#fff"
