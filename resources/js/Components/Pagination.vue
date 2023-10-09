@@ -4,8 +4,13 @@ defineProps({
   primaryColor: String,
   data: Object
 });
-</script>
 
+function generatePagedUrl(baseUrl, page) {
+  const url = new URL(baseUrl, window.location.origin);
+  url.searchParams.set('page', page);
+  return url.toString();
+}
+</script>
 
 <template>
   <div v-if="data.links.length > 3" class="flex justify-center mb-4 mt-4 space-x-4">
@@ -17,7 +22,7 @@ defineProps({
         'color': link.active ? 'white' : '',
         'background-color': link.active ? primaryColor : '',
       }"
-      :href="link.url ? link.url : ''"
+      :href="generatePagedUrl(link.url, link.label)"
       v-html="link.label.includes('Previous') ? 'Anterior' : (link.label.includes('Next') ? 'Próximo' : link.label)"
     />
   </div>

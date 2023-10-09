@@ -62,39 +62,16 @@ function formatDate(data) {
     return capitalizeFirstLetter(dateFormatted).replace('.', '');
 }
 
-let search = ref(filter === null ? '' : filter);
-
-
-const handleSearchInput = debounce(async (value) => {
-    value = value.target.value.toString();
-    console.log('Valor da pesquisa:', value);
-
-    try {
-        const response = await Inertia.get(route('buscar'), { q: value }, { preserveState: true, replace: true });
-        console.log('Resposta do servidor:', response);
-        
-        if (response && response.status === 200) {
-            console.log('Sucesso! A resposta do servidor:', response);
-        } else {
-            console.error('Resposta inesperada do servidor:', response);
-        }
-    } catch (error) {
-        if (!error.response || error.response.status !== 409) {
-            console.error('Erro ao fazer a chamada Inertia.get():', error);
-        }
-    }
-}, 300);
-
 onMounted(() => {
-  const descriptionMeta = document.createElement('meta');
-  descriptionMeta.name = 'description';
-  descriptionMeta.content = storeMetaDescription;
+    const descriptionMeta = document.createElement('meta');
+    descriptionMeta.name = 'description';
+    descriptionMeta.content = storeMetaDescription;
 
-  const existingDescriptionMeta = document.querySelector('meta[name="description"]');
-  if (existingDescriptionMeta) {
-    existingDescriptionMeta.remove();
-  }
-  document.head.appendChild(descriptionMeta);
+    const existingDescriptionMeta = document.querySelector('meta[name="description"]');
+    if (existingDescriptionMeta) {
+        existingDescriptionMeta.remove();
+    }
+    document.head.appendChild(descriptionMeta);
 });
 
 defineExpose({ primaryColor, secondColor, storeTitle });
@@ -115,18 +92,18 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                         <div class="flex flex-wrap lg:-m-4 mt-8">
                             <div class="p-4 -pr-4 lg:w-2/4 lg:w-2/4">
                                 <h1 class="text-black font-bold xs:text-lg md:text-2xl">Procure por um evento:</h1>
-                                <div class="flex items-center mx-auto mt-2 mb-2">
-                                    <div id="search" class="relative w-full h-full">
-                                        <InputLabel label="Pesquise por eventos...">
-                                        <input
-                                            class="custom-focus block p-2.5 w-80 xs:w-full h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                                            type="text"
-                                            id="buscar"
-                                            @input="handleSearchInput"
-                                            :value="search"
-                                        />
-                                        </InputLabel>
-                                    </div>
+                                <div class="flex items-center mx-auto mt-2 mb-6">
+                                    <form :action="route('buscar')" method="GET">
+                                        <div id="search" class="relative w-full h-full">
+                                            <input type="text" :value="filter" id="search-dropdown" name="q" class="custom-focus block p-2.5 w-80 h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Pesquise por eventos...">
+                                            <button type="submit" class="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white rounded-r-lg focus:outline-none">
+                                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" :style="{ color: primaryColor ? primaryColor : '' }" viewBox="0 0 20 20">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                                </svg>
+                                                <span class="sr-only">Search</span>
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -167,7 +144,7 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
-                                                Inicio: {{ ev.start_hour }}
+                                                Início: {{ ev.start_hour }}
                                             </span>
                                         </div>
                                         <div class="flex items-center flex-wrap">
