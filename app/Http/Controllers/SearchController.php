@@ -10,9 +10,20 @@ use Inertia\Inertia;
 
 class SearchController extends Controller
 {
-    public function index(Request $request)
+    public function findEvent(Request $request)
     {
         $searchTerm = $request->query('q');
+        $events = Event::query()
+        ->when($searchTerm, function ($query, $search) {
+            $query->where('name', 'like', "%{$search}%");
+        })
+        ->where('company_id', $request->get('data')['company']['id'])
+        ->orderBy('date', 'asc')
+        ->paginate(8)
+        ->withQueryString();
+        if(!$events){
+            $events = null;
+        }
 
         return Inertia::render('SearchResults', [
             'canLogin' => Route::has('login'),
@@ -20,14 +31,7 @@ class SearchController extends Controller
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
             'data' => $request->get('data'),
-            'events' => Event::query()
-                ->when($searchTerm, function ($query, $search) {
-                    $query->where('name', 'like', "%{$search}%");
-                })
-                ->where('company_id', $request->get('data')['company']['id'])
-                ->orderBy('date', 'asc')
-                ->paginate(8)
-                ->withQueryString(),
+            'events' => $events,
             'searchButtonMenu' => false,
             'filter' => $searchTerm,
         ]);

@@ -21,13 +21,13 @@ Route::middleware([
     CompanyMiddleware::class,
 ])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('/');
-    Route::get('/buscar', [SearchController::class, 'index'])->name('buscar');
     Route::get('/termos-de-uso', [FooterController::class, 'showTermsOfUse'])->name('footer.showTermsOfUse');
     Route::get('/politica-de-privacidade', [FooterController::class, 'showPrivacyPolicy'])->name('footer.showPrivacyPolicy');
     Route::get('/taxa-de-servico', [FooterController::class, 'showServiceTax'])->name('footer.showServiceTax');
     Route::get('/meia-entrada', [FooterController::class, 'showHalfEntry'])->name('footer.showHalfEntry');
     Route::get('/sobre-nos', [FooterController::class, 'showAboutUs'])->name('footer.showAboutUs');
     Route::get('/contato', [FooterController::class, 'showContact'])->name('footer.showContact');
+    Route::get('/buscar', [SearchController::class, 'findEvent'])->name('buscar');
     Route::post('/contato/enviar-email', [FooterController::class, 'sendEmail'])->name('footer.sendEmail');
     Route::get('/eventos/{group}', [EventController::class, 'showGroup'])->name('event.showGroup');
     Route::get('/{category}/{uri?}', [EventController::class, 'show'])->name('event.show'); //Redireciona para o Evento ou para a Categoria

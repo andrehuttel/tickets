@@ -1,11 +1,12 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, watchEffect } from 'vue';
 import Pagination from '@/Components/Pagination.vue';
-import {Inertia} from '@inertiajs/inertia';
+import { Inertia } from '@inertiajs/inertia';
 import debounce from "lodash/debounce";
 import { onMounted } from 'vue';
+import InputLabel from '@/Components/InputLabel.vue';
 
 const { canLogin, canRegister, laravelVersion, phpVersion, data, event, searchButtonMenu, filter, events } = defineProps([
     'canLogin',
@@ -63,9 +64,26 @@ function formatDate(data) {
 
 let search = ref(filter === null ? '' : filter);
 
-watch(search, debounce(function (value) {
-    Inertia.get('/buscar', { q: value }, {preserveState: true, replace: true });
-}, 300));
+
+const handleSearchInput = debounce(async (value) => {
+    value = value.target.value.toString();
+    console.log('Valor da pesquisa:', value);
+
+    try {
+        const response = await Inertia.get(route('buscar'), { q: value }, { preserveState: true, replace: true });
+        console.log('Resposta do servidor:', response);
+        
+        if (response && response.status === 200) {
+            console.log('Sucesso! A resposta do servidor:', response);
+        } else {
+            console.error('Resposta inesperada do servidor:', response);
+        }
+    } catch (error) {
+        if (!error.response || error.response.status !== 409) {
+            console.error('Erro ao fazer a chamada Inertia.get():', error);
+        }
+    }
+}, 300);
 
 onMounted(() => {
   const descriptionMeta = document.createElement('meta');
@@ -99,7 +117,15 @@ defineExpose({ primaryColor, secondColor, storeTitle });
                                 <h1 class="text-black font-bold xs:text-lg md:text-2xl">Procure por um evento:</h1>
                                 <div class="flex items-center mx-auto mt-2 mb-2">
                                     <div id="search" class="relative w-full h-full">
-                                        <input type="text" id="buscar" v-model="search" class="custom-focus block p-2.5 w-80 xs:w-full h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Pesquise por eventos...">
+                                        <InputLabel label="Pesquise por eventos...">
+                                        <input
+                                            class="custom-focus block p-2.5 w-80 xs:w-full h-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg rounded-r-lg border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                            type="text"
+                                            id="buscar"
+                                            @input="handleSearchInput"
+                                            :value="search"
+                                        />
+                                        </InputLabel>
                                     </div>
                                 </div>
                             </div>
