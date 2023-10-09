@@ -19,7 +19,7 @@ class SearchController extends Controller
         $currentPage = intval($request->query('page', 1));
         $cacheKey = 'company_'.$companyId.'_event_search_'.$searchTerm.'page_'.$currentPage;
 
-        $events = Cache::remember($cacheKey, 60 * 60, function () use ($searchTerm, $companyId, $currentPage) {
+        $events = Cache::rememberForever($cacheKey, function () use ($searchTerm, $companyId, $currentPage) {
             return Event::query()
                 ->when($searchTerm, function ($query, $search) {
                     $query->where('name', 'like', "%{$search}%");
