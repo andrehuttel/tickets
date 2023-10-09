@@ -7,15 +7,24 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Cache;
 
 class EventController extends Controller
 {
     public function show(Request $request, $category, $uri = null)
     {
         if(!is_null($uri)) {
-            $event = Event::where('uri', $uri)
-                ->where('company_id', $request->get('data')['company']['id'])
-                ->first();
+            if($request->get('data')['company']['fl_use_cache'] == '1'){
+                $event = Cache::rememberForever('company_' . $request->get('data')['company']['id'].'_event_' . md5($uri . $request->get('data')['company']['id']), function () use ($request, $uri) {
+                    return Event::where('uri', $uri)
+                        ->where('company_id', $request->get('data')['company']['id'])
+                        ->first();
+                });
+            } else {
+                $event = Event::where('uri', $uri)
+                    ->where('company_id', $request->get('data')['company']['id'])
+                    ->first();
+            }
 
             if (!$event) {
                 abort(404);
@@ -31,14 +40,29 @@ class EventController extends Controller
                 'searchButtonMenu' => true,
             ]);
         } else if(!is_null($category) && is_null($uri)){
-            $company_id = $request->get('data')['company']['id'];
-            $category = Event::where('company_id', $company_id)->where('category_name', $category)->orderBy('category_name', 'asc')
-                ->select('category_id', 'category_name')->distinct()->get();
+            if($request->get('data')['company']['fl_use_cache'] == '1'){
+                $category = Cache::rememberForever('company_' . $request->get('data')['company']['id'].'_category_' . md5($category . $request->get('data')['company']['id']), function () use ($request, $category) {
+                    return Event::where('company_id', $request->get('data')['company']['id'])->where('category_name', $category)->orderBy('category_name', 'asc')
+                        ->select('category_id', 'category_name')->distinct()->get();
+                });
+            } else {
+                $category = Event::where('company_id', $request->get('data')['company']['id'])->where('category_name', $category)->orderBy('category_name', 'asc')
+                    ->select('category_id', 'category_name')->distinct()->get();
+            }
             if(!empty($category) && isset($category[0]['category_id'])) {
-                $events = Event::where('category_id', $category[0]['category_id'])
-                    ->where('company_id', $request->get('data')['company']['id'])
-                    ->orderBy('date', 'asc')
-                    ->get();
+                if($request->get('data')['company']['fl_use_cache'] == '1'){
+                    $events = Cache::rememberForever('company_' . $request->get('data')['company']['id'].'_category_events_' . md5($category . $request->get('data')['company']['id']), function () use ($request, $category) {
+                        return Event::where('category_id', $category[0]['category_id'])
+                            ->where('company_id', $request->get('data')['company']['id'])
+                            ->orderBy('date', 'asc')
+                            ->get();
+                    });
+                } else {
+                    $events = Event::where('category_id', $category[0]['category_id'])
+                        ->where('company_id', $request->get('data')['company']['id'])
+                        ->orderBy('date', 'asc')
+                        ->get();
+                }
             } else{
                 abort(404);
             }
@@ -58,12 +82,25 @@ class EventController extends Controller
     public function showGroup(Request $request, $group) 
     {
         if(!is_null($group)) {
-            $company_id = $request->get('data')['company']['id'];
-            $group = Event::where('company_id', $company_id)->where('group_uri', $group)->select('group_id', 'group_name')->distinct()->get();
+            if($request->get('data')['company']['fl_use_cache'] == '1'){
+                $group = Cache::rememberForever('company_' . $request->get('data')['company']['id'].'_group_' . md5($group . $request->get('data')['company']['id']), function () use ($request, $group) {
+                    return Event::where('company_id', $request->get('data')['company']['id'])->where('group_uri', $group)->select('group_id', 'group_name')->distinct()->get();
+                });
+            } else {
+                $group = Event::where('company_id', $request->get('data')['company']['id'])->where('group_uri', $group)->select('group_id', 'group_name')->distinct()->get();
+            }
             if(!empty($group) && isset($group[0]['group_id'])) {
-                $events = Event::where('group_id', $group[0]['group_id'])
-                    ->where('company_id', $request->get('data')['company']['id'])
-                    ->get();
+                if($request->get('data')['company']['fl_use_cache'] == '1'){
+                    $events = Cache::rememberForever('company_' . $request->get('data')['company']['id'].'_group_events_' . md5($group . $request->get('data')['company']['id']), function () use ($request, $group) {
+                        return Event::where('group_id', $group[0]['group_id'])
+                            ->where('company_id', $request->get('data')['company']['id'])
+                            ->get();
+                    });
+                } else {
+                    $events = Event::where('group_id', $group[0]['group_id'])
+                        ->where('company_id', $request->get('data')['company']['id'])
+                        ->get();
+                }
             } else{
                 abort(404);
             }

@@ -185,19 +185,6 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
-    ])->toArray(),
+    ])->toArray()
     
-    /*
-    |--------------------------------------------------------------------------
-    | Class Custom Config
-    |--------------------------------------------------------------------------
-    |
-    | Config to use cache in Application
-    |
-    */
-
-    'custom_config' => [
-        'use_cache' => env('USE_CACHE', true), // Padrão é true, ative o cache por padrão
-    ],
-
 ];

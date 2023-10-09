@@ -12,7 +12,7 @@ class Company extends Model
     protected $table = 'company';
     protected $keyType = 'string';
     protected $primaryKey = 'id';
-    protected $fillable = ['id', 'name', 'cnpj', 'host'];
+    protected $fillable = ['id', 'name', 'cnpj', 'host', 'fl_use_cache'];
 
     public function configs()
     {
