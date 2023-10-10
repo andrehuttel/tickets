@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\CompanyService;
+use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {
@@ -13,9 +14,10 @@ class ApiController extends Controller
         $this->companyService = $companyService;
     }
     
-    public function getPlace()
+    public function getPlace(Request $request)
     {
-        return $this->companyService->getCompany();
+        $host = $request->getHost();
+        return $this->companyService->getCompany($host);
     }
 
     public function getConfigById($id)

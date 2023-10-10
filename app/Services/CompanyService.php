@@ -15,9 +15,41 @@ use Illuminate\Support\Facades\Redis;
 
 class CompanyService
 {
-    public function getCompany()
+    public function getCompany($host)
     {
         try {
+            $fl_use_cache = 0;
+            $company = Company::where('host', $host)->orWhere('host_generated', $host)->first();
+            if ($company) {
+                $fl_use_cache = $company->fl_use_cache;
+            }
+
+            if ($fl_use_cache == 1) {
+                $cachePattern = 'company_' . $host;
+            
+                $cacheDriver = config('cache.default');
+
+                if ($cacheDriver === 'redis') {
+                    $keys = Cache::store('redis')->getStore()->connection()->keys('*' . $cachePattern . '*');
+                    if ($keys) {
+                        foreach ($keys as $key) {
+                            $keyValue = explode(':', $key);
+                            Cache::store('redis')->forget($keyValue[1]);
+                        }
+                        Log::info("Cache foi limpado com sucesso no company: {$company->id}");
+                    }
+                } elseif ($cacheDriver === 'memcached') {
+                    $keys = Cache::store('memcached')->getStore()->connection()->keys('*' . $cachePattern . '*');
+                    if ($keys) {
+                        foreach ($keys as $key) {
+                            $keyValue = explode(':', $key);
+                            Cache::store('memcached')->forget($keyValue[1]);
+                        }
+                        Log::info("Cache foi limpado com sucesso no company: {$company->id}");
+                    }
+                }
+            }
+
             $apiService = new ApiService();
             $apiData = $apiService->getData(env('API_URL').'/place', env('API_USERNAME'), env('API_PASSWORD'), null);
 
@@ -29,7 +61,7 @@ class CompanyService
                             'name' => $value['name'], 
                             'cnpj' => $value['cnpj'],
                             'host' => $value['store_host'],
-                            'fl_use_cache' => $value['fl_use_cache'],
+                            'fl_use_cache' => isset($value['fl_use_cache']) ? $value['fl_use_cache'] : null,
                         ]);
                         Log::info("Empresa atualizada: {$company->name}");
                     } else {
@@ -38,13 +70,11 @@ class CompanyService
                             'name' => $value['name'], 
                             'cnpj' => $value['cnpj'],
                             'host' => $value['store_host'],
-                            'fl_use_cache' => $value['fl_use_cache'],
+                            'fl_use_cache' => isset($value['fl_use_cache']) ? $value['fl_use_cache'] : null,
                         ]);
                         Log::info("Nova empresa criada: {$value['name']}");
                     }
                 }
-                // Cache os dados da empresa por um período de tempo (por exemplo, 60 minutos)
-                // Cache::put('company_' . $host, $apiData, 60); // 60 minutos
                 return response()->json(['message' => 'Dados da empresa atualizados com sucesso'], 200);
             }
 
@@ -58,33 +88,36 @@ class CompanyService
     public function getConfig($id)
     {
         try {
-            $apiService = new ApiService();
-            $apiData = $apiService->getData(env('API_URL').'/place', env('API_USERNAME'), env('API_PASSWORD'), $id);
-
             $company = Company::where('id', $id)->first();
             $fl_use_cache = $company->fl_use_cache;
-            if ($fl_use_cache == '1') {
-                $cachePattern = 'company_' . $id;
+            if ($fl_use_cache == 1) {
+                $cachePattern = 'company_' . $company->host;
             
                 $cacheDriver = config('cache.default');
 
                 if ($cacheDriver === 'redis') {
                     $keys = Cache::store('redis')->getStore()->connection()->keys('*' . $cachePattern . '*');
-                    foreach ($keys as $key) {
-                        $keyValue = explode(':', $key);
-                        Cache::store('redis')->forget($keyValue[1]);
+                    if($keys){
+                        foreach ($keys as $key) {
+                            $keyValue = explode(':', $key);
+                            Cache::store('redis')->forget($keyValue[1]);
+                        }
+                        Log::info("Cache foi limpado com sucesso no company: {$id}");
                     }
-                    Log::info("Cache foi limpado com sucesso no company: {$id}");
                 } elseif ($cacheDriver === 'memcached') {
                     $keys = Cache::store('memcached')->getStore()->connection()->keys('*' . $cachePattern . '*');
-
-                    foreach ($keys as $key) {
-                        $keyValue = explode(':', $key);
-                        Cache::store('memcached')->forget($keyValue[1]);
+                    if ($keys) {
+                        foreach ($keys as $key) {
+                            $keyValue = explode(':', $key);
+                            Cache::store('memcached')->forget($keyValue[1]);
+                        }
+                        Log::info("Cache foi limpado com sucesso no company: {$id}");
                     }
-                    Log::info("Cache foi limpado com sucesso no company: {$id}");
                 }
             }
+
+            $apiService = new ApiService();
+            $apiData = $apiService->getData(env('API_URL').'/place', env('API_USERNAME'), env('API_PASSWORD'), $id);
 
             if ($apiData) {
                 $apiData = array_slice($apiData, 1, null, true); //exclui o primeiro elemento (key 0)

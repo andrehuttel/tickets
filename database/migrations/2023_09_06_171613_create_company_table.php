@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('cnpj');
             $table->string('host');
             $table->string('host_generated')->nullable();
-            $table->string('fl_use_cache')->nullable();
+            $table->boolean('fl_use_cache')->nullable();
             $table->timestamps();
         });
     }

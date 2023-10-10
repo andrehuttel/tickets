@@ -2,34 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Services\ApiService;
-use Illuminate\Support\Facades\Cache;
+use DateTime;
 
 class FooterController extends Controller
 {
     public function showTermsOfUse(Request $request) 
     {
-        if($request->get('data')['company']['fl_use_cache'] == '1'){
-            $events = Cache::rememberForever('company_' . $request->get('data')['company']['id'].'_terms_of_use', function () use ($request) {
-                return Event::where('company_id', $request->get('data')['company']['id'])
-                    ->whereDate('date', '>=', now())
-                    ->orderBy('date', 'asc')
-                    ->limit(3)
-                    ->get();
-            });
-        } else {
-            $events = Event::where('company_id', $request->get('data')['company']['id'])
-                ->whereDate('date', '>=', now())
-                ->orderBy('date', 'asc')
-                ->limit(3)
-                ->get();
-        }
+        $dataEvents = $request->get('data')['events'];
+        $events = $this->getFilteredEvents($dataEvents);
 
         return Inertia::render('TermsOfUse', [
             'canLogin' => Route::has('login'),
@@ -44,21 +29,8 @@ class FooterController extends Controller
 
     public function showPrivacyPolicy(Request $request) 
     {
-        if($request->get('data')['company']['fl_use_cache'] == '1'){
-            $events = Cache::rememberForever('company_' . $request->get('data')['company']['id'].'_privacy_policy', function () use ($request) {
-                return Event::where('company_id', $request->get('data')['company']['id'])
-                    ->whereDate('date', '>=', now())
-                    ->orderBy('date', 'asc')
-                    ->limit(3)
-                    ->get();
-            });
-        } else {
-            $events = Event::where('company_id', $request->get('data')['company']['id'])
-                ->whereDate('date', '>=', now())
-                ->orderBy('date', 'asc')
-                ->limit(3)
-                ->get();
-        }
+        $dataEvents = $request->get('data')['events'];
+        $events = $this->getFilteredEvents($dataEvents);
 
         return Inertia::render('PrivacyPolicy', [
             'canLogin' => Route::has('login'),
@@ -73,21 +45,8 @@ class FooterController extends Controller
 
     public function showServiceTax(Request $request) 
     {
-        if($request->get('data')['company']['fl_use_cache'] == '1'){
-            $events = Cache::rememberForever('company_' . $request->get('data')['company']['id'].'_service_tax', function () use ($request) {
-                return Event::where('company_id', $request->get('data')['company']['id'])
-                    ->whereDate('date', '>=', now())
-                    ->orderBy('date', 'asc')
-                    ->limit(3)
-                    ->get();
-            });
-        } else {
-            $events = Event::where('company_id', $request->get('data')['company']['id'])
-                ->whereDate('date', '>=', now())
-                ->orderBy('date', 'asc')
-                ->limit(3)
-                ->get();
-        }
+        $dataEvents = $request->get('data')['events'];
+        $events = $this->getFilteredEvents($dataEvents);
 
         return Inertia::render('ServiceTax', [
             'canLogin' => Route::has('login'),
@@ -102,21 +61,8 @@ class FooterController extends Controller
 
     public function showHalfEntry(Request $request) 
     {
-        if($request->get('data')['company']['fl_use_cache'] == '1'){
-            $events = Cache::rememberForever('company_' . $request->get('data')['company']['id'].'_half_entry', function () use ($request) {
-                return Event::where('company_id', $request->get('data')['company']['id'])
-                    ->whereDate('date', '>=', now())
-                    ->orderBy('date', 'asc')
-                    ->limit(3)
-                    ->get();
-            });
-        } else {
-            $events = Event::where('company_id', $request->get('data')['company']['id'])
-                ->whereDate('date', '>=', now())
-                ->orderBy('date', 'asc')
-                ->limit(3)
-                ->get();
-        }
+        $dataEvents = $request->get('data')['events'];
+        $events = $this->getFilteredEvents($dataEvents);
 
         return Inertia::render('HalfEntry', [
             'canLogin' => Route::has('login'),
@@ -151,6 +97,19 @@ class FooterController extends Controller
             'data' => $request->get('data'),
             'searchButtonMenu' => true,
         ]);
+    }
+
+    public function getFilteredEvents($events){
+        $filteredEvents = collect($events)
+        ->filter(function ($event) {
+            $eventDate = new DateTime($event->date);
+            $today = new DateTime();
+            return $eventDate >= $today;
+        })
+        ->sortBy('date')
+        ->take(3);
+
+        return $filteredEvents;
     }
 
     public function sendEmail(Request $request)
