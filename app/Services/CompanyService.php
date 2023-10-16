@@ -25,26 +25,30 @@ class CompanyService
             }
 
             if ($fl_use_cache == 1) {
-                $cachePattern = 'company_' . $host;
+                $cachePattern = 'company_' . $company->host;
             
                 $cacheDriver = config('cache.default');
 
                 if ($cacheDriver === 'redis') {
                     $keys = Cache::store('redis')->getStore()->connection()->keys('*' . $cachePattern . '*');
-                    if ($keys) {
+                    if($keys){
                         foreach ($keys as $key) {
                             $keyValue = explode(':', $key);
                             Cache::store('redis')->forget($keyValue[1]);
                         }
+
                         Log::info("Cache foi limpado com sucesso no company: {$company->id}");
                     }
                 } elseif ($cacheDriver === 'memcached') {
-                    $keys = Cache::store('memcached')->getStore()->connection()->keys('*' . $cachePattern . '*');
+                    $keys = Cache::store('memcached')->getStore()->getMemcached()->getAllKeys();
                     if ($keys) {
-                        foreach ($keys as $key) {
-                            $keyValue = explode(':', $key);
-                            Cache::store('memcached')->forget($keyValue[1]);
+                        $matchingKeys = preg_grep('/' . $cachePattern . '/', $keys);
+                    }
+                    if ($matchingKeys) {
+                        foreach ($matchingKeys as $key) {
+                            Cache::store('memcached')->forget($key);
                         }
+
                         Log::info("Cache foi limpado com sucesso no company: {$company->id}");
                     }
                 }
@@ -102,15 +106,21 @@ class CompanyService
                             $keyValue = explode(':', $key);
                             Cache::store('redis')->forget($keyValue[1]);
                         }
+
                         Log::info("Cache foi limpado com sucesso no company: {$id}");
                     }
                 } elseif ($cacheDriver === 'memcached') {
-                    $keys = Cache::store('memcached')->getStore()->connection()->keys('*' . $cachePattern . '*');
+                    $keys = Cache::store('memcached')->getStore()->getMemcached()->getAllKeys();
                     if ($keys) {
-                        foreach ($keys as $key) {
-                            $keyValue = explode(':', $key);
-                            Cache::store('memcached')->forget($keyValue[1]);
+                        $matchingKeys = preg_grep('/' . $cachePattern . '/', $keys);
+                    }
+                    dd($matchingKeys);
+                    if ($matchingKeys) {
+                        dd($matchingKeys);
+                        foreach ($matchingKeys as $key) {
+                            Cache::store('memcached')->forget($key);
                         }
+
                         Log::info("Cache foi limpado com sucesso no company: {$id}");
                     }
                 }

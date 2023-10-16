@@ -26,7 +26,18 @@ class CompanyMiddleware
 
     protected function isValidCompany($host, $request)
     {
-        if (Cache::has('company_'.$host)) {
+        //dd(phpinfo());
+        $cachePattern = 'company_' . $host;
+        // $customPrefix = 'company_';
+        $globalPrefix = 'gototemtickets_cache_';
+        //dd($cachePattern);
+        $keys = Cache::store('memcached')->getStore()->getMemcached()->getAllKeys();
+        if ($keys) {
+            $matchingKeys = preg_grep('/' . $cachePattern . '/', $keys);
+        }
+        // dd(Cache::has($globalPrefix . 'company_' . $host));
+        // dd($matchingKeys);
+        if ($matchingKeys) {
             $company = Cache::get('company_'.$host);
             $fl_use_cache = $company['company']['fl_use_cache'];
             $host = $company['company']['host'];
@@ -60,7 +71,10 @@ class CompanyMiddleware
             });
 
             $request->attributes->set('data', $cachedData);
-            Inertia::share('faviconUrl', $cachedData['faviconUrl']['value']);
+            //dd($cachedData['faviconUrl']);
+            if(!is_null($cachedData['faviconUrl'])){
+                Inertia::share('faviconUrl', $cachedData['faviconUrl']['value']);
+            }
 
             return true;
         } else {
