@@ -16,7 +16,7 @@ class CompanyMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $host = $request->getHost();
-
+        
         if ($this->isValidCompany($host, $request)) {
             return $next($request);
         }
@@ -26,17 +26,12 @@ class CompanyMiddleware
 
     protected function isValidCompany($host, $request)
     {
-        //dd(phpinfo());
         $cachePattern = 'company_' . $host;
-        // $customPrefix = 'company_';
-        $globalPrefix = 'gototemtickets_cache_';
-        //dd($cachePattern);
         $keys = Cache::store('memcached')->getStore()->getMemcached()->getAllKeys();
+        $matchingKeys = false;
         if ($keys) {
             $matchingKeys = preg_grep('/' . $cachePattern . '/', $keys);
         }
-        // dd(Cache::has($globalPrefix . 'company_' . $host));
-        // dd($matchingKeys);
         if ($matchingKeys) {
             $company = Cache::get('company_'.$host);
             $fl_use_cache = $company['company']['fl_use_cache'];
@@ -71,7 +66,6 @@ class CompanyMiddleware
             });
 
             $request->attributes->set('data', $cachedData);
-            //dd($cachedData['faviconUrl']);
             if(!is_null($cachedData['faviconUrl'])){
                 Inertia::share('faviconUrl', $cachedData['faviconUrl']['value']);
             }

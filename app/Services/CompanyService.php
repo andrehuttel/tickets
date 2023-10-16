@@ -111,12 +111,11 @@ class CompanyService
                     }
                 } elseif ($cacheDriver === 'memcached') {
                     $keys = Cache::store('memcached')->getStore()->getMemcached()->getAllKeys();
+                    $matchingKeys = false;
                     if ($keys) {
                         $matchingKeys = preg_grep('/' . $cachePattern . '/', $keys);
                     }
-                    dd($matchingKeys);
                     if ($matchingKeys) {
-                        dd($matchingKeys);
                         foreach ($matchingKeys as $key) {
                             Cache::store('memcached')->forget($key);
                         }
