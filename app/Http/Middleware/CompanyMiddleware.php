@@ -56,22 +56,23 @@ class CompanyMiddleware
             $cachedData = Cache::remember('company_' . $host, 3600, function () use ($company) {
                 $faviconUrl = $company->configs->where('key', 'STORE_TPL_LOGO')->first();
                 $categories = Event::where('company_id', $company->id)
-                    ->select('category_id', 'category_name', 'category_uri')
-                    ->orderBy('category_name', 'asc')
-                    ->distinct()
-                    ->get();
-
+                ->select('category_id', 'category_name', 'category_uri')
+                ->orderBy('category_name', 'asc')
+                ->distinct()
+                ->get();
+                
+                
                 $data = [
                     'company' => $company,
                     'config' => $company->configs->all(),
                     'banners' => $company->banners->all(),
-                    'all_events' => $company->events()->whereDate('date', '>=', now())->orderBy('date', 'asc')->get(),
+                    'all_events' => $company->events()->orderBy('date', 'asc')->get(),
                     'events' => $company->events()->where('fl_featured', false)->whereDate('date', '>=', now())->orderBy('date', 'asc')->get(),
                     'events_featured' => $company->events()->where('fl_featured', true)->whereDate('date', '>=', now())->orderBy('date', 'asc')->get(),
                     'faviconUrl' => $faviconUrl,
                     'categories' => $categories,
                 ];
-
+                
                 return $data;
             });
 
@@ -96,7 +97,7 @@ class CompanyMiddleware
                 'company' => $company,
                 'config' => $company->configs->all(),
                 'banners' => $company->banners->all(),
-                'all_events' => $company->events()->whereDate('date', '>=', now())->orderBy('date', 'asc')->get(),
+                'all_events' => $company->events()->orderBy('date', 'asc')->get(),
                 'events' => $company->events()->where('fl_featured', false)->whereDate('date', '>=', now())->orderBy('date', 'asc')->get(),
                 'events_featured' => $company->events()->where('fl_featured', true)->whereDate('date', '>=', now())->orderBy('date', 'asc')->get(),
                 'faviconUrl' => $faviconUrl,
