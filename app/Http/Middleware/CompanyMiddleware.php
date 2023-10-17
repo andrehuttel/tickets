@@ -6,8 +6,10 @@ use App\Models\Company;
 use App\Models\CompanyConfig;
 use App\Models\Event;
 use Closure;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,12 +39,20 @@ class CompanyMiddleware
             $fl_use_cache = $company['company']['fl_use_cache'];
             $host = $company['company']['host'];
         } else {
-            $company = Company::where('host', $host)->orWhere('host_generated', $host)->first();
-            $fl_use_cache = $company->fl_use_cache;
-            $host = $company->host;
+            $companyDb = Company::where('host', $host)->orWhere('host_generated', $host)->first();
+            if($companyDb) {
+                $fl_use_cache = $companyDb->fl_use_cache;
+                $host = $companyDb->host;
+            } else {
+                $fl_use_cache = false;
+                $host = $host;
+            }
         }
 
         if ($fl_use_cache == '1') {
+            if(!isset($company)){
+                $company = $companyDb;
+            }
             $cachedData = Cache::remember('company_' . $host, 3600, function () use ($company) {
                 $faviconUrl = $company->configs->where('key', 'STORE_TPL_LOGO')->first();
                 $categories = Event::where('company_id', $company->id)
@@ -72,6 +82,9 @@ class CompanyMiddleware
 
             return true;
         } else {
+            if(!isset($company)){
+                $company = $companyDb;
+            }
             $faviconUrl = $company->configs->where('key', 'STORE_TPL_LOGO')->first();
             $categories = Event::where('company_id', $company->id)
                 ->select('category_id', 'category_name', 'category_uri')
