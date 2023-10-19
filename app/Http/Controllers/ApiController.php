@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ApiService;
 use App\Services\CompanyService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -30,51 +31,67 @@ class ApiController extends Controller
 
     public function login(Request $request)
     {
-        dd("Entrou no login da api");
-        //passar os dados do form
-        //$data = $request->all();
-
         // $data = $request->validate([
         //     'email' => 'required|email',
         //     'password' => 'required|password',
         // ]);
-        $data = '';
-        $data['email'] = 'andreluizhuttel@gmail.com';
-        $data['password'] = '123456';
+
+        $data = [
+            'place_id' => 'euaqpe8smdzl26k275zx',
+            'customer_email_address' => 'pedro@gmail.com',
+            'customer_password' => 'pera',
+        ];
+
         if ($data) {
-            $apiData = $this->userService->postData($data, '/login');
-            if ($apiData) {
-                return response()->json(['message' => 'Login efetuado com sucesso!']);
+            $apiService = new ApiService();
+            $apiData = $apiService->postData(env('API_URL').'/customer-auth', env('API_USERNAME'), env('API_PASSWORD'), $data);
+            if ($apiData === 200) {
+                //Efetua o Login
+                return response()->json(['message' => 'Cliente autenticado com sucesso!'], 200, [], JSON_UNESCAPED_UNICODE);
+            } else if ($apiData === 401) {
+                return response()->json(['error' => 'Credenciais inválidas'], 401, [], JSON_UNESCAPED_UNICODE);
+            } else {
+                return response()->json(['error' => 'Não foi possível efetuar o login.'], 422, [], JSON_UNESCAPED_UNICODE);
             }
-            return response()->json(['error' => 'Não foi possível efetuar o login.'], 400);
         } else {
             return response()->json(['errors' => $request->errors()], 422);
         }
-        return false;
     }
 
     public function customer(Request $request)
     {
-        $data = $request->validate([
-            'email_address' => 'required|email',
-            'name' => 'required|max:50',
-            'phone_number' => 'min:14|max:15',
-            'country' => 'required|max:500',
-            'cpf' => 'required|max:500',
-            'foreigner_document' => 'max:500',
-            'password' => 'required|max:500',
-        ]);
+        // $data = $request->validate([
+        //     'email_address' => 'required|email',
+        //     'name' => 'required|max:50',
+        //     'phone_number' => 'min:14|max:15',
+        //     'country' => 'required|max:500',
+        //     'cpf' => 'required|max:500',
+        //     'foreigner_document' => 'max:500',
+        //     'password' => 'required|max:500',
+        // ]);
+        
+        $data = [
+            'place_id' => 'euaqpe8smdzl26k275zx',
+            'email_address' => 'pedro@gmail.com',
+            'name' => 'Pedro',
+            'surname' => 'da Silva',
+            'phone_number' => '5547996221155',
+            'country' => 'Brasil',
+            'cpf' => '87267973051',
+            'foreigner_document' => '',
+            'password' => 'abacaxi',
+        ];
 
         if ($data) {
-            $data['place_id'] = $request->get('data')['company']['id'];
-            $apiData = $this->userService->postData($data, '/customer');
-
-            if ($apiData) {
-                return response()->json(['message' => 'Usuário criado com sucesso!'], 200);
-            } elseif ($apiData === '409') {
-                return response()->json(['error' => 'Email ou cpf já cadastrados'], 409);
+            $apiService = new ApiService();
+            $apiData = $apiService->postData(env('API_URL').'/customer', env('API_USERNAME'), env('API_PASSWORD'), $data);
+            if ($apiData === 200) {
+                //Registra o usuario, salva em sessão.
+                return response()->json(['message' => 'Usuário criado com sucesso!'], 200, [], JSON_UNESCAPED_UNICODE);
+            } else if ($apiData === 409) {
+                return response()->json(['error' => 'Email ou cpf já cadastrados'], 409, [], JSON_UNESCAPED_UNICODE);
             } else {
-                return response()->json(['error' => 'Não foi possível criar o usuário.'], 422);
+                return response()->json(['error' => 'Não foi possível criar o usuário.'], 422, [], JSON_UNESCAPED_UNICODE);
             }
         } else {
             return response()->json(['errors' => $request->errors()], 422);
@@ -83,84 +100,93 @@ class ApiController extends Controller
 
     public function uniqueCpf(Request $request)
     {
-        //passar os dados do form
-        //$data = $request->all();
-        $data = $request->validate([
-            'name' => 'required|max:50',
-            'email' => 'required|email',
-            'fone' => 'min:14|max:15',
-            'message' => 'required|max:500',
-        ]);
+        $data = [
+            'place_id' => 'euaqpe8smdzl26k275zx',
+            'customer_email_address' => 'null',
+            'customer_cpf' => '60830102094',
+        ];
+
         if ($data) {
-            $apiData = $this->userService->postData($data, '/unique-cpf');
-            if ($apiData) {
-                return response()->json(['message' => 'Usuário criado com sucesso!']);
+            $apiService = new ApiService();
+            $apiData = $apiService->postData(env('API_URL').'/customer-exists', env('API_USERNAME'), env('API_PASSWORD'), $data);
+            if ($apiData === 200) {
+                return response()->json(['message' => 'Usuário existe.'], 200, [], JSON_UNESCAPED_UNICODE);
+            } else if ($apiData === 404) {
+                return response()->json(['error' => 'Usuário não existe.'], 404, [], JSON_UNESCAPED_UNICODE);
+            } else {
+                return response()->json(['error' => 'Não foi possível validar o usuário.'], 422, [], JSON_UNESCAPED_UNICODE);
             }
-            return response()->json(['error' => 'Não foi possível criar o usuário.'], 400);
         } else {
             return response()->json(['errors' => $request->errors()], 422);
         }
-        return false;
     }
 
     public function uniqueEmail(Request $request)
     {
-        //passar os dados do form
-        //$data = $request->all();
-        $data = $request->validate([
-            'name' => 'required|max:50',
-            'email' => 'required|email',
-            'fone' => 'min:14|max:15',
-            'message' => 'required|max:500',
-        ]);
+        $data = [
+            'place_id' => 'euaqpe8smdzl26k275zx',
+            'customer_email_address' => 'pedro@gmail.com',
+            'customer_cpf' => 'null',
+        ];
+
         if ($data) {
-            $apiData = $this->userService->postData($data, '/unique-email');
-            if ($apiData) {
-                return response()->json(['message' => 'Usuário criado com sucesso!']);
+            $apiService = new ApiService();
+            $apiData = $apiService->postData(env('API_URL').'/customer-exists', env('API_USERNAME'), env('API_PASSWORD'), $data);
+            if ($apiData === 200) {
+                return response()->json(['message' => 'Usuário existe.'], 200, [], JSON_UNESCAPED_UNICODE);
+            } else if ($apiData === 404) {
+                return response()->json(['error' => 'Usuário não existe.'], 404, [], JSON_UNESCAPED_UNICODE);
+            } else {
+                return response()->json(['error' => 'Não foi possível validar o usuário.'], 422, [], JSON_UNESCAPED_UNICODE);
             }
-            return response()->json(['error' => 'Não foi possível criar o usuário.'], 400);
         } else {
             return response()->json(['errors' => $request->errors()], 422);
         }
-        return false;
     }
 
     public function requestPassword(Request $request)
     {
-        //passar os dados do form
-        //$data = $request->all();
-        $data = $request->validate([
-            'email' => 'required|email',
-        ]);
+        $data = [
+            'place_id' => 'euaqpe8smdzl26k275zx',
+            'email_address' => 'pedro@gmail.com',
+        ];
+
         if ($data) {
-            $apiData = $this->userService->postData($data, '/request-password');
-            if ($apiData) {
-                return response()->json(['message' => 'Usuário criado com sucesso!']);
+            $apiService = new ApiService();
+            $apiData = $apiService->postData(env('API_URL').'/customer-change-password', env('API_USERNAME'), env('API_PASSWORD'), $data);
+            if ($apiData === 200) {
+                return response()->json(['message' => 'Token obtido com sucesso!'], 200, [], JSON_UNESCAPED_UNICODE);
+            } else if ($apiData === 404) {
+                return response()->json(['error' => 'Cliente não encontrado.'], 404, [], JSON_UNESCAPED_UNICODE);
+            } else {
+                return response()->json(['error' => 'Não foi possível solicitar o token.'], 422, [], JSON_UNESCAPED_UNICODE);
             }
-            return response()->json(['error' => 'Não foi possível criar o usuário.'], 400);
         } else {
             return response()->json(['errors' => $request->errors()], 422);
         }
-        return false;
     }
 
     public function passwordRecovery(Request $request)
     {
-        //passar os dados do form
-        //$data = $request->all();
-        $data = $request->validate([
-            'email' => 'required|email',
-        ]);
+        $data = [
+            'place_id' => 'euaqpe8smdzl26k275zx',
+            'customer_token' => '9898y98aysdasdasd8y98y98yasdasd',
+            'customer_new_password' => 'pera',
+        ];
+
         if ($data) {
-            $apiData = $this->userService->postData($data, '/password-recovery');
-            if ($apiData) {
-                return response()->json(['message' => 'Usuário criado com sucesso!']);
+            $apiService = new ApiService();
+            $apiData = $apiService->postData(env('API_URL').'/customer-change-password-confirm', env('API_USERNAME'), env('API_PASSWORD'), $data);
+            if ($apiData === 200) {
+                return response()->json(['message' => 'Senha alterada com sucesso!'], 200, [], JSON_UNESCAPED_UNICODE);
+            } else if ($apiData === 404) {
+                return response()->json(['error' => 'Token não encontrado.'], 404, [], JSON_UNESCAPED_UNICODE);
+            } else {
+                return response()->json(['error' => 'Não foi possível alterar a senha.'], 422, [], JSON_UNESCAPED_UNICODE);
             }
-            return response()->json(['error' => 'Não foi possível criar o usuário.'], 400);
         } else {
             return response()->json(['errors' => $request->errors()], 422);
         }
-        return false;
     }
 
     public function sendEmailNewUser(Request $request)

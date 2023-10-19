@@ -43,8 +43,6 @@ class CompanyService
                     $keys = Cache::store('memcached')->getStore()->getMemcached()->getAllKeys();
                     if ($keys) {
                         $matchingKeys = preg_grep('/' . $cachePattern . '/', $keys);
-                    }
-                    if ($matchingKeys) {
                         foreach ($matchingKeys as $key) {
                             Cache::store('memcached')->forget($key);
                         }

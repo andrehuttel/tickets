@@ -55,19 +55,18 @@ class ApiService
             curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data)); // Converte os dados em JSON
-
             $response = curl_exec($ch);
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
+            
             if ($httpCode === 200) {
                 $apiData = json_decode($response, true);
 
                 if ($apiData) {
-                    return $apiData;
+                    return $httpCode;
                 }
             } else {
                 Log::error('Erro na chamada da API: Código de status ' . $httpCode);
-                return 'Não foi possível enviar a mensagem, entre em contato de outra forma.' . $httpCode;
+                return $httpCode;
             }
 
             curl_close($ch);

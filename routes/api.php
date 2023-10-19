@@ -22,10 +22,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/place', [ApiController::class, 'getPlace']);
 Route::get('/place/{id}', [ApiController::class, 'getConfigById']);
 
-Route::post('/login', [ApiController::class, 'login'])->name('api.login');
-Route::post('/logout', [ApiController::class, 'logout'])->name('api.logout');
-Route::post('/customer', [ApiController::class, 'customer'])->name('api.customer');
-Route::post('/unique-cpf', [ApiController::class, 'uniqueCpf'])->name('api.uniqueCpf');
-Route::post('/unique-email', [ApiController::class, 'uniqueEmail'])->name('api.uniqueEmail');
-Route::post('/request-password', [ApiController::class, 'requestPassword'])->name('api.requestPassword');
-Route::post('/password-recovery', [ApiController::class, 'passwordRecovery'])->name('api.passwordRecovery');
+Route::get('/login', [ApiController::class, 'login'])->name('api.login');
+Route::get('/customer', [ApiController::class, 'customer'])->name('api.customer');
+Route::get('/unique-cpf', [ApiController::class, 'uniqueCpf'])->name('api.uniqueCpf');
+Route::get('/unique-email', [ApiController::class, 'uniqueEmail'])->name('api.uniqueEmail');
+Route::get('/request-password', [ApiController::class, 'requestPassword'])->name('api.requestPassword');
+Route::get('/password-recovery', [ApiController::class, 'passwordRecovery'])->name('api.passwordRecovery');
