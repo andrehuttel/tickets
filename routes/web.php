@@ -4,6 +4,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\FooterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\UserRegistrationController;
 use App\Http\Middleware\CompanyMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::middleware([
     CompanyMiddleware::class,
+    config('jetstream.auth_session'),
 ])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('/');
     Route::get('/termos-de-uso', [FooterController::class, 'showTermsOfUse'])->name('footer.showTermsOfUse');
@@ -32,6 +34,13 @@ Route::middleware([
     Route::get('/eventos/{group}', [EventController::class, 'showGroup'])->name('event.showGroup');
     Route::get('/{category}/{uri?}', [EventController::class, 'show'])->name('event.show'); //Redireciona para o Evento ou para a Categoria
 });
+
+// Route::middleware([
+//     config('jetstream.auth_session'),
+//     'auth',
+// ])->group(function () {
+//     Route::post('/custom-register', [UserRegistrationController::class, 'register'])->name('custom-register');
+// });
 
 // Route::middleware([
 //     'auth:sanctum',

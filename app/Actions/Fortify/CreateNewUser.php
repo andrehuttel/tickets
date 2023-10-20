@@ -28,10 +28,12 @@ class CreateNewUser implements CreatesNewUsers
 
         //dd($input);
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+
+        dd($user);
     }
 }
