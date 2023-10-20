@@ -20,8 +20,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::middleware([
     CompanyMiddleware::class,
-    config('jetstream.auth_session'),
 ])->group(function () {
+    Route::post('/register', [UserRegistrationController::class, 'register'])->name('register');
     Route::get('/', [HomeController::class, 'index'])->name('/');
     Route::get('/termos-de-uso', [FooterController::class, 'showTermsOfUse'])->name('footer.showTermsOfUse');
     Route::get('/politica-de-privacidade', [FooterController::class, 'showPrivacyPolicy'])->name('footer.showPrivacyPolicy');
@@ -34,13 +34,6 @@ Route::middleware([
     Route::get('/eventos/{group}', [EventController::class, 'showGroup'])->name('event.showGroup');
     Route::get('/{category}/{uri?}', [EventController::class, 'show'])->name('event.show'); //Redireciona para o Evento ou para a Categoria
 });
-
-// Route::middleware([
-//     config('jetstream.auth_session'),
-//     'auth',
-// ])->group(function () {
-//     Route::post('/custom-register', [UserRegistrationController::class, 'register'])->name('custom-register');
-// });
 
 // Route::middleware([
 //     'auth:sanctum',

@@ -7,17 +7,103 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import $ from 'jquery';
+import axios from 'axios';
+import { ref } from 'vue';
 
 const form = useForm({
     name: '',
+    sobrenome: '', 
     email: '',
     password: '',
     password_confirmation: '',
     terms: false,
+    phone: '', 
+    pais: 'Brasil', 
+    cpf: '', 
+    document: '', 
 });
 
+$(document).ready(function() {
+    const foneInput = $('#phone');
+    const cpfInput = $('#cpf');
+
+    foneInput.on('input', function() {
+        const numericValue = this.value.replace(/\D/g, '');
+        const formattedValue = formatPhoneNumber(numericValue);
+        this.value = formattedValue;
+    });
+
+    cpfInput.on('input', function() {
+        const numericValue = this.value.replace(/\D/g, '');
+        const formattedValue = formatCPF(numericValue);
+        this.value = formattedValue;
+    });
+
+    function formatPhoneNumber(phoneNumber) {
+        if (!phoneNumber) return '';
+        if (phoneNumber.length <= 2) {
+            return '(' + phoneNumber;
+        } else if (phoneNumber.length <= 7) {
+            return '(' + phoneNumber.substr(0, 2) + ') ' + phoneNumber.substr(2);
+        } else if (phoneNumber.length <= 10) {
+            return '(' + phoneNumber.substr(0, 2) + ') ' + phoneNumber.substr(2, 4) + '-' + phoneNumber.substr(6);
+        } else {
+            return '(' + phoneNumber.substr(0, 2) + ') ' + phoneNumber.substr(2, 5) + '-' + phoneNumber.substr(7);
+        }
+    }
+
+    function formatCPF(cpf) {
+        if (!cpf) return '';
+
+        // Remove caracteres não numéricos
+        const numericValue = cpf.replace(/\D/g, '');
+
+        // Formata o CPF
+        if (numericValue.length <= 3) {
+            return numericValue;
+        } else if (numericValue.length <= 6) {
+            return numericValue.substr(0, 3) + '.' + numericValue.substr(3);
+        } else if (numericValue.length <= 9) {
+            return numericValue.substr(0, 3) + '.' + numericValue.substr(3, 3) + '.' + numericValue.substr(6);
+        } else {
+            return numericValue.substr(0, 3) + '.' + numericValue.substr(3, 3) + '.' + numericValue.substr(6, 3) + '-' + numericValue.substr(9);
+        }
+    }
+});
+
+const emailValid = ref('');
+const cpfValid = ref('');
+
+function validateEmail() {
+    axios.get(route('api.uniqueEmail'), { params: { email: form.email } })
+        .then(response => {
+            console.log(response.data.message);
+            if (response.data.message == 'Usuário existe.'){
+                emailValid.value = 'E-mail já cadastrado.';
+            }
+        })
+        .catch(error => {
+            console.log(response.data.message);
+            //emailValid.value = '';
+        });
+}
+
+function validateCPF() {
+    axios.get(route('api.uniqueCpf'), { params: { cpf: form.cpf } })
+        .then(response => {
+            console.log(response.data.message);
+            if (response.data.message == 'Usuário existe.'){
+                cpfValid.value = 'CPF já cadastrado.';
+            }
+        })
+        .catch(error => {
+            console.log(response.data.message);
+        });
+}
+
 const submit = () => {
-    form.post(route('custom-register'), {
+    form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };
@@ -27,13 +113,24 @@ const submit = () => {
     <Head title="Register" />
 
     <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
+        <div class="font-bold text-xl text-center mb-4">Criar Conta</div>
         <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="name" value="Name" />
+            <div class="mt-4">
+                <InputLabel for="email" value="Email" />
+                <TextInput
+                    id="email"
+                    v-model="form.email"
+                    type="email"
+                    class="mt-1 block w-full"
+                    required
+                    autocomplete="username"
+                    @blur="validateEmail"
+                />
+                <InputError class="mt-2" :message="emailValid" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="name" value="Nome" />
                 <TextInput
                     id="name"
                     v-model="form.name"
@@ -47,20 +144,73 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="sobrenome" value="Sobrenome" />
                 <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
+                    id="sobrenome"
+                    v-model="form.sobrenome"
+                    type="text"
                     class="mt-1 block w-full"
                     required
-                    autocomplete="username"
                 />
-                <InputError class="mt-2" :message="form.errors.email" />
+                <InputError class="mt-2" :message="form.errors.sobrenome" />
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+                <InputLabel for="pais" value="País" />
+                <select id="pais" v-model="form.pais" class="mt-1 block w-full">
+                    <option value="Brasil">Brasil</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Paraguai">Paraguai</option>
+                    <option value="Uruguai">Uruguai</option>
+                    <option value="Chile">Chile</option>
+                    <option value="EUA">EUA</option>
+                    <option value="Canada">Canadá</option>
+                </select>
+            </div>
+
+            <div class="mt-4" v-if="form.pais === 'Brasil'">
+                <InputLabel for="cpf" value="CPF" />
+                <TextInput
+                    id="cpf"
+                    v-model="form.cpf"
+                    type="text"
+                    class="mt-1 block w-full"
+                    maxlength="14"
+                    required
+                    @blur="validateCPF"
+                />
+                <InputError class="mt-2" :message="form.errors.cpf" />
+            </div>
+
+            <div class="mt-4" v-else>
+                <InputLabel for="document" value="Documento" />
+                <TextInput
+                    id="document"
+                    v-model="form.document"
+                    type="text"
+                    class="mt-1 block w-full"
+                    required
+                />
+                <InputError class="mt-2" :message="form.errors.document" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="phone" value="Celular" />
+                <TextInput
+                    id="phone"
+                    v-model="form.phone"
+                    type="text"
+                    class="mt-1 block w-full"
+                    autofocus
+                    autocomplete="phone"
+                    maxlength="15"
+                    inputmode="numeric"
+                />
+                <InputError class="mt-2" :message="form.errors.phone" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="password" value="Senha" />
                 <TextInput
                     id="password"
                     v-model="form.password"
@@ -73,7 +223,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+                <InputLabel for="password_confirmation" value="Confirmar Senha" />
                 <TextInput
                     id="password_confirmation"
                     v-model="form.password_confirmation"
@@ -91,20 +241,20 @@ const submit = () => {
                         <Checkbox id="terms" v-model:checked="form.terms" name="terms" required />
 
                         <div class="ml-2">
-                            I agree to the <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Terms of Service</a> and <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Privacy Policy</a>
+                            Ao continuar você concorda com nossos <a target="_blank" :href="route('footer.showTermsOfUse')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Termos de Uso</a> e <a target="_blank" :href="route('footer.showPrivacyPolicy')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Política de Privacidade</a>
                         </div>
                     </div>
                     <InputError class="mt-2" :message="form.errors.terms" />
                 </InputLabel>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-between mt-4">
                 <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Already registered?
+                    Já possui conta? Faça login
                 </Link>
 
                 <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
+                    Continuar
                 </PrimaryButton>
             </div>
         </form>

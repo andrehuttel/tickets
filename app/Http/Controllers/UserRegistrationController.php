@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 //use App\Models\User;
 use App\Models\UserSession;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class UserRegistrationController extends Controller
@@ -30,13 +31,14 @@ class UserRegistrationController extends Controller
             'password' => bcrypt($request->input('password')),
         ]);
 
-        //dd($user);
-
+        
         // Autentique o usuário
         auth()->login($user);
-
+        
         // Armazene o usuário na sessão
         $request->session()->put('user', $user);
+        //dd($user);
+        //return Redirect::back()->with('success', 'Organization updated.');
         // Redirecione para a página desejada
         //return back();
     }

@@ -123,9 +123,13 @@ class ApiController extends Controller
 
     public function uniqueEmail(Request $request)
     {
+        $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255'],
+        ]);
+            
         $data = [
             'place_id' => 'euaqpe8smdzl26k275zx',
-            'customer_email_address' => 'pedro@gmail.com',
+            'customer_email_address' => $request->input('email'),
             'customer_cpf' => 'null',
         ];
 
@@ -135,7 +139,7 @@ class ApiController extends Controller
             if ($apiData === 200) {
                 return response()->json(['message' => 'Usuário existe.'], 200, [], JSON_UNESCAPED_UNICODE);
             } else if ($apiData === 404) {
-                return response()->json(['error' => 'Usuário não existe.'], 404, [], JSON_UNESCAPED_UNICODE);
+                return response()->json(['message' => 'Usuário não existe.'], 404, [], JSON_UNESCAPED_UNICODE);
             } else {
                 return response()->json(['error' => 'Não foi possível validar o usuário.'], 422, [], JSON_UNESCAPED_UNICODE);
             }
