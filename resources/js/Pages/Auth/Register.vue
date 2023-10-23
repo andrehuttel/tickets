@@ -13,13 +13,13 @@ import { ref } from 'vue';
 
 const form = useForm({
     name: '',
-    sobrenome: '', 
+    surname: '', 
     email: '',
     password: '',
     password_confirmation: '',
     terms: false,
     phone: '', 
-    pais: 'Brasil', 
+    country: 'Brasil', 
     cpf: '', 
     document: '', 
 });
@@ -84,7 +84,13 @@ function validateEmail() {
             }
         })
         .catch(error => {
-            console.log(response.data.message);
+            if(error.response.status == 422){
+                emailValid.value = 'E-mail Inválido.';
+            }
+
+            if(error.response.status == 404){
+                emailValid.value = '';
+            }
             //emailValid.value = '';
         });
 }
@@ -98,7 +104,12 @@ function validateCPF() {
             }
         })
         .catch(error => {
-            console.log(response.data.message);
+            if(error.response.status == 422){
+                cpfValid.value = 'CPF Inválido.';
+            }
+            if(error.response.status == 404){
+                cpfValid.value = '';
+            }
         });
 }
 
@@ -115,6 +126,7 @@ const submit = () => {
     <AuthenticationCard>
         <div class="font-bold text-xl text-center mb-4">Criar Conta</div>
         <form @submit.prevent="submit">
+            <InertiaForm :data="form" method="post" :action="route('register')">
             <div class="mt-4">
                 <InputLabel for="email" value="Email" />
                 <TextInput
@@ -144,20 +156,20 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="sobrenome" value="Sobrenome" />
+                <InputLabel for="surname" value="Sobrenome" />
                 <TextInput
-                    id="sobrenome"
-                    v-model="form.sobrenome"
+                    id="surname"
+                    v-model="form.surname"
                     type="text"
                     class="mt-1 block w-full"
                     required
                 />
-                <InputError class="mt-2" :message="form.errors.sobrenome" />
+                <InputError class="mt-2" :message="form.errors.surname" />
             </div>
 
             <div class="mt-4">
-                <InputLabel for="pais" value="País" />
-                <select id="pais" v-model="form.pais" class="mt-1 block w-full">
+                <InputLabel for="country" value="País" />
+                <select id="country" v-model="form.country" class="mt-1 block w-full">
                     <option value="Brasil">Brasil</option>
                     <option value="Argentina">Argentina</option>
                     <option value="Paraguai">Paraguai</option>
@@ -168,7 +180,7 @@ const submit = () => {
                 </select>
             </div>
 
-            <div class="mt-4" v-if="form.pais === 'Brasil'">
+            <div class="mt-4" v-if="form.country === 'Brasil'">
                 <InputLabel for="cpf" value="CPF" />
                 <TextInput
                     id="cpf"
@@ -179,7 +191,7 @@ const submit = () => {
                     required
                     @blur="validateCPF"
                 />
-                <InputError class="mt-2" :message="form.errors.cpf" />
+                <InputError class="mt-2" :message="cpfValid" />
             </div>
 
             <div class="mt-4" v-else>
@@ -257,6 +269,7 @@ const submit = () => {
                     Continuar
                 </PrimaryButton>
             </div>
+        </InertiaForm>
         </form>
     </AuthenticationCard>
 </template>

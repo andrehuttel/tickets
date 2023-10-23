@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FooterController;
 use App\Http\Controllers\HomeController;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware([
     CompanyMiddleware::class,
 ])->group(function () {
-    Route::post('/register', [UserRegistrationController::class, 'register'])->name('register');
+    Route::post('/register', [ApiController::class, 'costumer'])->name('custom.register');
     Route::get('/', [HomeController::class, 'index'])->name('/');
     Route::get('/termos-de-uso', [FooterController::class, 'showTermsOfUse'])->name('footer.showTermsOfUse');
     Route::get('/politica-de-privacidade', [FooterController::class, 'showPrivacyPolicy'])->name('footer.showPrivacyPolicy');

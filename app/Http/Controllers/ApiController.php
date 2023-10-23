@@ -72,15 +72,16 @@ class ApiController extends Controller
         
         $data = [
             'place_id' => 'euaqpe8smdzl26k275zx',
-            'email_address' => 'pedro@gmail.com',
-            'name' => 'Pedro',
-            'surname' => 'da Silva',
+            'email_address' => $request->input('email'),
+            'name' => $request->input('name'),
+            'surname' => $request->input('surname'),
             'phone_number' => '5547996221155',
-            'country' => 'Brasil',
-            'cpf' => '87267973051',
-            'foreigner_document' => '',
-            'password' => 'abacaxi',
+            'country' => $request->input('country'),
+            'cpf' => '09284682916',
+            'foreigner_document' => $request->input('document'),
+            'password' => $request->input('password'),
         ];
+        dd($data);
 
         if ($data) {
             $apiService = new ApiService();
@@ -93,6 +94,7 @@ class ApiController extends Controller
             } else {
                 return response()->json(['error' => 'Não foi possível criar o usuário.'], 422, [], JSON_UNESCAPED_UNICODE);
             }
+            return redirect('/');
         } else {
             return response()->json(['errors' => $request->errors()], 422);
         }
@@ -102,13 +104,14 @@ class ApiController extends Controller
     {
         $data = [
             'place_id' => 'euaqpe8smdzl26k275zx',
-            'customer_email_address' => 'null',
-            'customer_cpf' => '60830102094',
+            'customer_email_address' => null,
+            'customer_cpf' => $request->input('cpf'),
         ];
 
         if ($data) {
             $apiService = new ApiService();
             $apiData = $apiService->postData(env('API_URL').'/customer-exists', env('API_USERNAME'), env('API_PASSWORD'), $data);
+            
             if ($apiData === 200) {
                 return response()->json(['message' => 'Usuário existe.'], 200, [], JSON_UNESCAPED_UNICODE);
             } else if ($apiData === 404) {
@@ -130,7 +133,7 @@ class ApiController extends Controller
         $data = [
             'place_id' => 'euaqpe8smdzl26k275zx',
             'customer_email_address' => $request->input('email'),
-            'customer_cpf' => 'null',
+            'customer_cpf' => null,
         ];
 
         if ($data) {
